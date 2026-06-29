@@ -1,0 +1,85 @@
+<html>
+<head>
+<title>testng.xml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #d5b778;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #bcbec4;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+testng.xml</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?</span><span class="s1">xml version</span><span class="s2">=&quot;1.0&quot; </span><span class="s1">encoding</span><span class="s2">=&quot;UTF-8&quot;</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;!DOCTYPE </span><span class="s1">suite </span><span class="s0">SYSTEM </span><span class="s2">&quot;http://testng.org/testng-1.0.dtd&quot;</span><span class="s0">&gt;</span>
+
+<span class="s0">&lt;suite </span><span class="s1">name</span><span class="s2">=&quot;Mersive Clean Suite&quot; </span><span class="s1">verbose</span><span class="s2">=&quot;1&quot; </span><span class="s1">thread-count</span><span class="s2">=&quot;1&quot;</span><span class="s0">&gt;</span>
+
+    <span class="s0">&lt;test </span><span class="s1">name</span><span class="s2">=&quot;Home Screen Tests&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;classes&gt;</span>
+            <span class="s0">&lt;class </span><span class="s1">name</span><span class="s2">=&quot;tests.HomeScreenTest&quot;</span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/classes&gt;</span>
+    <span class="s0">&lt;/test&gt;</span>
+
+    <span class="s0">&lt;test </span><span class="s1">name</span><span class="s2">=&quot;Navigation Tests&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;classes&gt;</span>
+            <span class="s0">&lt;class </span><span class="s1">name</span><span class="s2">=&quot;tests.NavigationTest&quot;</span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/classes&gt;</span>
+    <span class="s0">&lt;/test&gt;</span>
+
+    <span class="s0">&lt;test </span><span class="s1">name</span><span class="s2">=&quot;Pre-Join Toggle Tests&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;classes&gt;</span>
+            <span class="s0">&lt;class </span><span class="s1">name</span><span class="s2">=&quot;tests.PreJoinToggleTest&quot;</span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/classes&gt;</span>
+    <span class="s0">&lt;/test&gt;</span>
+
+    <span class="s0">&lt;test </span><span class="s1">name</span><span class="s2">=&quot;Meeting Card Tests&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;classes&gt;</span>
+            <span class="s0">&lt;class </span><span class="s1">name</span><span class="s2">=&quot;tests.MeetingCardTest&quot;</span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/classes&gt;</span>
+    <span class="s0">&lt;/test&gt;</span>
+
+    <span class="s0">&lt;test </span><span class="s1">name</span><span class="s2">=&quot;Meeting Join Tests&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;classes&gt;</span>
+            <span class="s0">&lt;class </span><span class="s1">name</span><span class="s2">=&quot;tests.MeetingJoinTest&quot;</span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/classes&gt;</span>
+    <span class="s0">&lt;/test&gt;</span>
+
+    <span class="s0">&lt;test </span><span class="s1">name</span><span class="s2">=&quot;Meeting Controls Tests&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;classes&gt;</span>
+            <span class="s0">&lt;class </span><span class="s1">name</span><span class="s2">=&quot;tests.MeetingControlsTest&quot;</span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/classes&gt;</span>
+    <span class="s0">&lt;/test&gt;</span>
+
+    <span class="s0">&lt;test </span><span class="s1">name</span><span class="s2">=&quot;Recording Tests&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;classes&gt;</span>
+            <span class="s0">&lt;class </span><span class="s1">name</span><span class="s2">=&quot;tests.RecordingTest&quot;</span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/classes&gt;</span>
+    <span class="s0">&lt;/test&gt;</span>
+
+    <span class="s0">&lt;test </span><span class="s1">name</span><span class="s2">=&quot;Pre-Join State Tests&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;classes&gt;</span>
+            <span class="s0">&lt;class </span><span class="s1">name</span><span class="s2">=&quot;tests.PreJoinStateTest&quot;</span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/classes&gt;</span>
+    <span class="s0">&lt;/test&gt;</span>
+
+    <span class="s0">&lt;test </span><span class="s1">name</span><span class="s2">=&quot;Meeting Flow Tests&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;classes&gt;</span>
+            <span class="s0">&lt;class </span><span class="s1">name</span><span class="s2">=&quot;tests.MeetingFlowTest&quot;</span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/classes&gt;</span>
+    <span class="s0">&lt;/test&gt;</span>
+
+    <span class="s0">&lt;test </span><span class="s1">name</span><span class="s2">=&quot;AV Sync Tests&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;classes&gt;</span>
+            <span class="s0">&lt;class </span><span class="s1">name</span><span class="s2">=&quot;tests.AVSyncTest&quot;</span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/classes&gt;</span>
+    <span class="s0">&lt;/test&gt;</span>
+
+<span class="s0">&lt;/suite&gt;</span></pre>
+</body>
+</html>

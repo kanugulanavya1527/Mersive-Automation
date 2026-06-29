@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>BaseTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+BaseTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">base</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">utils</span><span class="s2">.</span><span class="s1">ProcessHelper</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">utils</span><span class="s2">.</span><span class="s1">WindowHelper</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">remote</span><span class="s2">.</span><span class="s1">RemoteWebDriver</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">annotations</span><span class="s2">.</span><span class="s1">AfterMethod</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">annotations</span><span class="s2">.</span><span class="s1">BeforeMethod</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">BaseTest </span><span class="s2">{</span>
+
+    <span class="s0">protected </span><span class="s1">RemoteWebDriver driver</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Process appProcess</span><span class="s2">;</span>
+
+    <span class="s0">private static final </span><span class="s1">String APP_PATH </span><span class="s2">=</span>
+            <span class="s3">&quot;C:</span><span class="s0">\\</span><span class="s3">Program Files</span><span class="s0">\\</span><span class="s3">MersiveRoom</span><span class="s0">\\</span><span class="s3">MersiveRoom.exe&quot;</span><span class="s2">;</span>
+
+    <span class="s4">// ── Lifecycle ──────────────────────────────────────────</span>
+
+    <span class="s1">@BeforeMethod</span>
+    <span class="s0">public void </span><span class="s1">setup</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">=== SETUP START ===&quot;</span><span class="s2">);</span>
+        <span class="s1">appProcess </span><span class="s2">= </span><span class="s1">ProcessHelper</span><span class="s2">.</span><span class="s1">launch</span><span class="s2">(</span><span class="s1">APP_PATH</span><span class="s2">);</span>
+        <span class="s1">String decimalHandle </span><span class="s2">= </span><span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span><span class="s3">&quot;Mersive Room&quot;</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">decimalHandle </span><span class="s2">== </span><span class="s0">null</span><span class="s2">)</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s3">&quot;Mersive Room window not found after launch&quot;</span><span class="s2">);</span>
+        <span class="s1">driver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">attachByHexHandle</span><span class="s2">(</span>
+                <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">toHexHandle</span><span class="s2">(</span><span class="s1">decimalHandle</span><span class="s2">));</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;=== SETUP COMPLETE ===</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@AfterMethod</span>
+    <span class="s0">public void </span><span class="s1">tearDown</span><span class="s2">() {</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">=== TEARDOWN START ===&quot;</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">driver </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">try </span><span class="s2">{ </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">quit</span><span class="s2">(); } </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception ignored</span><span class="s2">) {}</span>
+            <span class="s1">driver </span><span class="s2">= </span><span class="s0">null</span><span class="s2">;</span>
+        <span class="s2">}</span>
+        <span class="s1">ProcessHelper</span><span class="s2">.</span><span class="s1">kill</span><span class="s2">(</span><span class="s3">&quot;msedgewebview2.exe&quot;</span><span class="s2">);</span>
+        <span class="s1">ProcessHelper</span><span class="s2">.</span><span class="s1">destroy</span><span class="s2">(</span><span class="s1">appProcess</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;=== TEARDOWN COMPLETE ===</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s4">// ── Window Helpers (used by all tests) ─────────────────</span>
+
+    <span class="s0">protected void </span><span class="s1">switchToDesktop</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">driver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">createRootSession</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected void </span><span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">String decimalHandle</span><span class="s2">) </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">driver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">attachByHexHandle</span><span class="s2">(</span>
+                <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">toHexHandle</span><span class="s2">(</span><span class="s1">decimalHandle</span><span class="s2">));</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected </span><span class="s1">String getWindowHandle</span><span class="s2">(</span><span class="s1">String titleContains</span><span class="s2">)</span>
+            <span class="s0">throws </span><span class="s1">InterruptedException </span><span class="s2">{</span>
+        <span class="s0">return </span><span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span><span class="s1">titleContains</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected </span><span class="s1">String waitForNewWindow</span><span class="s2">(</span><span class="s1">String title</span><span class="s2">,</span>
+                                      <span class="s1">String originalHandle</span><span class="s2">,</span>
+                                      <span class="s0">int </span><span class="s1">timeoutSeconds</span><span class="s2">)</span>
+            <span class="s0">throws </span><span class="s1">InterruptedException </span><span class="s2">{</span>
+        <span class="s0">return </span><span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">waitForNewWindow</span><span class="s2">(</span><span class="s1">title</span><span class="s2">, </span><span class="s1">originalHandle</span><span class="s2">, </span><span class="s1">timeoutSeconds</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected void </span><span class="s1">attachToControlsWindow</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">String h </span><span class="s2">= </span><span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span><span class="s3">&quot;Mersive Room Controls&quot;</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">h </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) </span><span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s3">&quot;Controls window not found&quot;</span><span class="s2">);</span>
+        <span class="s1">driver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">attachByHexHandle</span><span class="s2">(</span><span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">toHexHandle</span><span class="s2">(</span><span class="s1">h</span><span class="s2">));</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected void </span><span class="s1">attachToAVControlsWindow</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">String h </span><span class="s2">= </span><span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span><span class="s3">&quot;Audio Visual Controls&quot;</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">h </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) </span><span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s3">&quot;AV Controls window not found&quot;</span><span class="s2">);</span>
+        <span class="s1">driver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">attachByHexHandle</span><span class="s2">(</span><span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">toHexHandle</span><span class="s2">(</span><span class="s1">h</span><span class="s2">));</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

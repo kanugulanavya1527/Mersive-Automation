@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>BasePage.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+BasePage.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">base</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">By</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">WebElement</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">interactions</span><span class="s2">.</span><span class="s1">Actions</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">remote</span><span class="s2">.</span><span class="s1">RemoteWebDriver</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">ExpectedConditions</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">WebDriverWait</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s0">public abstract class </span><span class="s1">BasePage </span><span class="s2">{</span>
+
+    <span class="s0">protected final </span><span class="s1">RemoteWebDriver driver</span><span class="s2">;</span>
+    <span class="s0">protected final </span><span class="s1">WebDriverWait wait</span><span class="s2">;</span>
+
+    <span class="s0">protected </span><span class="s1">BasePage</span><span class="s2">(</span><span class="s1">RemoteWebDriver driver</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">driver </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">wait   </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s3">10</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected void </span><span class="s1">click</span><span class="s2">(</span><span class="s1">By locator</span><span class="s2">) {</span>
+        <span class="s1">wait</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">)).</span><span class="s1">click</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected void </span><span class="s1">clickWithActions</span><span class="s2">(</span><span class="s1">By locator</span><span class="s2">) {</span>
+        <span class="s1">WebElement el </span><span class="s2">= </span><span class="s1">wait</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span>
+                <span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">presenceOfElementLocated</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">));</span>
+        <span class="s0">new </span><span class="s1">Actions</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">).</span><span class="s1">moveToElement</span><span class="s2">(</span><span class="s1">el</span><span class="s2">).</span><span class="s1">click</span><span class="s2">().</span><span class="s1">perform</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected boolean </span><span class="s1">isVisible</span><span class="s2">(</span><span class="s1">By locator</span><span class="s2">) {</span>
+        <span class="s0">return </span><span class="s2">!</span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">).</span><span class="s1">isEmpty</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected boolean </span><span class="s1">waitForVisible</span><span class="s2">(</span><span class="s1">By locator</span><span class="s2">, </span><span class="s0">int </span><span class="s1">timeoutSeconds</span><span class="s2">) {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s1">timeoutSeconds</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">visibilityOfElementLocated</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">));</span>
+            <span class="s0">return true</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected boolean </span><span class="s1">waitForPresent</span><span class="s2">(</span><span class="s1">By locator</span><span class="s2">, </span><span class="s0">int </span><span class="s1">timeoutSeconds</span><span class="s2">) {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s1">timeoutSeconds</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">presenceOfElementLocated</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">));</span>
+            <span class="s0">return true</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected </span><span class="s1">String getAttributeOf</span><span class="s2">(</span><span class="s1">By locator</span><span class="s2">, </span><span class="s1">String attribute</span><span class="s2">) {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">els </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">els</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">() ? </span><span class="s0">null </span><span class="s2">: </span><span class="s1">els</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s3">0</span><span class="s2">).</span><span class="s1">getAttribute</span><span class="s2">(</span><span class="s1">attribute</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected boolean </span><span class="s1">containsText</span><span class="s2">(</span><span class="s1">String partialText</span><span class="s2">) {</span>
+        <span class="s0">return </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">By</span><span class="s2">.</span><span class="s1">className</span><span class="s2">(</span><span class="s4">&quot;TextBlock&quot;</span><span class="s2">))</span>
+                <span class="s2">.</span><span class="s1">stream</span><span class="s2">()</span>
+                <span class="s2">.</span><span class="s1">anyMatch</span><span class="s2">(</span><span class="s1">el -&gt; el</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">().</span><span class="s1">contains</span><span class="s2">(</span><span class="s1">partialText</span><span class="s2">));</span>
+    <span class="s2">}</span>
+
+    <span class="s0">protected </span><span class="s1">String findTextByPattern</span><span class="s2">(</span><span class="s1">String regex</span><span class="s2">) {</span>
+        <span class="s0">return </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">By</span><span class="s2">.</span><span class="s1">className</span><span class="s2">(</span><span class="s4">&quot;TextBlock&quot;</span><span class="s2">))</span>
+                <span class="s2">.</span><span class="s1">stream</span><span class="s2">()</span>
+                <span class="s2">.</span><span class="s1">map</span><span class="s2">(</span><span class="s1">el -&gt; el</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">())</span>
+                <span class="s2">.</span><span class="s1">filter</span><span class="s2">(</span><span class="s1">t -&gt; t</span><span class="s2">.</span><span class="s1">matches</span><span class="s2">(</span><span class="s1">regex</span><span class="s2">))</span>
+                <span class="s2">.</span><span class="s1">findFirst</span><span class="s2">()</span>
+                <span class="s2">.</span><span class="s1">orElse</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

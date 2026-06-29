@@ -1,0 +1,573 @@
+<html>
+<head>
+<title>MeetingOverlayPage.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MeetingOverlayPage.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">pages</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BasePage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">By</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">WebElement</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">interactions</span><span class="s2">.</span><span class="s1">Actions</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">remote</span><span class="s2">.</span><span class="s1">RemoteWebDriver</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">ExpectedConditions</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">WebDriverWait</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">MeetingOverlayPage </span><span class="s0">extends </span><span class="s1">BasePage </span><span class="s2">{</span>
+
+    <span class="s0">public </span><span class="s1">MeetingOverlayPage</span><span class="s2">(</span><span class="s1">RemoteWebDriver driver</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Locators ───────────────────────────────────────────</span>
+
+    <span class="s3">// Chat</span>
+    <span class="s0">private final </span><span class="s1">By chatButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[.//Text[@Name='Chat']]&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By chatButtonByAutomationId </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[@AutomationId='ChatButton']&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By chatButtonBroad </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[contains(@AutomationId,'Chat')&quot; </span><span class="s2">+</span>
+                    <span class="s4">&quot; or .//Text[contains(@Name,'Chat')]]&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By chatPanel </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[contains(@Name,'Chat')]&quot;</span><span class="s2">);</span>
+
+
+    <span class="s3">// People</span>
+    <span class="s0">private final </span><span class="s1">By peopleButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[.//Text[@Name='People']]&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By peoplePanel </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[contains(@Name,'People')&quot; </span><span class="s2">+</span>
+                    <span class="s4">&quot; or contains(@Name,'Participants')]&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// Raise Hand</span>
+    <span class="s0">private final </span><span class="s1">By raiseHandButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[.//Text[@Name='Hand Raise']]&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By handRaisedButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[.//Text[@Name='Hand Raised']]&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// Leave</span>
+    <span class="s0">private final </span><span class="s1">By leaveButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[.//Text[@Name='Leave']]&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// Camera</span>
+    <span class="s0">private final </span><span class="s1">By overlayCameraButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[@AutomationId='CameraButton']&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By overlayCameraButtonText </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[@AutomationId='CameraButtonText']&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// Mic</span>
+    <span class="s0">private final </span><span class="s1">By overlayMicButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[@AutomationId='MicButton']&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By overlayMicButtonText </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[@AutomationId='MicButtonText']&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// Record / Transcribe</span>
+    <span class="s0">private final </span><span class="s1">By recordButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[.//Text[@Name='Record']]&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By transcribeButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[.//Text[@Name='Transcribe']]&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// Kiosk</span>
+    <span class="s0">private final </span><span class="s1">By kioskExitButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[@AutomationId='ExitButton']&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// Audio Visual</span>
+    <span class="s0">private final </span><span class="s1">By audioVisualButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[@AutomationId='AudioVisualTabButton']&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// Chat message box</span>
+
+    <span class="s0">private final </span><span class="s1">By chatMessageBox </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Message everyone&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// Stay in meeting</span>
+    <span class="s0">private final </span><span class="s1">By stayInMeetingButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Stay in meeting&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// ── Meeting Joined ─────────────────────────────────────</span>
+
+    <span class="s3">//    public boolean waitForMeetingJoinedScreen() {</span>
+<span class="s3">//        System.out.println(&quot;[Overlay] Waiting for meeting joined screen...&quot;);</span>
+<span class="s3">//        return waitForPresent(chatButton, 200);</span>
+<span class="s3">//    }</span>
+    <span class="s0">public boolean </span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">() {</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Overlay] Waiting for meeting joined screen...&quot;</span><span class="s2">);</span>
+
+        <span class="s0">try </span><span class="s2">{</span>
+
+            <span class="s3">// Option 1 - Chat button appears</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">waitForChatButtonReady</span><span class="s2">()) {</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Overlay] Chat button found&quot;</span><span class="s2">);</span>
+                <span class="s0">return true</span><span class="s2">;</span>
+            <span class="s2">}</span>
+
+            <span class="s3">// Option 2 - People button appears</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">waitForPeopleButtonReady</span><span class="s2">()) {</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Overlay] People button found&quot;</span><span class="s2">);</span>
+                <span class="s0">return true</span><span class="s2">;</span>
+            <span class="s2">}</span>
+
+            <span class="s3">// Option 3 - Meeting title visible</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">waitForMeetingTitleVisible</span><span class="s2">()) {</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Overlay] Meeting title visible&quot;</span><span class="s2">);</span>
+                <span class="s0">return true</span><span class="s2">;</span>
+            <span class="s2">}</span>
+
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+            <span class="s1">e</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
+        <span class="s2">}</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Overlay] Meeting screen not detected&quot;</span><span class="s2">);</span>
+
+        <span class="s0">return false</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+
+    <span class="s0">public boolean </span><span class="s1">isChatButtonVisible</span><span class="s2">() {</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;joined in meeting screen&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;chat button is visible&quot;</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">isVisible</span><span class="s2">(</span><span class="s1">chatButton</span><span class="s2">);</span>
+
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Camera ─────────────────────────────────────────────</span>
+
+    <span class="s0">public boolean </span><span class="s1">isOverlayCameraOn</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">els </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">overlayCameraButtonText</span><span class="s2">);</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">els</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) </span><span class="s0">return false</span><span class="s2">;</span>
+            <span class="s1">String name </span><span class="s2">= </span><span class="s1">els</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s5">0</span><span class="s2">).</span><span class="s1">getAttribute</span><span class="s2">(</span><span class="s4">&quot;Name&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Camera] State = &quot; </span><span class="s2">+ </span><span class="s1">name</span><span class="s2">);</span>
+            <span class="s0">return </span><span class="s4">&quot;Camera&quot;</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">name</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isOverlayCameraOff</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">els </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">overlayCameraButtonText</span><span class="s2">);</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">els</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) </span><span class="s0">return false</span><span class="s2">;</span>
+            <span class="s1">String name </span><span class="s2">= </span><span class="s1">els</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s5">0</span><span class="s2">).</span><span class="s1">getAttribute</span><span class="s2">(</span><span class="s4">&quot;Name&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Camera] State = &quot; </span><span class="s2">+ </span><span class="s1">name</span><span class="s2">);</span>
+            <span class="s0">return </span><span class="s4">&quot;Cam Off&quot;</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">name</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForOverlayCameraOn</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt; isOverlayCameraOn</span><span class="s2">());</span>
+            <span class="s0">return true</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForOverlayCameraOff</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt; isOverlayCameraOff</span><span class="s2">());</span>
+            <span class="s0">return true</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clickOverlayCameraToggle</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">);</span>
+            <span class="s1">WebElement btn </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span>
+                    <span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">presenceOfElementLocated</span><span class="s2">(</span><span class="s1">overlayCameraButton</span><span class="s2">));</span>
+            <span class="s1">String before </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElement</span><span class="s2">(</span><span class="s1">overlayCameraButtonText</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">getAttribute</span><span class="s2">(</span><span class="s4">&quot;Name&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Camera] Before = &quot; </span><span class="s2">+ </span><span class="s1">before</span><span class="s2">);</span>
+            <span class="s0">new </span><span class="s1">Actions</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">).</span><span class="s1">moveToElement</span><span class="s2">(</span><span class="s1">btn</span><span class="s2">).</span><span class="s1">click</span><span class="s2">().</span><span class="s1">perform</span><span class="s2">();</span>
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">3000</span><span class="s2">);</span>
+            <span class="s1">String after </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElement</span><span class="s2">(</span><span class="s1">overlayCameraButtonText</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">getAttribute</span><span class="s2">(</span><span class="s4">&quot;Name&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Camera] After = &quot; </span><span class="s2">+ </span><span class="s1">after</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Failed to click camera toggle&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">);</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Mic ────────────────────────────────────────────────</span>
+
+    <span class="s0">public </span><span class="s1">String getOverlayMicState</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElement</span><span class="s2">(</span><span class="s1">overlayMicButtonText</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">getAttribute</span><span class="s2">(</span><span class="s4">&quot;Name&quot;</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return </span><span class="s4">&quot;UNKNOWN&quot;</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isOverlayMicMuted</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                    <span class="s1">getOverlayMicState</span><span class="s2">().</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Muted&quot;</span><span class="s2">));</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isOverlayMicUnmuted</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                    <span class="s1">getOverlayMicState</span><span class="s2">().</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Mic&quot;</span><span class="s2">));</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForOverlayMicMuted</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">10</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                    <span class="s1">getOverlayMicState</span><span class="s2">().</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Muted&quot;</span><span class="s2">));</span>
+            <span class="s0">return true</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForOverlayMicUnmuted</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">10</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                    <span class="s1">getOverlayMicState</span><span class="s2">().</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Mic&quot;</span><span class="s2">));</span>
+            <span class="s0">return true</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isOverlayMicStateValid</span><span class="s2">() {</span>
+        <span class="s1">String state </span><span class="s2">= </span><span class="s1">getOverlayMicState</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Mic] State = &quot; </span><span class="s2">+ </span><span class="s1">state</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">state</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Muted&quot;</span><span class="s2">)</span>
+                <span class="s2">|| </span><span class="s1">state</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Mic&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clickOverlayMicToggle</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+
+            <span class="s1">String before </span><span class="s2">= </span><span class="s1">getOverlayMicState</span><span class="s2">();</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Mic] Before = &quot; </span><span class="s2">+ </span><span class="s1">before</span><span class="s2">);</span>
+
+            <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">);</span>
+
+            <span class="s1">WebElement btn </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt; </span><span class="s2">{</span>
+                <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">els </span><span class="s2">=</span>
+                        <span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">overlayMicButton</span><span class="s2">);</span>
+                <span class="s0">return </span><span class="s1">els</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">() ? </span><span class="s0">null </span><span class="s2">: </span><span class="s1">els</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s5">0</span><span class="s2">);</span>
+            <span class="s2">});</span>
+
+            <span class="s0">new </span><span class="s1">Actions</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">moveToElement</span><span class="s2">(</span><span class="s1">btn</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">click</span><span class="s2">()</span>
+                    <span class="s2">.</span><span class="s1">perform</span><span class="s2">();</span>
+
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">2000</span><span class="s2">);</span>
+
+            <span class="s1">String after </span><span class="s2">= </span><span class="s1">getOverlayMicState</span><span class="s2">();</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                    <span class="s4">&quot;[Mic] After = &quot; </span><span class="s2">+ </span><span class="s1">after</span>
+            <span class="s2">);</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">before</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">after</span><span class="s2">)) {</span>
+                <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                        <span class="s4">&quot;Mic state did not change&quot;</span>
+                <span class="s2">);</span>
+            <span class="s2">}</span>
+
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                    <span class="s4">&quot;Failed to click mic toggle&quot;</span><span class="s2">,</span>
+                    <span class="s1">e</span>
+            <span class="s2">);</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Chat ───────────────────────────────────────────────</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForChatButtonReady</span><span class="s2">() {</span>
+        <span class="s1">By</span><span class="s2">[] </span><span class="s1">locators </span><span class="s2">= {</span>
+                <span class="s1">chatButton</span><span class="s2">, </span><span class="s1">chatButtonByAutomationId</span><span class="s2">, </span><span class="s1">chatButtonBroad</span>
+        <span class="s2">};</span>
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">By locator </span><span class="s2">: </span><span class="s1">locators</span><span class="s2">) {</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">25</span><span class="s2">)</span>
+                        <span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">visibilityOfElementLocated</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">));</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Chat] Found via: &quot; </span><span class="s2">+ </span><span class="s1">locator</span><span class="s2">);</span>
+                <span class="s0">return true</span><span class="s2">;</span>
+            <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Chat] Locator miss: &quot; </span><span class="s2">+ </span><span class="s1">locator</span><span class="s2">);</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+        <span class="s0">return false</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clickChatButton</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">);</span>
+        <span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">chatButton</span><span class="s2">)).</span><span class="s1">click</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Chat] Chat button clicked&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clickChatButtonRobust</span><span class="s2">() {</span>
+        <span class="s1">By</span><span class="s2">[] </span><span class="s1">locators </span><span class="s2">= {</span>
+                <span class="s1">chatButton</span><span class="s2">, </span><span class="s1">chatButtonByAutomationId</span><span class="s2">, </span><span class="s1">chatButtonBroad</span>
+        <span class="s2">};</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">30</span><span class="s2">);</span>
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">By locator </span><span class="s2">: </span><span class="s1">locators</span><span class="s2">) {</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s1">WebElement el </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span>
+                        <span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">));</span>
+                <span class="s1">el</span><span class="s2">.</span><span class="s1">click</span><span class="s2">();</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Chat] Clicked via: &quot; </span><span class="s2">+ </span><span class="s1">locator</span><span class="s2">);</span>
+                <span class="s0">return</span><span class="s2">;</span>
+            <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Chat] Failed: &quot; </span><span class="s2">+ </span><span class="s1">locator</span><span class="s2">);</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+        <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;All chat button locators failed&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">//    public boolean isChatMessageBoxVisible() {</span>
+<span class="s3">//        try {</span>
+<span class="s3">//            return driver.findElement(chatMessageBox).isDisplayed();</span>
+<span class="s3">//        } catch (Exception e) { return false; }</span>
+<span class="s3">//    }</span>
+    <span class="s0">public boolean </span><span class="s1">isChatMessageBoxVisible</span><span class="s2">() {</span>
+
+        <span class="s0">try </span><span class="s2">{</span>
+
+            <span class="s0">int </span><span class="s1">count </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">chatMessageBox</span><span class="s2">).</span><span class="s1">size</span><span class="s2">();</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                    <span class="s4">&quot;[Chat] Message everyone count = &quot; </span><span class="s2">+ </span><span class="s1">count</span>
+            <span class="s2">);</span>
+
+            <span class="s0">return </span><span class="s1">count </span><span class="s2">&gt; </span><span class="s5">0</span><span class="s2">;</span>
+
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+            <span class="s0">return false</span><span class="s2">;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isChatPanelVisible</span><span class="s2">() {</span>
+
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">10</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt; </span><span class="s2">!</span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">chatPanel</span><span class="s2">).</span><span class="s1">isEmpty</span><span class="s2">());</span>
+
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+            <span class="s0">return false</span><span class="s2">;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── People ─────────────────────────────────────────────</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForPeopleButtonReady</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">60</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt; </span><span class="s2">!</span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">peopleButton</span><span class="s2">).</span><span class="s1">isEmpty</span><span class="s2">());</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clickPeopleButton</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">driver</span><span class="s2">.</span><span class="s1">findElement</span><span class="s2">(</span><span class="s1">peopleButton</span><span class="s2">).</span><span class="s1">click</span><span class="s2">();</span>
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">1000</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Failed to click People button&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">);</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForPeoplePanelOpened</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt; </span><span class="s2">!</span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">peoplePanel</span><span class="s2">).</span><span class="s1">isEmpty</span><span class="s2">());</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Raise Hand ─────────────────────────────────────────</span>
+
+    <span class="s0">public void </span><span class="s1">clickRaiseHandButton</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">);</span>
+        <span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">raiseHandButton</span><span class="s2">)).</span><span class="s1">click</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Hand] Raise Hand clicked&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clickLowerHandButton</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">);</span>
+        <span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">handRaisedButton</span><span class="s2">)).</span><span class="s1">click</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Hand] Hand Raised clicked&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">doubleClickRaiseHandButton</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">);</span>
+        <span class="s1">WebElement btn </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span>
+                <span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">raiseHandButton</span><span class="s2">));</span>
+        <span class="s0">new </span><span class="s1">Actions</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">).</span><span class="s1">doubleClick</span><span class="s2">(</span><span class="s1">btn</span><span class="s2">).</span><span class="s1">perform</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Hand] Double-clicked Raise Hand&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">doubleClickLowerHandButton</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">);</span>
+        <span class="s1">WebElement btn </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span>
+                <span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">handRaisedButton</span><span class="s2">));</span>
+        <span class="s0">new </span><span class="s1">Actions</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">).</span><span class="s1">doubleClick</span><span class="s2">(</span><span class="s1">btn</span><span class="s2">).</span><span class="s1">perform</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Hand] Double-clicked Hand Raised&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isMyHandRaised</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">boolean </span><span class="s1">buttonChanged </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                    <span class="s2">!</span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">handRaisedButton</span><span class="s2">).</span><span class="s1">isEmpty</span><span class="s2">());</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">buttonChanged</span><span class="s2">) {</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Hand] ✓ Hand raised — toolbar changed&quot;</span><span class="s2">);</span>
+                <span class="s0">return true</span><span class="s2">;</span>
+            <span class="s2">}</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception ignored</span><span class="s2">) {}</span>
+
+        <span class="s1">By</span><span class="s2">[] </span><span class="s1">tileLocators </span><span class="s2">= {</span>
+                <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[contains(@Name,'Navya Kanugula')&quot; </span><span class="s2">+</span>
+                        <span class="s4">&quot; and contains(@Name,'Hand raised')]&quot;</span><span class="s2">),</span>
+                <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[contains(@Name,'Hand raised')]&quot;</span><span class="s2">),</span>
+                <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[contains(@Name,'Raised hand')]&quot;</span><span class="s2">)</span>
+        <span class="s2">};</span>
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">By locator </span><span class="s2">: </span><span class="s1">tileLocators</span><span class="s2">) {</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s0">if </span><span class="s2">(!</span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">).</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Hand] ✓ Hand raised via tile: &quot; </span><span class="s2">+ </span><span class="s1">locator</span><span class="s2">);</span>
+                    <span class="s0">return true</span><span class="s2">;</span>
+                <span class="s2">}</span>
+            <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception ignored</span><span class="s2">) {}</span>
+        <span class="s2">}</span>
+        <span class="s0">return false</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isMyHandLowered</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">boolean </span><span class="s1">reverted </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                    <span class="s2">!</span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">raiseHandButton</span><span class="s2">).</span><span class="s1">isEmpty</span><span class="s2">());</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">reverted</span><span class="s2">) {</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Hand] ✓ Hand lowered — toolbar reverted&quot;</span><span class="s2">);</span>
+                <span class="s0">return true</span><span class="s2">;</span>
+            <span class="s2">}</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception ignored</span><span class="s2">) {}</span>
+        <span class="s0">return false</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Leave ──────────────────────────────────────────────</span>
+
+    <span class="s0">public void </span><span class="s1">clickLeaveButton</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">);</span>
+        <span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">leaveButton</span><span class="s2">)).</span><span class="s1">click</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Leave] Leave button clicked&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s0">public boolean </span><span class="s1">isLeaveDialogVisible</span><span class="s2">() {</span>
+
+        <span class="s0">try </span><span class="s2">{</span>
+
+            <span class="s0">int </span><span class="s1">count </span><span class="s2">=</span>
+                    <span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">stayInMeetingButton</span><span class="s2">).</span><span class="s1">size</span><span class="s2">();</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                    <span class="s4">&quot;[Leave Dialog] Stay button count = &quot; </span><span class="s2">+ </span><span class="s1">count</span>
+            <span class="s2">);</span>
+
+            <span class="s0">return </span><span class="s1">count </span><span class="s2">&gt; </span><span class="s5">0</span><span class="s2">;</span>
+
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+            <span class="s0">return false</span><span class="s2">;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clickStayInMeetingButton</span><span class="s2">() {</span>
+
+        <span class="s1">wait</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span>
+                <span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span>
+                        <span class="s1">stayInMeetingButton</span>
+                <span class="s2">)</span>
+        <span class="s2">).</span><span class="s1">click</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Record ─────────────────────────────────────────────</span>
+
+    <span class="s0">public void </span><span class="s1">clickRecordButton</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">);</span>
+        <span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">recordButton</span><span class="s2">)).</span><span class="s1">click</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Record] Record button clicked&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Transcribe ─────────────────────────────────────────</span>
+
+    <span class="s0">public void </span><span class="s1">clickTranscribeButton</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">);</span>
+        <span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">transcribeButton</span><span class="s2">)).</span><span class="s1">click</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Transcribe] Transcribe button clicked&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Meeting Name ───────────────────────────────────────</span>
+
+    <span class="s0">public </span><span class="s1">String getInMeetingName</span><span class="s2">() {</span>
+
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">textBlocks </span><span class="s2">=</span>
+                <span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span>
+                        <span class="s1">By</span><span class="s2">.</span><span class="s1">className</span><span class="s2">(</span><span class="s4">&quot;TextBlock&quot;</span><span class="s2">)</span>
+                <span class="s2">);</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">WebElement el </span><span class="s2">: </span><span class="s1">textBlocks</span><span class="s2">) {</span>
+
+            <span class="s1">String text </span><span class="s2">=</span>
+                    <span class="s1">el</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+
+            <span class="s0">int </span><span class="s1">y </span><span class="s2">=</span>
+                    <span class="s1">el</span><span class="s2">.</span><span class="s1">getLocation</span><span class="s2">().</span><span class="s1">getY</span><span class="s2">();</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                    <span class="s4">&quot;Text = [&quot; </span><span class="s2">+ </span><span class="s1">text </span><span class="s2">+ </span><span class="s4">&quot;] Y = &quot; </span><span class="s2">+ </span><span class="s1">y</span>
+            <span class="s2">);</span>
+
+            <span class="s0">if </span><span class="s2">(!</span><span class="s1">text</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()</span>
+                    <span class="s2">&amp;&amp; </span><span class="s1">y </span><span class="s2">&lt; </span><span class="s5">60</span>
+                    <span class="s2">&amp;&amp; !</span><span class="s1">text</span><span class="s2">.</span><span class="s1">matches</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">\\</span><span class="s4">d+:</span><span class="s0">\\</span><span class="s4">d+&quot;</span><span class="s2">)</span>
+                    <span class="s2">&amp;&amp; !</span><span class="s1">text</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;T&quot;</span><span class="s2">)) {</span>
+
+                <span class="s0">return </span><span class="s1">text</span><span class="s2">;</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s0">return null</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s0">public boolean </span><span class="s1">waitForMeetingTitleVisible</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">30</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt; getInMeetingName</span><span class="s2">() != </span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Audio Visual Button ────────────────────────────────</span>
+
+    <span class="s0">public void </span><span class="s1">clickAudioVisualButton</span><span class="s2">() {</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[AV] Clicking Audio &amp; Visual button...&quot;</span><span class="s2">);</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">);</span>
+        <span class="s1">WebElement btn </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                <span class="s2">!</span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">audioVisualButton</span><span class="s2">).</span><span class="s1">isEmpty</span><span class="s2">()</span>
+                        <span class="s2">? </span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">audioVisualButton</span><span class="s2">).</span><span class="s1">get</span><span class="s2">(</span><span class="s5">0</span><span class="s2">) : </span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s0">new </span><span class="s1">Actions</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">).</span><span class="s1">moveToElement</span><span class="s2">(</span><span class="s1">btn</span><span class="s2">).</span><span class="s1">click</span><span class="s2">().</span><span class="s1">perform</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[AV] Clicked Audio &amp; Visual button&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Kiosk ──────────────────────────────────────────────</span>
+
+    <span class="s0">public void </span><span class="s1">clickKioskExitButton</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">);</span>
+        <span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">kioskExitButton</span><span class="s2">)).</span><span class="s1">click</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Kiosk] Exit button clicked&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

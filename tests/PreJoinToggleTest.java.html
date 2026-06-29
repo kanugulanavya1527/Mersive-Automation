@@ -1,0 +1,117 @@
+<html>
+<head>
+<title>PreJoinToggleTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+PreJoinToggleTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">tests</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BaseTest</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">HomeScreenPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">PlatformSelectPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">PreJoinPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">Assert</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">annotations</span><span class="s2">.</span><span class="s1">Test</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">PreJoinToggleTest </span><span class="s0">extends </span><span class="s1">BaseTest </span><span class="s2">{</span>
+
+    <span class="s3">// ── Navigation helper — shared by all tests in this class ──</span>
+
+    <span class="s0">private </span><span class="s1">PreJoinPage navigateToPreJoin</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">InterruptedException </span><span class="s2">{</span>
+        <span class="s1">HomeScreenPage home         </span><span class="s2">= </span><span class="s0">new </span><span class="s1">HomeScreenPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">PlatformSelectPage platform </span><span class="s2">= </span><span class="s0">new </span><span class="s1">PlatformSelectPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">PreJoinPage preJoin         </span><span class="s2">= </span><span class="s0">new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">home</span><span class="s2">.</span><span class="s1">clickStartMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">platform</span><span class="s2">.</span><span class="s1">isPlatformScreenLoaded</span><span class="s2">(),</span>
+                <span class="s4">&quot;Platform screen not loaded&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">platform</span><span class="s2">.</span><span class="s1">clickMicrosoftTeams</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isPreJoinScreenLoaded</span><span class="s2">(),</span>
+                <span class="s4">&quot;Pre-join screen not loaded&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Pre-join screen loaded&quot;</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">preJoin</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Tests ──────────────────────────────────────────────</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">7</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_007_VerifyCameraToggleOnOffOn</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">InterruptedException </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_007: Camera Toggle ON -&gt; OFF -&gt; ON ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">PreJoinPage preJoin </span><span class="s2">= </span><span class="s1">navigateToPreJoin</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isCameraOn</span><span class="s2">(),</span>
+                <span class="s4">&quot;TC_007 FAILED: Camera not initially ON&quot;</span>
+        <span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Camera initially ON&quot;</span><span class="s2">);</span>
+
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickCameraToggle</span><span class="s2">();</span>
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">waitForCameraOff</span><span class="s2">(),</span>
+                <span class="s4">&quot;TC_007 FAILED: Camera did not turn OFF&quot;</span>
+        <span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Camera turned OFF&quot;</span><span class="s2">);</span>
+
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickCameraToggle</span><span class="s2">();</span>
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">waitForCameraOn</span><span class="s2">(),</span>
+                <span class="s4">&quot;TC_007 FAILED: Camera did not turn ON again&quot;</span>
+        <span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Camera turned ON again&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_007 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">8</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_008_VerifyMicrophoneToggleOnOffOn</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">InterruptedException </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_008: Microphone Toggle ON -&gt; OFF -&gt; ON ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">PreJoinPage preJoin </span><span class="s2">= </span><span class="s1">navigateToPreJoin</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isMicrophoneOn</span><span class="s2">(),</span>
+                <span class="s4">&quot;TC_008 FAILED: Microphone not initially ON&quot;</span>
+        <span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Microphone initially ON&quot;</span><span class="s2">);</span>
+
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickMicrophoneToggle</span><span class="s2">();</span>
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">waitForMicrophoneOff</span><span class="s2">(),</span>
+                <span class="s4">&quot;TC_008 FAILED: Microphone did not turn OFF&quot;</span>
+        <span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Microphone turned OFF&quot;</span><span class="s2">);</span>
+
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickMicrophoneToggle</span><span class="s2">();</span>
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">waitForMicrophoneOn</span><span class="s2">(),</span>
+                <span class="s4">&quot;TC_008 FAILED: Microphone did not turn ON again&quot;</span>
+        <span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Microphone turned ON again&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_008 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

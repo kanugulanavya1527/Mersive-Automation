@@ -1,0 +1,491 @@
+<html>
+<head>
+<title>ZoomControlsTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ZoomControlsTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">tests</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BaseTest</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">WebDriverWait</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">Assert</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">annotations</span><span class="s2">.</span><span class="s1">Test</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingCardPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingOverlayPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">PreJoinPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">RootSessionPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">utils</span><span class="s2">.</span><span class="s1">WindowHelper</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">ZoomControlsTest </span><span class="s0">extends </span><span class="s1">BaseTest </span><span class="s2">{</span>
+    <span class="s0">private </span><span class="s1">String lastZoomOverlayHandle</span><span class="s2">;</span>
+<span class="s3">//</span>
+<span class="s3">//    private MeetingOverlayPage joinZoomMeeting() throws Exception {</span>
+<span class="s3">//</span>
+<span class="s3">//        MeetingCardPage cards = new MeetingCardPage(driver);</span>
+<span class="s3">//        PreJoinPage preJoin = new PreJoinPage(driver);</span>
+<span class="s3">//</span>
+<span class="s3">//        System.out.println(&quot;Step 1: Opening meeting card&quot;);</span>
+<span class="s3">//        cards.clickJoinForFirstZoomMeeting();</span>
+<span class="s3">//</span>
+<span class="s3">//        System.out.println(&quot;Step 2: Waiting for pre-join screen&quot;);</span>
+<span class="s3">//</span>
+<span class="s3">//        new WebDriverWait(driver, 30)</span>
+<span class="s3">//                .until(d -&gt; preJoin.isPreJoinScreenLoaded());</span>
+<span class="s3">//</span>
+<span class="s3">//        Assert.assertTrue(</span>
+<span class="s3">//                preJoin.isPreJoinScreenLoaded(),</span>
+<span class="s3">//                &quot;Pre-join screen not loaded&quot;</span>
+<span class="s3">//        );</span>
+<span class="s3">//</span>
+<span class="s3">//        String originalHandle =</span>
+<span class="s3">//                getWindowHandle(&quot;Mersive Room&quot;);</span>
+<span class="s3">//</span>
+<span class="s3">//        System.out.println(&quot;Step 3: Clicking Join Zoom Meeting&quot;);</span>
+<span class="s3">//</span>
+<span class="s3">//        preJoin.clickJoinZoomMeeting();</span>
+<span class="s3">//</span>
+<span class="s3">//        System.out.println(&quot;Step 4: Switching to desktop session&quot;);</span>
+<span class="s3">//</span>
+<span class="s3">//        switchToDesktop();</span>
+<span class="s3">//</span>
+<span class="s3">//        String newHandle =</span>
+<span class="s3">//                waitForNewWindow(</span>
+<span class="s3">//                        &quot;Mersive Room&quot;,</span>
+<span class="s3">//                        originalHandle,</span>
+<span class="s3">//                        100</span>
+<span class="s3">//                );</span>
+<span class="s3">//</span>
+<span class="s3">//        Assert.assertNotNull(</span>
+<span class="s3">//                newHandle,</span>
+<span class="s3">//                &quot;Zoom meeting window not found&quot;</span>
+<span class="s3">//        );</span>
+<span class="s3">//</span>
+<span class="s3">//        System.out.println(&quot;Step 5: Attaching to Zoom meeting window&quot;);</span>
+<span class="s3">//</span>
+<span class="s3">//        attachByHandle(newHandle);</span>
+<span class="s3">//        return new MeetingOverlayPage(driver);</span>
+<span class="s3">//</span>
+<span class="s3">//</span>
+<span class="s3">//</span>
+<span class="s3">//    }</span>
+<span class="s3">//private MeetingOverlayPage joinZoomMeeting() throws Exception {</span>
+<span class="s3">//</span>
+<span class="s3">//    MeetingCardPage cards = new MeetingCardPage(driver);</span>
+<span class="s3">//    PreJoinPage preJoin = new PreJoinPage(driver);</span>
+<span class="s3">//</span>
+<span class="s3">//    System.out.println(&quot;Step 1: Opening meeting card&quot;);</span>
+<span class="s3">//    cards.clickJoinForFirstZoomMeeting();</span>
+<span class="s3">//</span>
+<span class="s3">//    System.out.println(&quot;Step 2: Waiting for pre-join screen&quot;);</span>
+<span class="s3">//    new WebDriverWait(driver, 30)</span>
+<span class="s3">//            .until(d -&gt; preJoin.isPreJoinScreenLoaded());</span>
+<span class="s3">//</span>
+<span class="s3">//    Assert.assertTrue(</span>
+<span class="s3">//            preJoin.isPreJoinScreenLoaded(),</span>
+<span class="s3">//            &quot;Pre-join screen not loaded&quot;</span>
+<span class="s3">//    );</span>
+<span class="s3">//</span>
+<span class="s3">//    System.out.println(&quot;Step 3: Clicking Join Zoom Meeting&quot;);</span>
+<span class="s3">//    preJoin.clickJoinZoomMeeting();</span>
+<span class="s3">//</span>
+<span class="s3">//    System.out.println(&quot;Step 4: Switching to desktop session&quot;);</span>
+<span class="s3">//    switchToDesktop();</span>
+<span class="s3">//</span>
+<span class="s3">//    System.out.println(&quot;Step 5: Waiting for Mersive Room Blocker window&quot;);</span>
+<span class="s3">//    String blockerHandle = WindowHelper.waitForBlockerWindow(60);</span>
+<span class="s3">//</span>
+<span class="s3">//    Assert.assertNotNull(</span>
+<span class="s3">//            blockerHandle,</span>
+<span class="s3">//            &quot;Mersive Room Blocker window not found&quot;</span>
+<span class="s3">//    );</span>
+<span class="s3">//</span>
+<span class="s3">//    System.out.println(&quot;Step 6: Attaching to Blocker window&quot;);</span>
+<span class="s3">//    attachByHandle(blockerHandle);</span>
+<span class="s3">//</span>
+<span class="s3">//    // remember it for teardown</span>
+<span class="s3">//    lastZoomOverlayHandle = blockerHandle;</span>
+<span class="s3">//</span>
+<span class="s3">//    return new MeetingOverlayPage(driver);</span>
+<span class="s3">//}</span>
+
+    <span class="s0">private </span><span class="s1">MeetingOverlayPage joinZoomMeeting</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">MeetingCardPage cards </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingCardPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">PreJoinPage preJoin </span><span class="s2">= </span><span class="s0">new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;Step 1: Opening meeting card&quot;</span><span class="s2">);</span>
+        <span class="s1">cards</span><span class="s2">.</span><span class="s1">clickJoinForFirstZoomMeeting</span><span class="s2">();</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;Step 2: Waiting for pre-join screen&quot;</span><span class="s2">);</span>
+        <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">30</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt; </span><span class="s2">{</span>
+                    <span class="s0">try </span><span class="s2">{</span>
+                        <span class="s0">return </span><span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isPreJoinScreenLoaded</span><span class="s2">();</span>
+                    <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">InterruptedException e</span><span class="s2">) {</span>
+                        <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s1">e</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                <span class="s2">});</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isPreJoinScreenLoaded</span><span class="s2">(),</span>
+                <span class="s4">&quot;Pre-join screen not loaded&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;Step 3: Clicking Join Zoom Meeting&quot;</span><span class="s2">);</span>
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickJoinZoomMeeting</span><span class="s2">();</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;Step 4: Switching to desktop session&quot;</span><span class="s2">);</span>
+        <span class="s1">switchToDesktop</span><span class="s2">();</span>
+
+<span class="s3">// ADD</span>
+<span class="s3">// THIS</span>
+      <span class="s3">//zoom  WindowHelper.printAllWindows();</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;Step 5: Waiting for Mersive Room Blocker window&quot;</span><span class="s2">);</span>
+        <span class="s3">//String blockerHandle = WindowHelper.waitForBlockerWindow(60);</span>
+        <span class="s1">String blockerHandle </span><span class="s2">=</span>
+                <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">waitForBlockerWindow</span><span class="s2">(</span><span class="s5">30</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">blockerHandle </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                    <span class="s4">&quot;Zoom detached from Mersive. Blocker window was not created.&quot;</span>
+            <span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;Step 6: Attaching to Blocker window&quot;</span><span class="s2">);</span>
+        <span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">blockerHandle</span><span class="s2">);</span>
+        <span class="s1">lastZoomOverlayHandle </span><span class="s2">= </span><span class="s1">blockerHandle</span><span class="s2">;</span>
+        <span class="s1">setLastMeetingOverlayHandle</span><span class="s2">(</span><span class="s1">blockerHandle</span><span class="s2">); </span><span class="s3">// ADD</span>
+
+        <span class="s0">return new </span><span class="s1">MeetingOverlayPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">36</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_036_OpenParticipantsPanel</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_036 Started&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">=</span>
+                <span class="s1">joinZoomMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">(),</span>
+                <span class="s4">&quot;Zoom meeting screen did not load&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForPeopleButtonReady</span><span class="s2">(),</span>
+                <span class="s4">&quot;People button not available&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickPeopleButton</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForPeoplePanelOpened</span><span class="s2">(),</span>
+                <span class="s4">&quot;Participants panel did not open&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_036 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">37</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_037_VerifyChatPanelOpens</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_037 Started&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinZoomMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">(),</span>
+                <span class="s4">&quot;Zoom meeting screen did not load&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForChatButtonReady</span><span class="s2">(),</span>
+                <span class="s4">&quot;Chat button not available&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickChatButtonRobust</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">isChatPanelVisible</span><span class="s2">(),</span>
+                <span class="s4">&quot;Chat panel did not open&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_037 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">38</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_038_VerifyRaiseHandInZoomMeeting</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_038: Raise Hand In Zoom ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinZoomMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">(),</span>
+                <span class="s4">&quot;Zoom meeting screen did not load&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForPeopleButtonReady</span><span class="s2">(),</span>
+                <span class="s4">&quot;People button not visible&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickPeopleButton</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">3000</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Participants panel opened&quot;</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickRaiseHandButton</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">isMyHandRaised</span><span class="s2">(),</span>
+                <span class="s4">&quot;Hand raise not reflected&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Hand raised&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">3000</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickLowerHandButton</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">isMyHandLowered</span><span class="s2">(),</span>
+                <span class="s4">&quot;Hand not lowered&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Hand lowered&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_038 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">39</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_039_VerifyMuteUnmuteMicInZoomMeeting</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_039: Mic Sync In Zoom Meeting ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinZoomMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">(),</span>
+                <span class="s4">&quot;Zoom meeting screen did not load&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForPeopleButtonReady</span><span class="s2">(),</span>
+                <span class="s4">&quot;People button not visible&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickPeopleButton</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">3000</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Participants panel opened&quot;</span><span class="s2">);</span>
+
+        <span class="s3">// After overlay.clickPeopleButton(); Thread.sleep(3000);</span>
+<span class="s3">// ADD THIS before first clickOverlayMicToggle():</span>
+<span class="s3">// Normalize to ON</span>
+        <span class="s1">String initialMic </span><span class="s2">= </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">getOverlayMicState</span><span class="s2">();</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">initialMic</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Muted&quot;</span><span class="s2">)) {</span>
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayMicToggle</span><span class="s2">();</span>
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">1500</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+<span class="s3">// Step 1: Mute</span>
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayMicToggle</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayMicMuted</span><span class="s2">(),</span>
+                <span class="s4">&quot;Toolbar not showing muted&quot;</span>
+        <span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Mic muted&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicStateValid</span><span class="s2">(), </span><span class="s4">&quot;Mic state invalid&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Muted state valid&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">3000</span><span class="s2">);</span>
+
+<span class="s3">// Step 2: Unmute</span>
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayMicToggle</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayMicUnmuted</span><span class="s2">(),</span>
+                <span class="s4">&quot;Toolbar still showing muted&quot;</span>
+        <span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Mic unmuted&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicStateValid</span><span class="s2">(), </span><span class="s4">&quot;Mic state invalid&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Unmuted state valid&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_039 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">40</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_040_VerifyCameraToggleOnOffOnInZoomMeeting</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_040: Camera Toggle In Zoom Meeting ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinZoomMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">(),</span>
+                <span class="s4">&quot;Zoom meeting screen did not load&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s0">boolean </span><span class="s1">currentlyOn </span><span class="s2">= </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayCameraOn</span><span class="s2">();</span>
+        <span class="s0">boolean </span><span class="s1">currentlyOff </span><span class="s2">= </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayCameraOff</span><span class="s2">();</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                <span class="s4">&quot;Camera ON=&quot; </span><span class="s2">+ </span><span class="s1">currentlyOn </span><span class="s2">+</span>
+                        <span class="s4">&quot; OFF=&quot; </span><span class="s2">+ </span><span class="s1">currentlyOff</span>
+        <span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">currentlyOn</span><span class="s2">) {</span>
+
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayCameraToggle</span><span class="s2">();</span>
+
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                    <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOff</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Camera did not turn OFF&quot;</span>
+            <span class="s2">);</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Camera OFF&quot;</span><span class="s2">);</span>
+
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayCameraToggle</span><span class="s2">();</span>
+
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                    <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOn</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Camera did not turn ON again&quot;</span>
+            <span class="s2">);</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Camera ON again&quot;</span><span class="s2">);</span>
+
+        <span class="s2">} </span><span class="s0">else if </span><span class="s2">(</span><span class="s1">currentlyOff</span><span class="s2">) {</span>
+
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayCameraToggle</span><span class="s2">();</span>
+
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                    <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOn</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Camera did not turn ON&quot;</span>
+            <span class="s2">);</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Camera ON&quot;</span><span class="s2">);</span>
+
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayCameraToggle</span><span class="s2">();</span>
+
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                    <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOff</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Camera did not turn OFF again&quot;</span>
+            <span class="s2">);</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Camera OFF again&quot;</span><span class="s2">);</span>
+
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                    <span class="s4">&quot;Cannot detect initial camera state&quot;</span>
+            <span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_040 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">41</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_041_VerifyJoinAndLeaveZoomMeetingGracefully</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_041: Join and Leave Zoom Meeting ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinZoomMeeting</span><span class="s2">();</span>
+        <span class="s1">pages</span><span class="s2">.</span><span class="s1">RootSessionPage root </span><span class="s2">= </span><span class="s0">new </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">RootSessionPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickLeaveButton</span><span class="s2">();</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Leave button clicked&quot;</span><span class="s2">);</span>
+
+        <span class="s1">root</span><span class="s2">.</span><span class="s1">clickLeaveMeetingConfirmation</span><span class="s2">();</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Leave confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">15000</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_041 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">42</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_042_VerifyStayInMeeting</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_042: Stay In Meeting ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinZoomMeeting</span><span class="s2">();</span>
+
+        <span class="s1">RootSessionPage root </span><span class="s2">=</span>
+                <span class="s0">new </span><span class="s1">RootSessionPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickLeaveButton</span><span class="s2">();</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">3000</span><span class="s2">);</span>
+
+        <span class="s1">root</span><span class="s2">.</span><span class="s1">clickStayInMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">(),</span>
+                <span class="s4">&quot;Meeting was exited unexpectedly&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_042 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s3">//    @Test(priority = 43)</span>
+<span class="s3">//    public void TC_043_VerifyMeetingTitleAfterJoiningZoom()</span>
+<span class="s3">//            throws Exception {</span>
+<span class="s3">//</span>
+<span class="s3">//        System.out.println(</span>
+<span class="s3">//                &quot;=== TC_043: Meeting Title Validation ===&quot;</span>
+<span class="s3">//        );</span>
+<span class="s3">//</span>
+<span class="s3">//        MeetingCardPage cards =</span>
+<span class="s3">//                new MeetingCardPage(driver);</span>
+<span class="s3">//</span>
+<span class="s3">//        String expectedTitle =</span>
+<span class="s3">//                cards.getMeetingCardTitle();</span>
+<span class="s3">//</span>
+<span class="s3">//        Assert.assertNotNull(</span>
+<span class="s3">//                expectedTitle,</span>
+<span class="s3">//                &quot;Meeting title was not found on the meeting card&quot;</span>
+<span class="s3">//        );</span>
+<span class="s3">//</span>
+<span class="s3">//        System.out.println(</span>
+<span class="s3">//                &quot;Expected Title: &quot; + expectedTitle</span>
+<span class="s3">//        );</span>
+<span class="s3">//</span>
+<span class="s3">//        MeetingOverlayPage overlay =</span>
+<span class="s3">//                joinZoomMeeting();</span>
+<span class="s3">//</span>
+<span class="s3">//        String actualTitle =</span>
+<span class="s3">//                overlay.getInMeetingName();</span>
+<span class="s3">//</span>
+<span class="s3">//        System.out.println(</span>
+<span class="s3">//                &quot;Actual Title: &quot; + actualTitle</span>
+<span class="s3">//        );</span>
+<span class="s3">//</span>
+<span class="s3">//        Assert.assertEquals(</span>
+<span class="s3">//                actualTitle,</span>
+<span class="s3">//                expectedTitle,</span>
+<span class="s3">//                &quot;Meeting title mismatch&quot;</span>
+<span class="s3">//        );</span>
+<span class="s3">//</span>
+<span class="s3">//        System.out.println(&quot;TC_043 PASSED&quot;);</span>
+<span class="s3">//    }</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

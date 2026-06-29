@@ -1,0 +1,299 @@
+<html>
+<head>
+<title>MeetingCardPage.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MeetingCardPage.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">pages</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BasePage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">By</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">TimeoutException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">WebElement</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">remote</span><span class="s2">.</span><span class="s1">RemoteWebDriver</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">WebDriverWait</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">interactions</span><span class="s2">.</span><span class="s1">Actions</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">MeetingCardPage </span><span class="s0">extends </span><span class="s1">BasePage </span><span class="s2">{</span>
+
+    <span class="s0">public </span><span class="s1">MeetingCardPage</span><span class="s2">(</span><span class="s1">RemoteWebDriver driver</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Locators ───────────────────────────────────────────</span>
+
+    <span class="s0">private final </span><span class="s1">By joinButtons     </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;JOIN&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By meetingStatuses </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Text[@Name='In use' or @Name='Available']&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By meetingPlatforms </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Text[@Name='Teams' or @Name='Zoom']&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By zoomLabels      </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Text[@Name='Zoom']&quot;</span><span class="s2">);</span>
+
+    <span class="s0">private final </span><span class="s1">By rangeMeetingTimes </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Text[@ClassName='TextBlock' and contains(@Name,' - ')]&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By singleMeetingTimes </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Text[@ClassName='TextBlock' and &quot; </span><span class="s2">+</span>
+                    <span class="s4">&quot;(contains(@Name,'AM') or contains(@Name,'PM')) and &quot; </span><span class="s2">+</span>
+                    <span class="s4">&quot;not(contains(@Name,' - '))]&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// ── Data Model ─────────────────────────────────────────</span>
+
+    <span class="s0">public static class </span><span class="s1">MeetingCard </span><span class="s2">{</span>
+        <span class="s0">public </span><span class="s1">String title</span><span class="s2">;</span>
+        <span class="s0">public </span><span class="s1">String time</span><span class="s2">;</span>
+        <span class="s0">public </span><span class="s1">String status</span><span class="s2">;</span>
+        <span class="s0">public </span><span class="s1">String platform</span><span class="s2">;</span>
+        <span class="s0">public boolean </span><span class="s1">joinButtonVisible</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Public Methods ─────────────────────────────────────</span>
+    <span class="s0">private </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">waitForJoinButtons</span><span class="s2">(</span><span class="s0">int </span><span class="s1">timeoutSeconds</span><span class="s2">) {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s1">timeoutSeconds</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt; </span><span class="s2">{</span>
+                <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">found </span><span class="s2">= </span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">joinButtons</span><span class="s2">);</span>
+                <span class="s0">return </span><span class="s1">found</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">() ? </span><span class="s0">null </span><span class="s2">: </span><span class="s1">found</span><span class="s2">;</span>
+            <span class="s2">});</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">TimeoutException e</span><span class="s2">) {</span>
+            <span class="s0">return new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">MeetingCard</span><span class="s2">&gt; </span><span class="s1">getAllMeetings</span><span class="s2">() {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">MeetingCard</span><span class="s2">&gt; </span><span class="s1">meetings </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">joinBtns  </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">joinButtons</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[MeetingCardPage] JOIN buttons found: &quot; </span><span class="s2">+ </span><span class="s1">joinBtns</span><span class="s2">.</span><span class="s1">size</span><span class="s2">());</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s5">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s1">joinBtns</span><span class="s2">.</span><span class="s1">size</span><span class="s2">(); </span><span class="s1">i</span><span class="s2">++) {</span>
+            <span class="s1">MeetingCard card    </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingCard</span><span class="s2">();</span>
+            <span class="s1">card</span><span class="s2">.</span><span class="s1">title          </span><span class="s2">= </span><span class="s1">getTitleByIndex</span><span class="s2">(</span><span class="s1">i</span><span class="s2">);</span>
+            <span class="s1">card</span><span class="s2">.</span><span class="s1">time           </span><span class="s2">= </span><span class="s1">getTimeByIndex</span><span class="s2">(</span><span class="s1">i</span><span class="s2">);</span>
+            <span class="s1">card</span><span class="s2">.</span><span class="s1">status         </span><span class="s2">= </span><span class="s1">getTextByIndex</span><span class="s2">(</span><span class="s1">meetingStatuses</span><span class="s2">, </span><span class="s1">i</span><span class="s2">);</span>
+            <span class="s1">card</span><span class="s2">.</span><span class="s1">platform       </span><span class="s2">= </span><span class="s1">getTextByIndex</span><span class="s2">(</span><span class="s1">meetingPlatforms</span><span class="s2">, </span><span class="s1">i</span><span class="s2">);</span>
+            <span class="s1">card</span><span class="s2">.</span><span class="s1">joinButtonVisible </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+            <span class="s1">meetings</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">card</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s0">return </span><span class="s1">meetings</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clickJoinButtonByIndex</span><span class="s2">(</span><span class="s0">int </span><span class="s1">index</span><span class="s2">) {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">buttons </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">joinButtons</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">index </span><span class="s2">&gt;= </span><span class="s1">buttons</span><span class="s2">.</span><span class="s1">size</span><span class="s2">()) {</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                    <span class="s4">&quot;JOIN button not found at index: &quot; </span><span class="s2">+ </span><span class="s1">index</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s1">buttons</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">index</span><span class="s2">).</span><span class="s1">click</span><span class="s2">();</span>
+    <span class="s2">}</span>
+    <span class="s0">public void </span><span class="s1">clickJoinForFirstZoomMeeting</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">InterruptedException </span><span class="s2">{</span>
+
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">zoomLabels </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">joinBtns </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s5">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s5">30</span><span class="s2">; </span><span class="s1">i</span><span class="s2">++) {</span>
+
+            <span class="s1">zoomLabels </span><span class="s2">=</span>
+                    <span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span>
+                            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Text[@Name='Zoom']&quot;</span><span class="s2">));</span>
+
+            <span class="s1">joinBtns </span><span class="s2">=</span>
+                    <span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;JOIN&quot;</span><span class="s2">));</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                    <span class="s4">&quot;Attempt &quot;</span>
+                            <span class="s2">+ (</span><span class="s1">i </span><span class="s2">+ </span><span class="s5">1</span><span class="s2">)</span>
+                            <span class="s2">+ </span><span class="s4">&quot; -&gt; Zoom=&quot;</span>
+                            <span class="s2">+ </span><span class="s1">zoomLabels</span><span class="s2">.</span><span class="s1">size</span><span class="s2">()</span>
+                            <span class="s2">+ </span><span class="s4">&quot; JOIN=&quot;</span>
+                            <span class="s2">+ </span><span class="s1">joinBtns</span><span class="s2">.</span><span class="s1">size</span><span class="s2">());</span>
+
+            <span class="s0">if </span><span class="s2">(!</span><span class="s1">zoomLabels</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()</span>
+                    <span class="s2">&amp;&amp; !</span><span class="s1">joinBtns</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+                <span class="s0">break</span><span class="s2">;</span>
+            <span class="s2">}</span>
+
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">1000</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">zoomLabels</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()</span>
+                <span class="s2">|| </span><span class="s1">joinBtns</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                    <span class="s4">&quot;No Zoom meeting found after waiting 30 seconds.&quot;</span>
+            <span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">WebElement zoom </span><span class="s2">: </span><span class="s1">zoomLabels</span><span class="s2">) {</span>
+
+            <span class="s0">int </span><span class="s1">zoomY </span><span class="s2">=</span>
+                    <span class="s1">zoom</span><span class="s2">.</span><span class="s1">getLocation</span><span class="s2">().</span><span class="s1">getY</span><span class="s2">();</span>
+
+            <span class="s1">WebElement closestJoin </span><span class="s2">= </span><span class="s0">null</span><span class="s2">;</span>
+            <span class="s0">int </span><span class="s1">closestDistance </span><span class="s2">=</span>
+                    <span class="s1">Integer</span><span class="s2">.</span><span class="s1">MAX_VALUE</span><span class="s2">;</span>
+
+            <span class="s0">for </span><span class="s2">(</span><span class="s1">WebElement join </span><span class="s2">: </span><span class="s1">joinBtns</span><span class="s2">) {</span>
+
+                <span class="s0">int </span><span class="s1">joinY </span><span class="s2">=</span>
+                        <span class="s1">join</span><span class="s2">.</span><span class="s1">getLocation</span><span class="s2">().</span><span class="s1">getY</span><span class="s2">();</span>
+
+                <span class="s0">int </span><span class="s1">distance </span><span class="s2">=</span>
+                        <span class="s1">Math</span><span class="s2">.</span><span class="s1">abs</span><span class="s2">(</span><span class="s1">joinY </span><span class="s2">- </span><span class="s1">zoomY</span><span class="s2">);</span>
+
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">distance </span><span class="s2">&lt; </span><span class="s1">closestDistance</span><span class="s2">) {</span>
+                    <span class="s1">closestDistance </span><span class="s2">= </span><span class="s1">distance</span><span class="s2">;</span>
+                    <span class="s1">closestJoin </span><span class="s2">= </span><span class="s1">join</span><span class="s2">;</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">closestJoin </span><span class="s2">!= </span><span class="s0">null</span>
+                    <span class="s2">&amp;&amp; </span><span class="s1">closestDistance </span><span class="s2">&lt; </span><span class="s5">150</span><span class="s2">) {</span>
+
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                        <span class="s4">&quot;Clicking JOIN at Y=&quot;</span>
+                                <span class="s2">+ </span><span class="s1">closestJoin</span>
+                                <span class="s2">.</span><span class="s1">getLocation</span><span class="s2">()</span>
+                                <span class="s2">.</span><span class="s1">getY</span><span class="s2">());</span>
+
+                <span class="s0">new </span><span class="s1">Actions</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">)</span>
+                        <span class="s2">.</span><span class="s1">moveToElement</span><span class="s2">(</span><span class="s1">closestJoin</span><span class="s2">)</span>
+                        <span class="s2">.</span><span class="s1">click</span><span class="s2">()</span>
+                        <span class="s2">.</span><span class="s1">perform</span><span class="s2">();</span>
+
+                <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">2000</span><span class="s2">);</span>
+                <span class="s0">return</span><span class="s2">;</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                <span class="s4">&quot;Could not match JOIN button to Zoom meeting.&quot;</span>
+        <span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s0">public void </span><span class="s1">clickJoinForFirstTeamsMeeting</span><span class="s2">() {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">joinBtns </span><span class="s2">= </span><span class="s1">waitForJoinButtons</span><span class="s2">(</span><span class="s5">20</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">joinBtns</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">())</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;No joinable meeting cards on the home screen.&quot;</span><span class="s2">);</span>
+
+        <span class="s3">// Look for a &quot;Teams&quot; label element</span>
+        <span class="s1">By teamsLabels </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Text[@Name='Teams']&quot;</span><span class="s2">);</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">teams </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">teamsLabels</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">teams</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">())</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                    <span class="s4">&quot;No Teams meeting is scheduled on the room right now. &quot;</span>
+                            <span class="s2">+ </span><span class="s4">&quot;Schedule a Teams meeting covering the test window.&quot;</span><span class="s2">);</span>
+
+        <span class="s3">// Match each Teams label to the JOIN button on the same card row (closest Y)</span>
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">WebElement label </span><span class="s2">: </span><span class="s1">teams</span><span class="s2">) {</span>
+            <span class="s0">int </span><span class="s1">labelY </span><span class="s2">= </span><span class="s1">label</span><span class="s2">.</span><span class="s1">getLocation</span><span class="s2">().</span><span class="s1">getY</span><span class="s2">();</span>
+            <span class="s1">WebElement best </span><span class="s2">= </span><span class="s0">null</span><span class="s2">;</span>
+            <span class="s0">int </span><span class="s1">bestDist </span><span class="s2">= </span><span class="s1">Integer</span><span class="s2">.</span><span class="s1">MAX_VALUE</span><span class="s2">;</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s1">WebElement join </span><span class="s2">: </span><span class="s1">joinBtns</span><span class="s2">) {</span>
+                <span class="s0">int </span><span class="s1">d </span><span class="s2">= </span><span class="s1">Math</span><span class="s2">.</span><span class="s1">abs</span><span class="s2">(</span><span class="s1">join</span><span class="s2">.</span><span class="s1">getLocation</span><span class="s2">().</span><span class="s1">getY</span><span class="s2">() - </span><span class="s1">labelY</span><span class="s2">);</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">d </span><span class="s2">&lt; </span><span class="s1">bestDist</span><span class="s2">) { </span><span class="s1">bestDist </span><span class="s2">= </span><span class="s1">d</span><span class="s2">; </span><span class="s1">best </span><span class="s2">= </span><span class="s1">join</span><span class="s2">; }</span>
+            <span class="s2">}</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">best </span><span class="s2">!= </span><span class="s0">null </span><span class="s2">&amp;&amp; </span><span class="s1">bestDist </span><span class="s2">&lt; </span><span class="s5">150</span><span class="s2">) {   </span><span class="s3">// same card row</span>
+                <span class="s1">best</span><span class="s2">.</span><span class="s1">click</span><span class="s2">();</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[MeetingCardPage] Joined first Teams meeting card&quot;</span><span class="s2">);</span>
+                <span class="s0">return</span><span class="s2">;</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+        <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Could not match a JOIN button to a Teams card.&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+
+
+    <span class="s0">public </span><span class="s1">String getMeetingCardTitle</span><span class="s2">() {</span>
+
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">texts </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">By</span><span class="s2">.</span><span class="s1">className</span><span class="s2">(</span><span class="s4">&quot;TextBlock&quot;</span><span class="s2">));</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s5">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s1">texts</span><span class="s2">.</span><span class="s1">size</span><span class="s2">(); </span><span class="s1">i</span><span class="s2">++) {</span>
+
+            <span class="s1">String text </span><span class="s2">= </span><span class="s1">texts</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">i</span><span class="s2">).</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">text</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Zoom&quot;</span><span class="s2">) || </span><span class="s1">text</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Teams&quot;</span><span class="s2">)) {</span>
+
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">i </span><span class="s2">+ </span><span class="s5">1 </span><span class="s2">&lt; </span><span class="s1">texts</span><span class="s2">.</span><span class="s1">size</span><span class="s2">()) {</span>
+
+                    <span class="s1">String title </span><span class="s2">= </span><span class="s1">texts</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">i </span><span class="s2">+ </span><span class="s5">1</span><span class="s2">).</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[MeetingCardPage] Card title: &quot; </span><span class="s2">+ </span><span class="s1">title</span><span class="s2">);</span>
+
+                    <span class="s0">return </span><span class="s1">title</span><span class="s2">;</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s0">return null</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Private Helpers ────────────────────────────────────</span>
+
+    <span class="s0">private </span><span class="s1">String getTextByIndex</span><span class="s2">(</span><span class="s1">By locator</span><span class="s2">, </span><span class="s0">int </span><span class="s1">index</span><span class="s2">) {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">elements </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">index </span><span class="s2">&lt; </span><span class="s1">elements</span><span class="s2">.</span><span class="s1">size</span><span class="s2">()</span>
+                <span class="s2">? </span><span class="s1">elements</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">index</span><span class="s2">).</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">() : </span><span class="s4">&quot;&quot;</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">private </span><span class="s1">String getTimeByIndex</span><span class="s2">(</span><span class="s0">int </span><span class="s1">index</span><span class="s2">) {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">rangeTimes </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">rangeMeetingTimes</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">index </span><span class="s2">&lt; </span><span class="s1">rangeTimes</span><span class="s2">.</span><span class="s1">size</span><span class="s2">())</span>
+            <span class="s0">return </span><span class="s1">rangeTimes</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">index</span><span class="s2">).</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">singleTimes </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">singleMeetingTimes</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">index </span><span class="s2">&lt; </span><span class="s1">singleTimes</span><span class="s2">.</span><span class="s1">size</span><span class="s2">()</span>
+                <span class="s2">? </span><span class="s1">singleTimes</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">index</span><span class="s2">).</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">() : </span><span class="s4">&quot;&quot;</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">private </span><span class="s1">String getTitleByIndex</span><span class="s2">(</span><span class="s0">int </span><span class="s1">index</span><span class="s2">) {</span>
+
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">texts </span><span class="s2">=</span>
+                <span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">By</span><span class="s2">.</span><span class="s1">className</span><span class="s2">(</span><span class="s4">&quot;TextBlock&quot;</span><span class="s2">));</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s5">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s1">texts</span><span class="s2">.</span><span class="s1">size</span><span class="s2">(); </span><span class="s1">i</span><span class="s2">++) {</span>
+
+            <span class="s1">String text </span><span class="s2">=</span>
+                    <span class="s1">texts</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">i</span><span class="s2">).</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">text</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Zoom&quot;</span><span class="s2">)</span>
+                    <span class="s2">|| </span><span class="s1">text</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Teams&quot;</span><span class="s2">)) {</span>
+
+                <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">j </span><span class="s2">= </span><span class="s1">i </span><span class="s2">+ </span><span class="s5">1</span><span class="s2">; </span><span class="s1">j </span><span class="s2">&lt; </span><span class="s1">texts</span><span class="s2">.</span><span class="s1">size</span><span class="s2">(); </span><span class="s1">j</span><span class="s2">++) {</span>
+
+                    <span class="s1">String title </span><span class="s2">=</span>
+                            <span class="s1">texts</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">j</span><span class="s2">).</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+
+                    <span class="s0">if </span><span class="s2">(!</span><span class="s1">title</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()</span>
+                            <span class="s2">&amp;&amp; !</span><span class="s1">title</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Zoom&quot;</span><span class="s2">)</span>
+                            <span class="s2">&amp;&amp; !</span><span class="s1">title</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Teams&quot;</span><span class="s2">)</span>
+                            <span class="s2">&amp;&amp; !</span><span class="s1">title</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;In use&quot;</span><span class="s2">)</span>
+                            <span class="s2">&amp;&amp; !</span><span class="s1">title</span><span class="s2">.</span><span class="s1">equalsIgnoreCase</span><span class="s2">(</span><span class="s4">&quot;Available&quot;</span><span class="s2">)</span>
+                            <span class="s2">&amp;&amp; !</span><span class="s1">title</span><span class="s2">.</span><span class="s1">contains</span><span class="s2">(</span><span class="s4">&quot;AM&quot;</span><span class="s2">)</span>
+                            <span class="s2">&amp;&amp; !</span><span class="s1">title</span><span class="s2">.</span><span class="s1">contains</span><span class="s2">(</span><span class="s4">&quot;PM&quot;</span><span class="s2">)</span>
+                            <span class="s2">&amp;&amp; !</span><span class="s1">title</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s4">&quot;|&quot;</span><span class="s2">)) {</span>
+
+                        <span class="s0">return </span><span class="s1">title</span><span class="s2">;</span>
+                    <span class="s2">}</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s0">return </span><span class="s4">&quot;&quot;</span><span class="s2">;</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

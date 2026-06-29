@@ -1,0 +1,287 @@
+<html>
+<head>
+<title>RootSessionPage.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+RootSessionPage.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">pages</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BasePage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">DriverFactory</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">By</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">WebElement</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">remote</span><span class="s2">.</span><span class="s1">RemoteWebDriver</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">ExpectedConditions</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">WebDriverWait</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">concurrent</span><span class="s2">.</span><span class="s1">TimeUnit</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">RootSessionPage </span><span class="s0">extends </span><span class="s1">BasePage </span><span class="s2">{</span>
+
+    <span class="s0">public </span><span class="s1">RootSessionPage</span><span class="s2">(</span><span class="s1">RemoteWebDriver driver</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Leave Meeting ──────────────────────────────────────</span>
+
+    <span class="s0">public void </span><span class="s1">clickLeaveMeetingConfirmation</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Clicking Leave meeting confirmation...&quot;</span><span class="s2">);</span>
+        <span class="s1">RemoteWebDriver rootDriver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">createRootSession</span><span class="s2">();</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">rootDriver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">);</span>
+            <span class="s1">By</span><span class="s2">[] </span><span class="s1">locators </span><span class="s2">= {</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Leave meeting&quot;</span><span class="s2">),</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Text[@Name='Leave meeting']/parent::*&quot;</span><span class="s2">),</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[contains(@Name,'Leave meeting')]&quot;</span><span class="s2">),</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[contains(@Name,'Leave')]&quot;</span><span class="s2">)</span>
+            <span class="s2">};</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s1">By locator </span><span class="s2">: </span><span class="s1">locators</span><span class="s2">) {</span>
+                <span class="s0">try </span><span class="s2">{</span>
+                    <span class="s1">WebElement btn </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span>
+                            <span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">));</span>
+                    <span class="s1">btn</span><span class="s2">.</span><span class="s1">click</span><span class="s2">();</span>
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] ✓ Leave meeting clicked: &quot; </span><span class="s2">+ </span><span class="s1">locator</span><span class="s2">);</span>
+                    <span class="s0">return</span><span class="s2">;</span>
+                <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception ignored</span><span class="s2">) {}</span>
+            <span class="s2">}</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Leave meeting confirmation not found&quot;</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">finally </span><span class="s2">{</span>
+            <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">quit</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clickStayInMeeting</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Clicking Stay in meeting...&quot;</span><span class="s2">);</span>
+        <span class="s1">RemoteWebDriver rootDriver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">createRootSession</span><span class="s2">();</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">rootDriver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">);</span>
+            <span class="s1">WebElement btn </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span>
+                    <span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span>
+                            <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Stay in meeting&quot;</span><span class="s2">)));</span>
+            <span class="s1">btn</span><span class="s2">.</span><span class="s1">click</span><span class="s2">();</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] ✓ Stay in meeting clicked&quot;</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">finally </span><span class="s2">{</span>
+            <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">quit</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Recording ──────────────────────────────────────────</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForRecordingPopup</span><span class="s2">(</span><span class="s0">int </span><span class="s1">timeoutSeconds</span><span class="s2">) </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Waiting for recording popup...&quot;</span><span class="s2">);</span>
+        <span class="s1">RemoteWebDriver rootDriver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">createRootSession</span><span class="s2">();</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">rootDriver</span><span class="s2">, </span><span class="s1">timeoutSeconds</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                    <span class="s2">!</span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span>
+                            <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Recording and transcription&quot;</span><span class="s2">)).</span><span class="s1">isEmpty</span><span class="s2">());</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Recording popup not found&quot;</span><span class="s2">);</span>
+            <span class="s0">return false</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">finally </span><span class="s2">{</span>
+            <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">quit</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">clickStopRecordingInDialog</span><span class="s2">(</span><span class="s0">int </span><span class="s1">timeoutSeconds</span><span class="s2">) </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Clicking Stop in recording dialog...&quot;</span><span class="s2">);</span>
+        <span class="s1">RemoteWebDriver rootDriver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">createRootSession</span><span class="s2">();</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">rootDriver</span><span class="s2">, </span><span class="s1">timeoutSeconds</span><span class="s2">);</span>
+            <span class="s1">By</span><span class="s2">[] </span><span class="s1">locators </span><span class="s2">= {</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Dialog[@Name='Stop recording&quot; </span><span class="s2">+</span>
+                            <span class="s4">&quot; and transcription?']//Button[@Name='Stop']&quot;</span><span class="s2">),</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Stop&quot;</span><span class="s2">),</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[@Name='Stop']&quot;</span><span class="s2">)</span>
+            <span class="s2">};</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s1">By locator </span><span class="s2">: </span><span class="s1">locators</span><span class="s2">) {</span>
+                <span class="s0">try </span><span class="s2">{</span>
+                    <span class="s1">WebElement btn </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span>
+                            <span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">));</span>
+                    <span class="s1">btn</span><span class="s2">.</span><span class="s1">click</span><span class="s2">();</span>
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] ✓ Stop clicked: &quot; </span><span class="s2">+ </span><span class="s1">locator</span><span class="s2">);</span>
+                    <span class="s0">return true</span><span class="s2">;</span>
+                <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception ignored</span><span class="s2">) {}</span>
+            <span class="s2">}</span>
+            <span class="s0">return false</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">finally </span><span class="s2">{</span>
+            <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">quit</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForRecordingStoppedToast</span><span class="s2">(</span><span class="s0">int </span><span class="s1">timeoutSeconds</span><span class="s2">) </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Waiting for recording stopped toast...&quot;</span><span class="s2">);</span>
+        <span class="s1">RemoteWebDriver rootDriver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">createRootSession</span><span class="s2">();</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">rootDriver</span><span class="s2">, </span><span class="s1">timeoutSeconds</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                    <span class="s2">!</span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span>
+                            <span class="s4">&quot;Recording and transcription have stopped.&quot;</span><span class="s2">)).</span><span class="s1">isEmpty</span><span class="s2">());</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+            <span class="s0">return false</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">finally </span><span class="s2">{</span>
+            <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">quit</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Transcription ──────────────────────────────────────</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForTranscriptionPopup</span><span class="s2">(</span><span class="s0">int </span><span class="s1">timeoutSeconds</span><span class="s2">) </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Waiting for transcription popup...&quot;</span><span class="s2">);</span>
+        <span class="s1">RemoteWebDriver rootDriver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">createRootSession</span><span class="s2">();</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">By</span><span class="s2">[] </span><span class="s1">locators </span><span class="s2">= {</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Recording and transcription&quot;</span><span class="s2">),</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Transcription&quot;</span><span class="s2">),</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[contains(@Name,'transcription')]&quot;</span><span class="s2">)</span>
+            <span class="s2">};</span>
+            <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">rootDriver</span><span class="s2">, </span><span class="s1">timeoutSeconds</span><span class="s2">);</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s1">By locator </span><span class="s2">: </span><span class="s1">locators</span><span class="s2">) {</span>
+                <span class="s0">try </span><span class="s2">{</span>
+                    <span class="s0">boolean </span><span class="s1">found </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                            <span class="s2">!</span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">).</span><span class="s1">isEmpty</span><span class="s2">());</span>
+                    <span class="s0">if </span><span class="s2">(</span><span class="s1">found</span><span class="s2">) {</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] ✓ Transcription popup: &quot; </span><span class="s2">+ </span><span class="s1">locator</span><span class="s2">);</span>
+                        <span class="s0">return true</span><span class="s2">;</span>
+                    <span class="s2">}</span>
+                <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception ignored</span><span class="s2">) {}</span>
+            <span class="s2">}</span>
+            <span class="s0">return false</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">finally </span><span class="s2">{</span>
+            <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">quit</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">clickStopTranscriptionInDialog</span><span class="s2">(</span><span class="s0">int </span><span class="s1">timeoutSeconds</span><span class="s2">) {</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Clicking Stop transcription...&quot;</span><span class="s2">);</span>
+        <span class="s0">final boolean</span><span class="s2">[] </span><span class="s1">result </span><span class="s2">= {</span><span class="s0">false</span><span class="s2">};</span>
+
+        <span class="s1">Thread t </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Thread</span><span class="s2">(() </span><span class="s1">-&gt; </span><span class="s2">{</span>
+            <span class="s1">RemoteWebDriver rootDriver </span><span class="s2">= </span><span class="s0">null</span><span class="s2">;</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s1">rootDriver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">createRootSession</span><span class="s2">();</span>
+                <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">manage</span><span class="s2">().</span><span class="s1">timeouts</span><span class="s2">()</span>
+                        <span class="s2">.</span><span class="s1">implicitlyWait</span><span class="s2">(</span><span class="s5">1</span><span class="s2">, </span><span class="s1">TimeUnit</span><span class="s2">.</span><span class="s1">SECONDS</span><span class="s2">);</span>
+                <span class="s1">By</span><span class="s2">[] </span><span class="s1">locators </span><span class="s2">= {</span>
+                        <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Dialog[contains(@Name,'Stop')]&quot; </span><span class="s2">+</span>
+                                <span class="s4">&quot;//Button[@Name='Stop']&quot;</span><span class="s2">),</span>
+                        <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Stop&quot;</span><span class="s2">),</span>
+                        <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[@Name='Stop']&quot;</span><span class="s2">)</span>
+                <span class="s2">};</span>
+                <span class="s0">long </span><span class="s1">deadline </span><span class="s2">= </span><span class="s1">System</span><span class="s2">.</span><span class="s1">currentTimeMillis</span><span class="s2">()</span>
+                        <span class="s2">+ (</span><span class="s1">timeoutSeconds </span><span class="s2">* </span><span class="s5">1000L</span><span class="s2">);</span>
+                <span class="s0">while </span><span class="s2">(</span><span class="s1">System</span><span class="s2">.</span><span class="s1">currentTimeMillis</span><span class="s2">() &lt; </span><span class="s1">deadline</span><span class="s2">) {</span>
+                    <span class="s0">for </span><span class="s2">(</span><span class="s1">By locator </span><span class="s2">: </span><span class="s1">locators</span><span class="s2">) {</span>
+                        <span class="s0">try </span><span class="s2">{</span>
+                            <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">els </span><span class="s2">=</span>
+                                    <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">);</span>
+                            <span class="s0">if </span><span class="s2">(!</span><span class="s1">els</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+                                <span class="s1">els</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s5">0</span><span class="s2">).</span><span class="s1">click</span><span class="s2">();</span>
+                                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] ✓ Stop transcription: &quot;</span>
+                                        <span class="s2">+ </span><span class="s1">locator</span><span class="s2">);</span>
+                                <span class="s1">result</span><span class="s2">[</span><span class="s5">0</span><span class="s2">] = </span><span class="s0">true</span><span class="s2">;</span>
+                                <span class="s0">return</span><span class="s2">;</span>
+                            <span class="s2">}</span>
+                        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception ignored</span><span class="s2">) {}</span>
+                    <span class="s2">}</span>
+                    <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">500</span><span class="s2">);</span>
+                <span class="s2">}</span>
+            <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Stop transcription error: &quot;</span>
+                        <span class="s2">+ </span><span class="s1">e</span><span class="s2">.</span><span class="s1">getMessage</span><span class="s2">());</span>
+            <span class="s2">} </span><span class="s0">finally </span><span class="s2">{</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">rootDriver </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+                    <span class="s0">try </span><span class="s2">{ </span><span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">quit</span><span class="s2">(); }</span>
+                    <span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception ignored</span><span class="s2">) {}</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">});</span>
+
+        <span class="s1">t</span><span class="s2">.</span><span class="s1">setDaemon</span><span class="s2">(</span><span class="s0">true</span><span class="s2">);</span>
+        <span class="s1">t</span><span class="s2">.</span><span class="s1">start</span><span class="s2">();</span>
+        <span class="s0">try </span><span class="s2">{ </span><span class="s1">t</span><span class="s2">.</span><span class="s1">join</span><span class="s2">((</span><span class="s1">timeoutSeconds </span><span class="s2">+ </span><span class="s5">3</span><span class="s2">) * </span><span class="s5">1000L</span><span class="s2">); }</span>
+        <span class="s0">catch </span><span class="s2">(</span><span class="s1">InterruptedException ignored</span><span class="s2">) {}</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">t</span><span class="s2">.</span><span class="s1">isAlive</span><span class="s2">()) </span><span class="s1">t</span><span class="s2">.</span><span class="s1">interrupt</span><span class="s2">();</span>
+
+        <span class="s0">return </span><span class="s1">result</span><span class="s2">[</span><span class="s5">0</span><span class="s2">];</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForTranscriptionStoppedToast</span><span class="s2">(</span><span class="s0">int </span><span class="s1">timeoutSeconds</span><span class="s2">)</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Waiting for transcription stopped toast...&quot;</span><span class="s2">);</span>
+        <span class="s1">RemoteWebDriver rootDriver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">createRootSession</span><span class="s2">();</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">By</span><span class="s2">[] </span><span class="s1">locators </span><span class="s2">= {</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Recording and transcription have stopped.&quot;</span><span class="s2">),</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Transcription stopped.&quot;</span><span class="s2">),</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[contains(@Name,'transcription have stopped')]&quot;</span><span class="s2">)</span>
+            <span class="s2">};</span>
+            <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">rootDriver</span><span class="s2">, </span><span class="s1">timeoutSeconds</span><span class="s2">);</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s1">By locator </span><span class="s2">: </span><span class="s1">locators</span><span class="s2">) {</span>
+                <span class="s0">try </span><span class="s2">{</span>
+                    <span class="s0">boolean </span><span class="s1">found </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                            <span class="s2">!</span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">).</span><span class="s1">isEmpty</span><span class="s2">());</span>
+                    <span class="s0">if </span><span class="s2">(</span><span class="s1">found</span><span class="s2">) {</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] ✓ Stopped toast: &quot; </span><span class="s2">+ </span><span class="s1">locator</span><span class="s2">);</span>
+                        <span class="s0">return true</span><span class="s2">;</span>
+                    <span class="s2">}</span>
+                <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception ignored</span><span class="s2">) {}</span>
+            <span class="s2">}</span>
+            <span class="s0">return false</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">finally </span><span class="s2">{</span>
+            <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">quit</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Virtual Keyboard / Chat ────────────────────────────</span>
+
+    <span class="s0">public void </span><span class="s1">clickChatMessageTextbox</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Clicking chat textbox...&quot;</span><span class="s2">);</span>
+        <span class="s1">RemoteWebDriver rootDriver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">createRootSession</span><span class="s2">();</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">rootDriver</span><span class="s2">, </span><span class="s5">20</span><span class="s2">);</span>
+            <span class="s1">WebElement el </span><span class="s2">= </span><span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Type a message&quot;</span><span class="s2">)));</span>
+            <span class="s1">el</span><span class="s2">.</span><span class="s1">click</span><span class="s2">();</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] ✓ Chat textbox clicked&quot;</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">finally </span><span class="s2">{</span>
+            <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">quit</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isVirtualKeyboardVisible</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] Checking virtual keyboard...&quot;</span><span class="s2">);</span>
+        <span class="s1">RemoteWebDriver rootDriver </span><span class="s2">= </span><span class="s1">DriverFactory</span><span class="s2">.</span><span class="s1">createRootSession</span><span class="s2">();</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">manage</span><span class="s2">().</span><span class="s1">timeouts</span><span class="s2">().</span><span class="s1">implicitlyWait</span><span class="s2">(</span><span class="s5">5</span><span class="s2">, </span><span class="s1">TimeUnit</span><span class="s2">.</span><span class="s1">SECONDS</span><span class="s2">);</span>
+            <span class="s1">By</span><span class="s2">[] </span><span class="s1">locators </span><span class="s2">= {</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Zoom Chat Keyboard&quot;</span><span class="s2">),</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Pane[@Name='Zoom Chat Keyboard']&quot;</span><span class="s2">),</span>
+                    <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[@ClassName='InputSiteWindowClass']&quot;</span><span class="s2">)</span>
+            <span class="s2">};</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s1">By locator </span><span class="s2">: </span><span class="s1">locators</span><span class="s2">) {</span>
+                <span class="s0">if </span><span class="s2">(!</span><span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">locator</span><span class="s2">).</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[Root] ✓ Keyboard found: &quot; </span><span class="s2">+ </span><span class="s1">locator</span><span class="s2">);</span>
+                    <span class="s0">return true</span><span class="s2">;</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+            <span class="s0">return false</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">finally </span><span class="s2">{</span>
+            <span class="s1">rootDriver</span><span class="s2">.</span><span class="s1">quit</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<html>
+<head>
+<title>RecordingTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+RecordingTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">tests</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BaseTest</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingCardPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingOverlayPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">PreJoinPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">RootSessionPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">WebDriverWait</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">Assert</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">annotations</span><span class="s2">.</span><span class="s1">Test</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">utils</span><span class="s2">.</span><span class="s1">WindowHelper</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">RecordingTest </span><span class="s0">extends </span><span class="s1">BaseTest </span><span class="s2">{</span>
+
+    <span class="s0">private </span><span class="s1">MeetingOverlayPage joinMeeting</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">MeetingCardPage cards </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingCardPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">PreJoinPage preJoin   </span><span class="s2">= </span><span class="s0">new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">cards</span><span class="s2">.</span><span class="s1">clickJoinForFirstTeamsMeeting</span><span class="s2">();</span>
+
+        <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s3">20</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span>
+                <span class="s1">d -&gt; </span><span class="s2">{</span>
+                    <span class="s0">try </span><span class="s2">{</span>
+                        <span class="s0">return new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">).</span><span class="s1">isPreJoinScreenLoaded</span><span class="s2">();</span>
+                    <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">InterruptedException e</span><span class="s2">) {</span>
+                        <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s1">e</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                <span class="s2">});</span>
+
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickJoinMicrosoftTeamsMeeting</span><span class="s2">();</span>
+        <span class="s1">switchToDesktop</span><span class="s2">();</span>
+
+        <span class="s1">String blockerHandle </span><span class="s2">=</span>
+                <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span>
+                        <span class="s4">&quot;Mersive Room Blocker&quot;</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">blockerHandle </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                    <span class="s4">&quot;Mersive Room Blocker not found.&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">setLastMeetingOverlayHandle</span><span class="s2">(</span><span class="s1">blockerHandle</span><span class="s2">);</span>
+        <span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">blockerHandle</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingOverlayPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">8000</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">(),</span>
+                <span class="s4">&quot;Meeting screen did not load&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Meeting joined&quot;</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">overlay</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s3">21</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_021_VerifyRecordFunctionality</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_021: Verify Record Functionality ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinMeeting</span><span class="s2">();</span>
+        <span class="s1">RootSessionPage root </span><span class="s2">= </span><span class="s0">new </span><span class="s1">RootSessionPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickRecordButton</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Record clicked&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">root</span><span class="s2">.</span><span class="s1">waitForRecordingPopup</span><span class="s2">(</span><span class="s3">30</span><span class="s2">),</span>
+                <span class="s4">&quot;FAILED: Recording popup not visible&quot;</span>
+        <span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Recording started — popup confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickRecordButton</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Stop recording clicked&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">3000</span><span class="s2">);</span>
+
+        <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                <span class="s4">&quot;BUG: Stop Recording dialog appears, but Stop/Cancel buttons are not automatable and cause Root session to hang.&quot;</span>
+        <span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s3">26</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_026_VerifyTranscribeFunctionality</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_026: Verify Transcribe Functionality ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinMeeting</span><span class="s2">();</span>
+        <span class="s1">RootSessionPage root       </span><span class="s2">= </span><span class="s0">new </span><span class="s1">RootSessionPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickTranscribeButton</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Transcribe clicked&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">root</span><span class="s2">.</span><span class="s1">waitForTranscriptionPopup</span><span class="s2">(</span><span class="s3">30</span><span class="s2">),</span>
+                <span class="s4">&quot;FAILED: Transcription popup not visible&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Transcription started — popup confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickTranscribeButton</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Stop transcription clicked&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">root</span><span class="s2">.</span><span class="s1">clickStopTranscriptionInDialog</span><span class="s2">(</span><span class="s3">10</span><span class="s2">),</span>
+                <span class="s4">&quot;FAILED: Stop button not clicked&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Stop confirmed in dialog&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">root</span><span class="s2">.</span><span class="s1">waitForTranscriptionStoppedToast</span><span class="s2">(</span><span class="s3">20</span><span class="s2">),</span>
+                <span class="s4">&quot;FAILED: Transcription stopped toast not visible&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Transcription stopped confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_026 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

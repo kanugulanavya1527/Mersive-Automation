@@ -1,0 +1,169 @@
+<html>
+<head>
+<title>ZoomNavigationTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ZoomNavigationTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">tests</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BaseTest</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">HomeScreenPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingCardPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">PlatformSelectPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">PreJoinPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">Assert</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">annotations</span><span class="s2">.</span><span class="s1">Test</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">ZoomNavigationTest </span><span class="s0">extends </span><span class="s1">BaseTest </span><span class="s2">{</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s3">32</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_032_VerifyZoomMeetingNavigatesToPreJoin</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">InterruptedException </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_032: Zoom Meeting -&gt; PreJoin ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingCardPage cardPage </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingCardPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">PreJoinPage preJoin </span><span class="s2">= </span><span class="s0">new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertFalse</span><span class="s2">(</span>
+                <span class="s1">cardPage</span><span class="s2">.</span><span class="s1">getAllMeetings</span><span class="s2">().</span><span class="s1">isEmpty</span><span class="s2">(),</span>
+                <span class="s4">&quot;No meeting cards available&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">cardPage</span><span class="s2">.</span><span class="s1">clickJoinForFirstZoomMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isPreJoinScreenLoaded</span><span class="s2">(),</span>
+                <span class="s4">&quot;Pre-join screen not loaded&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_032 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s3">33</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_033_VerifyZoomCameraToggleOnOffOn</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                <span class="s4">&quot;=== TC_033: Zoom Camera Toggle ON -&gt; OFF -&gt; ON ===&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">HomeScreenPage home </span><span class="s2">=</span>
+                <span class="s0">new </span><span class="s1">HomeScreenPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">PlatformSelectPage platform </span><span class="s2">=</span>
+                <span class="s0">new </span><span class="s1">PlatformSelectPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">PreJoinPage preJoin </span><span class="s2">=</span>
+                <span class="s0">new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">home</span><span class="s2">.</span><span class="s1">clickStartMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">platform</span><span class="s2">.</span><span class="s1">isPlatformScreenLoaded</span><span class="s2">(),</span>
+                <span class="s4">&quot;Platform screen not loaded&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">platform</span><span class="s2">.</span><span class="s1">clickZoom</span><span class="s2">();</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">3000</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                <span class="s4">&quot;[Test] PreJoin loaded = &quot;</span>
+                        <span class="s2">+ </span><span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isPreJoinScreenLoaded</span><span class="s2">()</span>
+        <span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isCameraOn</span><span class="s2">(),</span>
+                <span class="s4">&quot;Camera not initially ON&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Camera initially ON&quot;</span><span class="s2">);</span>
+
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickCameraToggle</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">waitForCameraOff</span><span class="s2">(),</span>
+                <span class="s4">&quot;Camera did not turn OFF&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Camera OFF&quot;</span><span class="s2">);</span>
+
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickCameraToggle</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">waitForCameraOn</span><span class="s2">(),</span>
+                <span class="s4">&quot;Camera did not turn ON again&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Camera ON again&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_033 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s3">34</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_034_VerifyZoomMicrophoneToggleOnOffOn</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                <span class="s4">&quot;=== TC_034: Zoom Microphone Toggle ON -&gt; OFF -&gt; ON ===&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">HomeScreenPage home </span><span class="s2">=</span>
+                <span class="s0">new </span><span class="s1">HomeScreenPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">PlatformSelectPage platform </span><span class="s2">=</span>
+                <span class="s0">new </span><span class="s1">PlatformSelectPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">PreJoinPage preJoin </span><span class="s2">=</span>
+                <span class="s0">new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">home</span><span class="s2">.</span><span class="s1">clickStartMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">platform</span><span class="s2">.</span><span class="s1">isPlatformScreenLoaded</span><span class="s2">(),</span>
+                <span class="s4">&quot;Platform screen not loaded&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">platform</span><span class="s2">.</span><span class="s1">clickZoom</span><span class="s2">();</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">3000</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isMicrophoneOn</span><span class="s2">(),</span>
+                <span class="s4">&quot;Microphone not initially ON&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Microphone initially ON&quot;</span><span class="s2">);</span>
+
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickMicrophoneToggle</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">waitForMicrophoneOff</span><span class="s2">(),</span>
+                <span class="s4">&quot;Microphone did not turn OFF&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Microphone OFF&quot;</span><span class="s2">);</span>
+
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickMicrophoneToggle</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">waitForMicrophoneOn</span><span class="s2">(),</span>
+                <span class="s4">&quot;Microphone did not turn ON again&quot;</span>
+        <span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Microphone ON again&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_034 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

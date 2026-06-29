@@ -1,0 +1,162 @@
+<html>
+<head>
+<title>PreJoinStateTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #7a7e85;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+PreJoinStateTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">tests</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BaseTest</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingCardPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingOverlayPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">PreJoinPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">WebDriverWait</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">Assert</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">annotations</span><span class="s2">.</span><span class="s1">Test</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">utils</span><span class="s2">.</span><span class="s1">WindowHelper</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">PreJoinStateTest </span><span class="s0">extends </span><span class="s1">BaseTest </span><span class="s2">{</span>
+
+    <span class="s0">private </span><span class="s1">MeetingOverlayPage joinWithState</span><span class="s2">(</span>
+            <span class="s0">boolean </span><span class="s1">cameraOn</span><span class="s2">, </span><span class="s0">boolean </span><span class="s1">micOn</span><span class="s2">) </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">MeetingCardPage cards </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingCardPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">PreJoinPage preJoin   </span><span class="s2">= </span><span class="s0">new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">cards</span><span class="s2">.</span><span class="s1">clickJoinForFirstTeamsMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isPreJoinScreenLoaded</span><span class="s2">(),</span>
+                <span class="s3">&quot;Pre-join screen not loaded&quot;</span><span class="s2">);</span>
+
+        <span class="s4">// Set Mic first (mic must be ON before camera can be ON)</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">micOn </span><span class="s2">&amp;&amp; </span><span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isMicrophoneOff</span><span class="s2">()) {</span>
+            <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickMicrophoneToggle</span><span class="s2">();</span>
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">500</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else if </span><span class="s2">(!</span><span class="s1">micOn </span><span class="s2">&amp;&amp; </span><span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isMicrophoneOn</span><span class="s2">()) {</span>
+            <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickMicrophoneToggle</span><span class="s2">();</span>
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">500</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// Set Camera</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">cameraOn </span><span class="s2">&amp;&amp; </span><span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isCameraOff</span><span class="s2">()) {</span>
+            <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickCameraToggle</span><span class="s2">();</span>
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">500</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else if </span><span class="s2">(!</span><span class="s1">cameraOn </span><span class="s2">&amp;&amp; </span><span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isCameraOn</span><span class="s2">()) {</span>
+            <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickCameraToggle</span><span class="s2">();</span>
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">500</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;✓ Pre-join state: Camera=&quot;</span>
+                <span class="s2">+ </span><span class="s1">cameraOn </span><span class="s2">+ </span><span class="s3">&quot; Mic=&quot; </span><span class="s2">+ </span><span class="s1">micOn</span><span class="s2">);</span>
+
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickJoinMicrosoftTeamsMeeting</span><span class="s2">();</span>
+        <span class="s1">switchToDesktop</span><span class="s2">();</span>
+
+        <span class="s1">String blockerHandle </span><span class="s2">=</span>
+                <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span>
+                        <span class="s3">&quot;Mersive Room Blocker&quot;</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">blockerHandle </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                    <span class="s3">&quot;Mersive Room Blocker not found.&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">setLastMeetingOverlayHandle</span><span class="s2">(</span><span class="s1">blockerHandle</span><span class="s2">);</span>
+        <span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">blockerHandle</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingOverlayPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s5">5000</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">(),</span>
+                <span class="s3">&quot;Meeting screen not loaded&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;✓ Joined meeting&quot;</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">overlay</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">22</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_022_VerifyCameraOffAndMicOffAfterJoining</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;=== TC_022: Camera OFF, Mic OFF ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinWithState</span><span class="s2">(</span><span class="s0">false</span><span class="s2">, </span><span class="s0">false</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayCameraOff</span><span class="s2">(),</span>
+                <span class="s3">&quot;Camera is not OFF in overlay&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;✓ Camera OFF confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicMuted</span><span class="s2">(),</span>
+                <span class="s3">&quot;Mic is not OFF in overlay&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;✓ Mic OFF confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;TC_022 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">23</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_023_VerifyCameraOnAndMicOffAfterJoining</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;=== TC_023: Camera ON, Mic OFF ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinWithState</span><span class="s2">(</span><span class="s0">true</span><span class="s2">, </span><span class="s0">false</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOn</span><span class="s2">(),</span>
+                <span class="s3">&quot;Camera is not ON in overlay&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;✓ Camera ON confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicMuted</span><span class="s2">(),</span>
+                <span class="s3">&quot;Mic is not OFF in overlay&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;✓ Mic OFF confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;TC_023 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">24</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_024_VerifyCameraOffAndMicOnAfterJoining</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;=== TC_024: Camera OFF, Mic ON ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinWithState</span><span class="s2">(</span><span class="s0">false</span><span class="s2">, </span><span class="s0">true</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayCameraOff</span><span class="s2">(),</span>
+                <span class="s3">&quot;Camera is not OFF in overlay&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;✓ Camera OFF confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicUnmuted</span><span class="s2">(),</span>
+                <span class="s3">&quot;Mic is not ON in overlay&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;✓ Mic ON confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;TC_024 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s5">25</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_025_VerifyCameraOnAndMicOnAfterJoining</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;=== TC_025: Camera ON, Mic ON ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinWithState</span><span class="s2">(</span><span class="s0">true</span><span class="s2">, </span><span class="s0">true</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOn</span><span class="s2">(),</span>
+                <span class="s3">&quot;Camera is not ON in overlay&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;✓ Camera ON confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicUnmuted</span><span class="s2">(),</span>
+                <span class="s3">&quot;Mic is not ON in overlay&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;✓ Mic ON confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;TC_025 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

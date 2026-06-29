@@ -1,0 +1,218 @@
+<html>
+<head>
+<title>AVSyncTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+.s5 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+AVSyncTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">tests</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BaseTest</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">AVControlsPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingCardPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingOverlayPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">PreJoinPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">WebDriverWait</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">Assert</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">annotations</span><span class="s2">.</span><span class="s1">Test</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">AVSyncTest </span><span class="s0">extends </span><span class="s1">BaseTest </span><span class="s2">{</span>
+
+    <span class="s0">private </span><span class="s1">String overlayHandle</span><span class="s2">;</span>
+
+    <span class="s0">private </span><span class="s1">MeetingOverlayPage joinMeeting</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">MeetingCardPage cards </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingCardPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">PreJoinPage preJoin   </span><span class="s2">= </span><span class="s0">new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">cards</span><span class="s2">.</span><span class="s1">clickJoinButtonByIndex</span><span class="s2">(</span><span class="s3">0</span><span class="s2">);</span>
+
+        <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s3">20</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span>
+                <span class="s1">d -&gt; </span><span class="s0">new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">).</span><span class="s1">isPreJoinScreenLoaded</span><span class="s2">());</span>
+
+        <span class="s1">String originalHandle </span><span class="s2">= </span><span class="s1">getWindowHandle</span><span class="s2">(</span><span class="s4">&quot;Mersive Room&quot;</span><span class="s2">);</span>
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickJoinMicrosoftTeamsMeeting</span><span class="s2">();</span>
+        <span class="s1">switchToDesktop</span><span class="s2">();</span>
+
+        <span class="s1">overlayHandle </span><span class="s2">= </span><span class="s1">waitForNewWindow</span><span class="s2">(</span><span class="s4">&quot;Mersive Room&quot;</span><span class="s2">, </span><span class="s1">originalHandle</span><span class="s2">, </span><span class="s3">100</span><span class="s2">);</span>
+        <span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">overlayHandle</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingOverlayPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">8000</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">(),</span>
+                <span class="s4">&quot;Meeting screen did not load&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Meeting joined&quot;</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">overlay</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s3">30</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_030_VerifyCameraStateSyncBetweenAVPanelAndTopRibbon</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_030: Camera Sync AV Panel ↔ Top Ribbon ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinMeeting</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">5000</span><span class="s2">);</span>
+
+        <span class="s0">boolean </span><span class="s1">ribbonOn  </span><span class="s2">= </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayCameraOn</span><span class="s2">();</span>
+        <span class="s0">boolean </span><span class="s1">ribbonOff </span><span class="s2">= </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayCameraOff</span><span class="s2">();</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;Ribbon ON=&quot; </span><span class="s2">+ </span><span class="s1">ribbonOn </span><span class="s2">+ </span><span class="s4">&quot; OFF=&quot; </span><span class="s2">+ </span><span class="s1">ribbonOff</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(!</span><span class="s1">ribbonOn </span><span class="s2">&amp;&amp; !</span><span class="s1">ribbonOff</span><span class="s2">)</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Cannot detect initial camera state&quot;</span><span class="s2">);</span>
+
+        <span class="s5">// Open AV panel</span>
+        <span class="s1">attachToControlsWindow</span><span class="s2">();</span>
+        <span class="s1">MeetingOverlayPage controlsOverlay </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingOverlayPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">controlsOverlay</span><span class="s2">.</span><span class="s1">clickAudioVisualButton</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Audio &amp; Visual clicked&quot;</span><span class="s2">);</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">3000</span><span class="s2">);</span>
+
+        <span class="s5">// Read AV panel state</span>
+        <span class="s1">attachToAVControlsWindow</span><span class="s2">();</span>
+        <span class="s1">AVControlsPage avPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">AVControlsPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;AV Panel Camera: &quot; </span><span class="s2">+ </span><span class="s1">avPanel</span><span class="s2">.</span><span class="s1">getCameraState</span><span class="s2">());</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">ribbonOn</span><span class="s2">) {</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">avPanel</span><span class="s2">.</span><span class="s1">isCameraOn</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Panel shows OFF but ribbon shows ON&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Both ON — in sync&quot;</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">avPanel</span><span class="s2">.</span><span class="s1">isCameraOff</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Panel shows ON but ribbon shows OFF&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Both OFF — in sync&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s5">// Toggle in AV panel</span>
+        <span class="s1">avPanel</span><span class="s2">.</span><span class="s1">clickCameraToggle</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">2000</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">ribbonOn</span><span class="s2">) {</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">avPanel</span><span class="s2">.</span><span class="s1">waitForCameraOff</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Panel did not turn OFF&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ AV Panel: Camera OFF&quot;</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">avPanel</span><span class="s2">.</span><span class="s1">waitForCameraOn</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Panel did not turn ON&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ AV Panel: Camera ON&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s5">// Verify ribbon updated</span>
+        <span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">overlayHandle</span><span class="s2">);</span>
+        <span class="s1">overlay </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingOverlayPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">ribbonOn</span><span class="s2">) {</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOff</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Ribbon did not reflect Camera OFF&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Ribbon: Camera OFF — synced&quot;</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOn</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Ribbon did not reflect Camera ON&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Ribbon: Camera ON — synced&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s5">// Restore original state</span>
+        <span class="s1">attachToAVControlsWindow</span><span class="s2">();</span>
+        <span class="s1">avPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">AVControlsPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">avPanel</span><span class="s2">.</span><span class="s1">clickCameraToggle</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">2000</span><span class="s2">);</span>
+        <span class="s1">avPanel</span><span class="s2">.</span><span class="s1">clickSwipeToClose</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">2000</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Restored and panel closed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_030 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s3">31</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_031_VerifyMicStateSyncBetweenAVPanelAndTopRibbon</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;=== TC_031: Mic Sync AV Panel ↔ Top Ribbon ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinMeeting</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">5000</span><span class="s2">);</span>
+
+        <span class="s0">boolean </span><span class="s1">ribbonMuted   </span><span class="s2">= </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicMuted</span><span class="s2">();</span>
+        <span class="s0">boolean </span><span class="s1">ribbonUnmuted </span><span class="s2">= </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicUnmuted</span><span class="s2">();</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;Muted=&quot; </span><span class="s2">+ </span><span class="s1">ribbonMuted</span>
+                <span class="s2">+ </span><span class="s4">&quot; Unmuted=&quot; </span><span class="s2">+ </span><span class="s1">ribbonUnmuted</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(!</span><span class="s1">ribbonMuted </span><span class="s2">&amp;&amp; !</span><span class="s1">ribbonUnmuted</span><span class="s2">)</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Cannot detect initial mic state&quot;</span><span class="s2">);</span>
+
+        <span class="s5">// Open AV panel</span>
+        <span class="s1">attachToControlsWindow</span><span class="s2">();</span>
+        <span class="s1">MeetingOverlayPage controlsOverlay </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingOverlayPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">controlsOverlay</span><span class="s2">.</span><span class="s1">clickAudioVisualButton</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Audio &amp; Visual clicked&quot;</span><span class="s2">);</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">3000</span><span class="s2">);</span>
+
+        <span class="s5">// Read AV panel state</span>
+        <span class="s1">attachToAVControlsWindow</span><span class="s2">();</span>
+        <span class="s1">AVControlsPage avPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">AVControlsPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;AV Panel Mic: &quot; </span><span class="s2">+ </span><span class="s1">avPanel</span><span class="s2">.</span><span class="s1">getMicState</span><span class="s2">());</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">ribbonMuted</span><span class="s2">) {</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">avPanel</span><span class="s2">.</span><span class="s1">isMicMuted</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Panel shows ON but ribbon shows MUTED&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Both MUTED — in sync&quot;</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">avPanel</span><span class="s2">.</span><span class="s1">isMicOn</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Panel shows MUTED but ribbon shows ON&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Both ON — in sync&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s5">// Toggle in AV panel</span>
+        <span class="s1">avPanel</span><span class="s2">.</span><span class="s1">clickMicToggle</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">2000</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">ribbonMuted</span><span class="s2">) {</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">avPanel</span><span class="s2">.</span><span class="s1">isMicOn</span><span class="s2">(),</span>
+                    <span class="s4">&quot;AV panel mic did not turn ON&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ AV Panel: Mic ON&quot;</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">avPanel</span><span class="s2">.</span><span class="s1">isMicMuted</span><span class="s2">(),</span>
+                    <span class="s4">&quot;AV panel mic did not mute&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ AV Panel: Mic MUTED&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s5">// Verify ribbon updated</span>
+        <span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">overlayHandle</span><span class="s2">);</span>
+        <span class="s1">overlay </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingOverlayPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">ribbonMuted</span><span class="s2">) {</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayMicUnmuted</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Ribbon did not reflect Mic ON&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Ribbon: Mic ON — synced&quot;</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayMicMuted</span><span class="s2">(),</span>
+                    <span class="s4">&quot;Ribbon did not reflect Mic MUTED&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Ribbon: Mic MUTED — synced&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s5">// Restore</span>
+        <span class="s1">attachToAVControlsWindow</span><span class="s2">();</span>
+        <span class="s1">avPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">AVControlsPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">avPanel</span><span class="s2">.</span><span class="s1">clickMicToggle</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">2000</span><span class="s2">);</span>
+        <span class="s1">avPanel</span><span class="s2">.</span><span class="s1">clickSwipeToClose</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">2000</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;✓ Restored and panel closed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;TC_031 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

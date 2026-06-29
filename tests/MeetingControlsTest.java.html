@@ -1,0 +1,287 @@
+<html>
+<head>
+<title>MeetingControlsTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #2aacb8;}
+.s5 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MeetingControlsTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">tests</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BaseTest</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingCardPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingOverlayPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">PreJoinPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">By</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">WebDriverWait</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">Assert</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">annotations</span><span class="s2">.</span><span class="s1">Test</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">utils</span><span class="s2">.</span><span class="s1">WindowHelper</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">MeetingControlsTest </span><span class="s0">extends </span><span class="s1">BaseTest </span><span class="s2">{</span>
+
+    <span class="s3">// ── Shared join flow ───────────────────────────────────</span>
+
+    <span class="s0">private </span><span class="s1">MeetingOverlayPage joinMeeting</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">MeetingCardPage cards </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingCardPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">PreJoinPage preJoin   </span><span class="s2">= </span><span class="s0">new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">cards</span><span class="s2">.</span><span class="s1">clickJoinForFirstTeamsMeeting</span><span class="s2">();</span>
+
+        <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s4">20</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span>
+                <span class="s1">d -&gt; </span><span class="s2">{</span>
+                    <span class="s0">try </span><span class="s2">{</span>
+                        <span class="s0">return new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">).</span><span class="s1">isPreJoinScreenLoaded</span><span class="s2">();</span>
+                    <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">InterruptedException e</span><span class="s2">) {</span>
+                        <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s1">e</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                <span class="s2">});</span>
+
+<span class="s3">//        preJoin.clickJoinMicrosoftTeamsMeeting();</span>
+<span class="s3">//        switchToDesktop();</span>
+        <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickJoinMicrosoftTeamsMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">5000</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isJoinNowVisible</span><span class="s2">()) {</span>
+            <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickJoinNow</span><span class="s2">();</span>
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">8000</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">switchToDesktop</span><span class="s2">();</span>
+
+        <span class="s1">String blockerHandle </span><span class="s2">=</span>
+                <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span>
+                        <span class="s5">&quot;Mersive Room Blocker&quot;</span>
+                <span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">blockerHandle </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                    <span class="s5">&quot;Mersive Room Blocker not found.&quot;</span>
+            <span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">setLastMeetingOverlayHandle</span><span class="s2">(</span><span class="s1">blockerHandle</span><span class="s2">);</span>
+        <span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">blockerHandle</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MeetingOverlayPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">8000</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">(),</span>
+                <span class="s5">&quot;Meeting screen did not load&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Meeting joined&quot;</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">overlay</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Tests ──────────────────────────────────────────────</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s4">15</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_015_VerifyCameraToggleOnOffOnFromMeetingOverlay</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;=== TC_015: Camera Toggle in Meeting ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinMeeting</span><span class="s2">();</span>
+
+        <span class="s0">boolean </span><span class="s1">currentlyOn  </span><span class="s2">= </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayCameraOn</span><span class="s2">();</span>
+        <span class="s0">boolean </span><span class="s1">currentlyOff </span><span class="s2">= </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayCameraOff</span><span class="s2">();</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;Camera ON=&quot; </span><span class="s2">+ </span><span class="s1">currentlyOn </span><span class="s2">+ </span><span class="s5">&quot; OFF=&quot; </span><span class="s2">+ </span><span class="s1">currentlyOff</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">currentlyOn</span><span class="s2">) {</span>
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayCameraToggle</span><span class="s2">();</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOff</span><span class="s2">(),</span>
+                    <span class="s5">&quot;Camera did not turn OFF&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Camera OFF&quot;</span><span class="s2">);</span>
+
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayCameraToggle</span><span class="s2">();</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOn</span><span class="s2">(),</span>
+                    <span class="s5">&quot;Camera did not turn ON&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Camera ON again&quot;</span><span class="s2">);</span>
+
+        <span class="s2">} </span><span class="s0">else if </span><span class="s2">(</span><span class="s1">currentlyOff</span><span class="s2">) {</span>
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayCameraToggle</span><span class="s2">();</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOn</span><span class="s2">(),</span>
+                    <span class="s5">&quot;Camera did not turn ON&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Camera ON&quot;</span><span class="s2">);</span>
+
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayCameraToggle</span><span class="s2">();</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayCameraOff</span><span class="s2">(),</span>
+                    <span class="s5">&quot;Camera did not turn OFF&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Camera OFF again&quot;</span><span class="s2">);</span>
+
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s5">&quot;Cannot detect initial camera state&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;TC_015 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s4">16</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_016_VerifyMicToggleOnOffOnFromMeetingOverlay</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;=== TC_016: Mic Toggle in Meeting ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinMeeting</span><span class="s2">();</span>
+
+        <span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s4">40</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt;</span>
+                <span class="s2">!</span><span class="s1">d</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span>
+                        <span class="s5">&quot;//*[@AutomationId='MicButton']&quot;</span><span class="s2">)).</span><span class="s1">isEmpty</span><span class="s2">());</span>
+
+        <span class="s0">boolean </span><span class="s1">currentlyMuted   </span><span class="s2">= </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicMuted</span><span class="s2">();</span>
+        <span class="s0">boolean </span><span class="s1">currentlyUnmuted </span><span class="s2">= </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicUnmuted</span><span class="s2">();</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;Muted=&quot; </span><span class="s2">+ </span><span class="s1">currentlyMuted</span>
+                <span class="s2">+ </span><span class="s5">&quot; Unmuted=&quot; </span><span class="s2">+ </span><span class="s1">currentlyUnmuted</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">currentlyMuted</span><span class="s2">) {</span>
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayMicToggle</span><span class="s2">();</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayMicUnmuted</span><span class="s2">(),</span>
+                    <span class="s5">&quot;Mic did not unmute&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Mic unmuted&quot;</span><span class="s2">);</span>
+
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayMicToggle</span><span class="s2">();</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayMicMuted</span><span class="s2">(),</span>
+                    <span class="s5">&quot;Mic did not mute again&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Mic muted again&quot;</span><span class="s2">);</span>
+
+        <span class="s2">} </span><span class="s0">else if </span><span class="s2">(</span><span class="s1">currentlyUnmuted</span><span class="s2">) {</span>
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayMicToggle</span><span class="s2">();</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayMicMuted</span><span class="s2">(),</span>
+                    <span class="s5">&quot;Mic did not mute&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Mic muted&quot;</span><span class="s2">);</span>
+
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayMicToggle</span><span class="s2">();</span>
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayMicUnmuted</span><span class="s2">(),</span>
+                    <span class="s5">&quot;Mic did not unmute again&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Mic unmuted again&quot;</span><span class="s2">);</span>
+
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s5">&quot;Cannot detect initial mic state&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;TC_016 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s4">17</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_017_VerifyMicSyncBetweenToolbarAndParticipants</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;=== TC_017: Mic Sync Toolbar and Participants ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForPeopleButtonReady</span><span class="s2">(),</span>
+                <span class="s5">&quot;People button not visible&quot;</span><span class="s2">);</span>
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickPeopleButton</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Participants panel opened&quot;</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayMicToggle</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;Immediate State = &quot;</span><span class="s2">+ </span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">getOverlayMicState</span><span class="s2">()); </span><span class="s3">//new line added to find issue</span>
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayMicMuted</span><span class="s2">(),</span>
+                <span class="s5">&quot;Toolbar not showing muted&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Mic muted&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicStateValid</span><span class="s2">(),</span>
+                <span class="s5">&quot;Mic states not synced&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Muted state valid&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickOverlayMicToggle</span><span class="s2">();</span>
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForOverlayMicUnmuted</span><span class="s2">(),</span>
+                <span class="s5">&quot;Toolbar still showing muted&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Mic unmuted&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isOverlayMicStateValid</span><span class="s2">(),</span>
+                <span class="s5">&quot;Mic states not synced&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Unmuted state valid&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;TC_017 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s4">18</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_018_VerifyJoinMeetingAndLeaveGracefully</span><span class="s2">()</span>
+            <span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;=== TC_018: Join and Leave Meeting ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinMeeting</span><span class="s2">();</span>
+        <span class="s1">pages</span><span class="s2">.</span><span class="s1">RootSessionPage root       </span><span class="s2">= </span><span class="s0">new </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">RootSessionPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickLeaveButton</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Leave button clicked&quot;</span><span class="s2">);</span>
+
+        <span class="s1">root</span><span class="s2">.</span><span class="s1">clickLeaveMeetingConfirmation</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Leave confirmed&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;TC_018 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s4">19</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_019_VerifyRaiseHandButtonInMeeting</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;=== TC_019: Raise Hand ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForPeopleButtonReady</span><span class="s2">(),</span>
+                <span class="s5">&quot;People button not visible&quot;</span><span class="s2">);</span>
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickPeopleButton</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Participants panel opened&quot;</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickRaiseHandButton</span><span class="s2">();</span>
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isMyHandRaised</span><span class="s2">(),</span>
+                <span class="s5">&quot;Hand raise not reflected&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Hand raised&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickLowerHandButton</span><span class="s2">();</span>
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isMyHandLowered</span><span class="s2">(),</span>
+                <span class="s5">&quot;Hand not lowered&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Hand lowered&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;TC_019 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s4">20</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">TC_020_VerifyRaiseHandWithDoubleClick</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;=== TC_020: Raise Hand Double Click ===&quot;</span><span class="s2">);</span>
+
+        <span class="s1">MeetingOverlayPage overlay </span><span class="s2">= </span><span class="s1">joinMeeting</span><span class="s2">();</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForPeopleButtonReady</span><span class="s2">(),</span>
+                <span class="s5">&quot;People button not visible&quot;</span><span class="s2">);</span>
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickPeopleButton</span><span class="s2">();</span>
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Participants panel opened&quot;</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">doubleClickRaiseHandButton</span><span class="s2">();</span>
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isMyHandRaised</span><span class="s2">(),</span>
+                <span class="s5">&quot;Hand raise not reflected after double-click&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Hand raised via double-click&quot;</span><span class="s2">);</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+
+        <span class="s1">overlay</span><span class="s2">.</span><span class="s1">doubleClickLowerHandButton</span><span class="s2">();</span>
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">overlay</span><span class="s2">.</span><span class="s1">isMyHandLowered</span><span class="s2">(),</span>
+                <span class="s5">&quot;Hand not lowered after double-click&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Hand lowered via double-click&quot;</span><span class="s2">);</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;TC_020 PASSED&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<html>
+<head>
+<title>HomeScreenPage.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+HomeScreenPage.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">pages</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BasePage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">By</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">remote</span><span class="s2">.</span><span class="s1">RemoteWebDriver</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">HomeScreenPage </span><span class="s0">extends </span><span class="s1">BasePage </span><span class="s2">{</span>
+
+    <span class="s0">public </span><span class="s1">HomeScreenPage</span><span class="s2">(</span><span class="s1">RemoteWebDriver driver</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Locators ───────────────────────────────────────────</span>
+
+    <span class="s0">private final </span><span class="s1">By roomName        </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Mersive-PT Testing&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By startMeetingBtn </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[.//Text[@Name='Start a meeting']]&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By joinWithIdBtn   </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[.//Text[@Name='Join with ID']]&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By settingsBtn     </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[.//Text[@Name='Settings']]&quot;</span><span class="s2">);</span>
+
+    <span class="s0">private final </span><span class="s1">By startMeetingText </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Start a meeting&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By joinWithIdText   </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Join with ID&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By settingsText     </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Settings&quot;</span><span class="s2">);</span>
+
+    <span class="s0">private final </span><span class="s1">By airPlayText    </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;AirPlay&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By googleCastText </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Google Cast&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By miracastText   </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;Miracast&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By hdmiInText     </span><span class="s2">= </span><span class="s1">By</span><span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s4">&quot;HDMI In&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// ── Validations ────────────────────────────────────────</span>
+
+    <span class="s0">public boolean </span><span class="s1">isHomeScreenLoaded</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">isVisible</span><span class="s2">(</span><span class="s1">roomName</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">areBottomActionButtonsVisible</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">isVisible</span><span class="s2">(</span><span class="s1">startMeetingText</span><span class="s2">)</span>
+                <span class="s2">&amp;&amp; </span><span class="s1">isVisible</span><span class="s2">(</span><span class="s1">joinWithIdText</span><span class="s2">)</span>
+                <span class="s2">&amp;&amp; </span><span class="s1">isVisible</span><span class="s2">(</span><span class="s1">settingsText</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">areCastingButtonsVisible</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">isVisible</span><span class="s2">(</span><span class="s1">airPlayText</span><span class="s2">)</span>
+                <span class="s2">&amp;&amp; </span><span class="s1">isVisible</span><span class="s2">(</span><span class="s1">googleCastText</span><span class="s2">)</span>
+                <span class="s2">&amp;&amp; </span><span class="s1">isVisible</span><span class="s2">(</span><span class="s1">miracastText</span><span class="s2">)</span>
+                <span class="s2">&amp;&amp; </span><span class="s1">isVisible</span><span class="s2">(</span><span class="s1">hdmiInText</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getDisplayedTime</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">findTextByPattern</span><span class="s2">(</span><span class="s4">&quot;</span><span class="s0">\\</span><span class="s4">d{1,2}:</span><span class="s0">\\</span><span class="s4">d{2}</span><span class="s0">\\</span><span class="s4">s?(AM|PM)&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getDisplayedDate</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">findTextByPattern</span><span class="s2">(</span><span class="s4">&quot;[A-Za-z]+,</span><span class="s0">\\</span><span class="s4">s[A-Za-z]+</span><span class="s0">\\</span><span class="s4">s</span><span class="s0">\\</span><span class="s4">d{1,2}&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Actions ────────────────────────────────────────────</span>
+
+    <span class="s0">public void </span><span class="s1">clickStartMeeting</span><span class="s2">() {</span>
+        <span class="s1">click</span><span class="s2">(</span><span class="s1">startMeetingBtn</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clickJoinWithId</span><span class="s2">() {</span>
+        <span class="s1">click</span><span class="s2">(</span><span class="s1">joinWithIdBtn</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">clickSettings</span><span class="s2">() {</span>
+        <span class="s1">click</span><span class="s2">(</span><span class="s1">settingsBtn</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

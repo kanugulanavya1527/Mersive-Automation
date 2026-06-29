@@ -1,0 +1,428 @@
+<html>
+<head>
+<title>StartMeetingTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #2aacb8;}
+.s5 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+StartMeetingTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">tests</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BaseTest</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">Assert</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">testng</span><span class="s2">.</span><span class="s1">annotations</span><span class="s2">.</span><span class="s1">Test</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">HomeScreenPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">PlatformSelectPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">PreJoinPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">MeetingOverlayPage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">utils</span><span class="s2">.</span><span class="s1">WindowHelper</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">StartMeetingTest </span><span class="s0">extends </span><span class="s1">BaseTest </span><span class="s2">{</span>
+
+    <span class="s0">private </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">TestResult</span><span class="s2">&gt; </span><span class="s1">results </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+
+    <span class="s0">private static class </span><span class="s1">TestResult </span><span class="s2">{</span>
+        <span class="s0">int </span><span class="s1">iteration</span><span class="s2">;</span>
+        <span class="s0">long </span><span class="s1">duration</span><span class="s2">;</span>
+        <span class="s0">boolean </span><span class="s1">success</span><span class="s2">;</span>
+        <span class="s1">String error</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ==========================================================</span>
+    <span class="s3">// TEAMS</span>
+    <span class="s3">// ==========================================================</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s4">1</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">testTeamsStartMeeting</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;</span><span class="s0">\n</span><span class="s5">==================================================&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;TEAMS START MEETING - 6 ITERATIONS&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;==================================================&quot;</span><span class="s2">);</span>
+
+        <span class="s1">results</span><span class="s2">.</span><span class="s1">clear</span><span class="s2">();</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s4">1</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt;= </span><span class="s4">6</span><span class="s2">; </span><span class="s1">i</span><span class="s2">++) {</span>
+            <span class="s1">runCompleteFlow</span><span class="s2">(</span><span class="s1">i</span><span class="s2">, </span><span class="s5">&quot;TEAMS&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">printReport</span><span class="s2">(</span><span class="s5">&quot;TEAMS&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ==========================================================</span>
+    <span class="s3">// ZOOM</span>
+    <span class="s3">// ==========================================================</span>
+
+    <span class="s1">@Test</span><span class="s2">(</span><span class="s1">priority </span><span class="s2">= </span><span class="s4">2</span><span class="s2">)</span>
+    <span class="s0">public void </span><span class="s1">testZoomStartMeeting</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;</span><span class="s0">\n</span><span class="s5">==================================================&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;ZOOM START MEETING - 6 ITERATIONS&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;==================================================&quot;</span><span class="s2">);</span>
+
+        <span class="s1">results</span><span class="s2">.</span><span class="s1">clear</span><span class="s2">();</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s4">1</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt;= </span><span class="s4">6</span><span class="s2">; </span><span class="s1">i</span><span class="s2">++) {</span>
+            <span class="s1">runCompleteFlow</span><span class="s2">(</span><span class="s1">i</span><span class="s2">, </span><span class="s5">&quot;ZOOM&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">printReport</span><span class="s2">(</span><span class="s5">&quot;ZOOM&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ==========================================================</span>
+    <span class="s3">// COMPLETE FLOW</span>
+    <span class="s3">// ==========================================================</span>
+
+    <span class="s0">private void </span><span class="s1">runCompleteFlow</span><span class="s2">(</span><span class="s0">int </span><span class="s1">iteration</span><span class="s2">,</span>
+                                 <span class="s1">String platform</span><span class="s2">) </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+
+        <span class="s1">TestResult result </span><span class="s2">= </span><span class="s0">new </span><span class="s1">TestResult</span><span class="s2">();</span>
+        <span class="s1">result</span><span class="s2">.</span><span class="s1">iteration </span><span class="s2">= </span><span class="s1">iteration</span><span class="s2">;</span>
+
+        <span class="s0">long </span><span class="s1">start </span><span class="s2">= </span><span class="s1">System</span><span class="s2">.</span><span class="s1">currentTimeMillis</span><span class="s2">();</span>
+
+        <span class="s0">try </span><span class="s2">{</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">();</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;=====================================&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;ITERATION &quot; </span><span class="s2">+ </span><span class="s1">iteration</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;=====================================&quot;</span><span class="s2">);</span>
+
+            <span class="s1">HomeScreenPage home </span><span class="s2">= </span><span class="s0">new </span><span class="s1">HomeScreenPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+            <span class="s1">PlatformSelectPage platformPage </span><span class="s2">=</span>
+                    <span class="s0">new </span><span class="s1">PlatformSelectPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+            <span class="s1">PreJoinPage preJoin </span><span class="s2">=</span>
+                    <span class="s0">new </span><span class="s1">PreJoinPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+            <span class="s3">// -------------------------------</span>
+            <span class="s3">// Wait for Home</span>
+            <span class="s3">// -------------------------------</span>
+
+            <span class="s0">boolean </span><span class="s1">loaded </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+
+            <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s4">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s4">15</span><span class="s2">; </span><span class="s1">i</span><span class="s2">++) {</span>
+
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">home</span><span class="s2">.</span><span class="s1">isHomeScreenLoaded</span><span class="s2">()) {</span>
+                    <span class="s1">loaded </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+                <span class="s2">}</span>
+
+                <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">1000</span><span class="s2">);</span>
+            <span class="s2">}</span>
+
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                    <span class="s1">loaded</span><span class="s2">,</span>
+                    <span class="s5">&quot;Home screen not loaded&quot;</span>
+            <span class="s2">);</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Home loaded&quot;</span><span class="s2">);</span>
+
+            <span class="s3">// -------------------------------</span>
+            <span class="s3">// Start Meeting</span>
+            <span class="s3">// -------------------------------</span>
+
+            <span class="s1">home</span><span class="s2">.</span><span class="s1">clickStartMeeting</span><span class="s2">();</span>
+
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">2000</span><span class="s2">);</span>
+
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                    <span class="s1">platformPage</span><span class="s2">.</span><span class="s1">isPlatformScreenLoaded</span><span class="s2">(),</span>
+                    <span class="s5">&quot;Platform screen not loaded&quot;</span>
+            <span class="s2">);</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">platform</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s5">&quot;TEAMS&quot;</span><span class="s2">)) {</span>
+
+                <span class="s1">platformPage</span><span class="s2">.</span><span class="s1">clickMicrosoftTeams</span><span class="s2">();</span>
+
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+
+                <span class="s1">platformPage</span><span class="s2">.</span><span class="s1">clickZoom</span><span class="s2">();</span>
+            <span class="s2">}</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Platform selected&quot;</span><span class="s2">);</span>
+
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                    <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">isPreJoinScreenLoaded</span><span class="s2">(),</span>
+                    <span class="s5">&quot;PreJoin screen not loaded&quot;</span>
+            <span class="s2">);</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ PreJoin loaded&quot;</span><span class="s2">);</span>
+
+            <span class="s3">// -------------------------------</span>
+            <span class="s3">// Click Start Meeting</span>
+            <span class="s3">// -------------------------------</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">platform</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s5">&quot;TEAMS&quot;</span><span class="s2">)) {</span>
+
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickStartTeamsMeeting</span><span class="s2">();</span>
+
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+
+                <span class="s1">preJoin</span><span class="s2">.</span><span class="s1">clickStartZoomMeeting</span><span class="s2">();</span>
+            <span class="s2">}</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Start Meeting clicked&quot;</span><span class="s2">);</span>
+
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+
+            <span class="s1">switchToDesktop</span><span class="s2">();</span>
+
+            <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">printAllWindows</span><span class="s2">();</span>
+
+            <span class="s1">String blockerHandle </span><span class="s2">=</span>
+                    <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span>
+                            <span class="s5">&quot;Mersive Room Blocker&quot;</span><span class="s2">);</span>
+
+            <span class="s1">String roomHandle </span><span class="s2">=</span>
+                    <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span>
+                            <span class="s5">&quot;Mersive Room&quot;</span><span class="s2">);</span>
+
+            <span class="s1">String teamsHandle </span><span class="s2">=</span>
+                    <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span>
+                            <span class="s5">&quot;Microsoft Teams&quot;</span><span class="s2">);</span>
+
+            <span class="s1">String zoomHandle </span><span class="s2">=</span>
+                    <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span>
+                            <span class="s5">&quot;Zoom&quot;</span><span class="s2">);</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">blockerHandle </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+
+                <span class="s1">setLastMeetingOverlayHandle</span><span class="s2">(</span>
+                        <span class="s1">blockerHandle</span><span class="s2">);</span>
+
+                <span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">blockerHandle</span><span class="s2">);</span>
+
+            <span class="s2">}</span>
+
+            <span class="s0">else if </span><span class="s2">(</span><span class="s1">teamsHandle </span><span class="s2">!= </span><span class="s0">null </span><span class="s2">|| </span><span class="s1">zoomHandle </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">();</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;========================================================&quot;</span><span class="s2">);</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;BUG DETECTED&quot;</span><span class="s2">);</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s1">platform </span><span class="s2">+ </span><span class="s5">&quot; came out of the Mersive application.&quot;</span><span class="s2">);</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;Iteration &quot; </span><span class="s2">+ </span><span class="s1">iteration </span><span class="s2">+ </span><span class="s5">&quot; skipped.&quot;</span><span class="s2">);</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;Continuing with next iteration...&quot;</span><span class="s2">);</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;========================================================&quot;</span><span class="s2">);</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">();</span>
+
+                <span class="s3">// Return to Mersive before next iteration</span>
+                <span class="s1">switchToDesktop</span><span class="s2">();</span>
+
+                <span class="s1">String homeHandle </span><span class="s2">=</span>
+                        <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span><span class="s5">&quot;Mersive Room&quot;</span><span class="s2">);</span>
+
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">homeHandle </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+                    <span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">homeHandle</span><span class="s2">);</span>
+                    <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+                <span class="s2">}</span>
+
+                <span class="s1">result</span><span class="s2">.</span><span class="s1">success </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+                <span class="s1">result</span><span class="s2">.</span><span class="s1">duration </span><span class="s2">= </span><span class="s1">System</span><span class="s2">.</span><span class="s1">currentTimeMillis</span><span class="s2">() - </span><span class="s1">start</span><span class="s2">;</span>
+                <span class="s1">results</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">result</span><span class="s2">);</span>
+                <span class="s0">return</span><span class="s2">;</span>
+            <span class="s2">} </span><span class="s0">else if </span><span class="s2">(</span><span class="s1">roomHandle </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+
+                <span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">roomHandle</span><span class="s2">);</span>
+
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+
+                <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span>
+                        <span class="s5">&quot;Neither Mersive window nor meeting window found.&quot;</span><span class="s2">);</span>
+            <span class="s2">}</span>
+
+<span class="s3">// ======================================================</span>
+<span class="s3">// Verify Meeting Screen</span>
+<span class="s3">// ======================================================</span>
+
+            <span class="s1">MeetingOverlayPage overlay </span><span class="s2">=</span>
+                    <span class="s0">new </span><span class="s1">MeetingOverlayPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                    <span class="s1">overlay</span><span class="s2">.</span><span class="s1">waitForMeetingJoinedScreen</span><span class="s2">(),</span>
+                    <span class="s5">&quot;Meeting screen not loaded&quot;</span>
+            <span class="s2">);</span>
+
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                    <span class="s1">overlay</span><span class="s2">.</span><span class="s1">isChatButtonVisible</span><span class="s2">(),</span>
+                    <span class="s5">&quot;Chat button not visible&quot;</span>
+            <span class="s2">);</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Chat verified&quot;</span><span class="s2">);</span>
+
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+
+<span class="s3">// ======================================================</span>
+<span class="s3">// Leave Meeting</span>
+<span class="s3">// ======================================================</span>
+
+            <span class="s1">overlay</span><span class="s2">.</span><span class="s1">clickLeaveButton</span><span class="s2">();</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Leave clicked&quot;</span><span class="s2">);</span>
+
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">2000</span><span class="s2">);</span>
+
+            <span class="s1">confirmLeaveMeeting</span><span class="s2">();</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Leave confirmed&quot;</span><span class="s2">);</span>
+            <span class="s1">killTeamsProcess</span><span class="s2">();</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Teams process killed&quot;</span><span class="s2">);</span>
+
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">5000</span><span class="s2">);</span>
+
+<span class="s3">// ======================================================</span>
+<span class="s3">// Return Home</span>
+<span class="s3">// ======================================================</span>
+
+            <span class="s1">switchToDesktop</span><span class="s2">();</span>
+
+            <span class="s1">String homeHandle </span><span class="s2">=</span>
+                    <span class="s1">WindowHelper</span><span class="s2">.</span><span class="s1">findWindowHandle</span><span class="s2">(</span><span class="s5">&quot;Mersive Room&quot;</span><span class="s2">);</span>
+
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertNotNull</span><span class="s2">(</span>
+                    <span class="s1">homeHandle</span><span class="s2">,</span>
+                    <span class="s5">&quot;Home window not found&quot;</span>
+            <span class="s2">);</span>
+
+            <span class="s1">attachByHandle</span><span class="s2">(</span><span class="s1">homeHandle</span><span class="s2">);</span>
+
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+
+            <span class="s1">home </span><span class="s2">= </span><span class="s0">new </span><span class="s1">HomeScreenPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+
+            <span class="s0">boolean </span><span class="s1">homeLoaded </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+
+            <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s4">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s4">15</span><span class="s2">; </span><span class="s1">i</span><span class="s2">++) {</span>
+
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">home</span><span class="s2">.</span><span class="s1">isHomeScreenLoaded</span><span class="s2">()) {</span>
+
+                    <span class="s1">homeLoaded </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+                <span class="s2">}</span>
+
+                <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">1000</span><span class="s2">);</span>
+            <span class="s2">}</span>
+
+            <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span>
+                    <span class="s1">homeLoaded</span><span class="s2">,</span>
+                    <span class="s5">&quot;Home screen did not return&quot;</span>
+            <span class="s2">);</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;✓ Back at Home&quot;</span><span class="s2">);</span>
+
+<span class="s3">// ======================================================</span>
+<span class="s3">// Success</span>
+<span class="s3">// ======================================================</span>
+
+            <span class="s1">result</span><span class="s2">.</span><span class="s1">success </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+
+            <span class="s1">result</span><span class="s2">.</span><span class="s1">duration </span><span class="s2">=</span>
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">currentTimeMillis</span><span class="s2">() - </span><span class="s1">start</span><span class="s2">;</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                    <span class="s5">&quot;Iteration &quot;</span>
+                            <span class="s2">+ </span><span class="s1">iteration</span>
+                            <span class="s2">+ </span><span class="s5">&quot; completed in &quot;</span>
+                            <span class="s2">+ </span><span class="s1">result</span><span class="s2">.</span><span class="s1">duration</span>
+                            <span class="s2">+ </span><span class="s5">&quot; ms&quot;</span><span class="s2">);</span>
+
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+
+            <span class="s1">result</span><span class="s2">.</span><span class="s1">success </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+            <span class="s1">result</span><span class="s2">.</span><span class="s1">error </span><span class="s2">= </span><span class="s1">e</span><span class="s2">.</span><span class="s1">getMessage</span><span class="s2">();</span>
+
+            <span class="s1">result</span><span class="s2">.</span><span class="s1">duration </span><span class="s2">=</span>
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">currentTimeMillis</span><span class="s2">() - </span><span class="s1">start</span><span class="s2">;</span>
+
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span>
+                    <span class="s5">&quot;Iteration &quot;</span>
+                            <span class="s2">+ </span><span class="s1">iteration</span>
+                            <span class="s2">+ </span><span class="s5">&quot; FAILED&quot;</span><span class="s2">);</span>
+
+            <span class="s1">e</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
+        <span class="s2">}</span>
+
+        <span class="s1">results</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">result</span><span class="s2">);</span>
+
+    <span class="s2">}</span>
+
+    <span class="s3">// ═════════════════════════════════════════════════════════════</span>
+    <span class="s3">// HELPER METHODS</span>
+    <span class="s3">// ═════════════════════════════════════════════════════════════</span>
+
+    <span class="s0">private void </span><span class="s1">confirmLeaveMeeting</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s0">new </span><span class="s1">pages</span><span class="s2">.</span><span class="s1">RootSessionPage</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">clickLeaveMeetingConfirmation</span><span class="s2">();</span>
+
+        <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">3000</span><span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s0">private void </span><span class="s1">killTeamsProcess</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">ProcessBuilder pb </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ProcessBuilder</span><span class="s2">(</span><span class="s5">&quot;taskkill&quot;</span><span class="s2">, </span><span class="s5">&quot;/F&quot;</span><span class="s2">, </span><span class="s5">&quot;/IM&quot;</span><span class="s2">, </span><span class="s5">&quot;Teams.exe&quot;</span><span class="s2">);</span>
+            <span class="s1">pb</span><span class="s2">.</span><span class="s1">start</span><span class="s2">();</span>
+            <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s4">2000</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;⚠ Teams kill failed (may already be closed): &quot; </span><span class="s2">+ </span><span class="s1">e</span><span class="s2">.</span><span class="s1">getMessage</span><span class="s2">());</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+    <span class="s3">// ═════════════════════════════════════════════════════════════</span>
+    <span class="s3">// REPORT METHOD</span>
+    <span class="s3">// ═════════════════════════════════════════════════════════════</span>
+
+    <span class="s0">private void </span><span class="s1">printReport</span><span class="s2">(</span><span class="s1">String platform</span><span class="s2">) {</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;</span><span class="s0">\n</span><span class="s5">&quot; </span><span class="s2">+ </span><span class="s5">&quot;═&quot;</span><span class="s2">.</span><span class="s1">repeat</span><span class="s2">(</span><span class="s4">70</span><span class="s2">));</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s1">platform </span><span class="s2">+ </span><span class="s5">&quot; FINAL REPORT&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;═&quot;</span><span class="s2">.</span><span class="s1">repeat</span><span class="s2">(</span><span class="s4">70</span><span class="s2">));</span>
+
+        <span class="s0">int </span><span class="s1">success </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+        <span class="s0">long </span><span class="s1">total </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+        <span class="s0">long </span><span class="s1">min </span><span class="s2">= </span><span class="s1">Long</span><span class="s2">.</span><span class="s1">MAX_VALUE</span><span class="s2">;</span>
+        <span class="s0">long </span><span class="s1">max </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;</span><span class="s0">\n</span><span class="s5">┌─────┬──────────────┐&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;│ Itr │ Duration(ms) │&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;├─────┼──────────────┤&quot;</span><span class="s2">);</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">TestResult r </span><span class="s2">: </span><span class="s1">results</span><span class="s2">) {</span>
+            <span class="s1">String status </span><span class="s2">= </span><span class="s1">r</span><span class="s2">.</span><span class="s1">success </span><span class="s2">? </span><span class="s5">&quot;✓&quot; </span><span class="s2">: </span><span class="s5">&quot;✗&quot;</span><span class="s2">;</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">printf</span><span class="s2">(</span><span class="s5">&quot;│ %s%d  │    %8d  │%n&quot;</span><span class="s2">, </span><span class="s1">status</span><span class="s2">, </span><span class="s1">r</span><span class="s2">.</span><span class="s1">iteration</span><span class="s2">, </span><span class="s1">r</span><span class="s2">.</span><span class="s1">duration</span><span class="s2">);</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">r</span><span class="s2">.</span><span class="s1">success</span><span class="s2">) {</span>
+                <span class="s1">success</span><span class="s2">++;</span>
+                <span class="s1">total </span><span class="s2">+= </span><span class="s1">r</span><span class="s2">.</span><span class="s1">duration</span><span class="s2">;</span>
+                <span class="s1">min </span><span class="s2">= </span><span class="s1">Math</span><span class="s2">.</span><span class="s1">min</span><span class="s2">(</span><span class="s1">min</span><span class="s2">, </span><span class="s1">r</span><span class="s2">.</span><span class="s1">duration</span><span class="s2">);</span>
+                <span class="s1">max </span><span class="s2">= </span><span class="s1">Math</span><span class="s2">.</span><span class="s1">max</span><span class="s2">(</span><span class="s1">max</span><span class="s2">, </span><span class="s1">r</span><span class="s2">.</span><span class="s1">duration</span><span class="s2">);</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;└─────┴──────────────┘&quot;</span><span class="s2">);</span>
+
+        <span class="s0">double </span><span class="s1">avg </span><span class="s2">= </span><span class="s1">success </span><span class="s2">&gt; </span><span class="s4">0 </span><span class="s2">? (</span><span class="s0">double</span><span class="s2">) </span><span class="s1">total </span><span class="s2">/ </span><span class="s1">success </span><span class="s2">: </span><span class="s4">0</span><span class="s2">;</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">printf</span><span class="s2">(</span><span class="s5">&quot;Total Flows: %d%n&quot;</span><span class="s2">, </span><span class="s1">results</span><span class="s2">.</span><span class="s1">size</span><span class="s2">());</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">printf</span><span class="s2">(</span><span class="s5">&quot;Successful: %d%n&quot;</span><span class="s2">, </span><span class="s1">success</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">printf</span><span class="s2">(</span><span class="s5">&quot;Failed: %d%n&quot;</span><span class="s2">, </span><span class="s1">results</span><span class="s2">.</span><span class="s1">size</span><span class="s2">() - </span><span class="s1">success</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">printf</span><span class="s2">(</span><span class="s5">&quot;Success Rate: %.1f%%%n&quot;</span><span class="s2">, (</span><span class="s1">success </span><span class="s2">* </span><span class="s4">100.0</span><span class="s2">) / </span><span class="s1">results</span><span class="s2">.</span><span class="s1">size</span><span class="s2">());</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">printf</span><span class="s2">(</span><span class="s5">&quot;Min Duration: %d ms%n&quot;</span><span class="s2">, </span><span class="s1">min </span><span class="s2">== </span><span class="s1">Long</span><span class="s2">.</span><span class="s1">MAX_VALUE </span><span class="s2">? </span><span class="s4">0 </span><span class="s2">: </span><span class="s1">min</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">printf</span><span class="s2">(</span><span class="s5">&quot;Max Duration: %d ms%n&quot;</span><span class="s2">, </span><span class="s1">max</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">printf</span><span class="s2">(</span><span class="s5">&quot;Average Duration: %.2f ms%n&quot;</span><span class="s2">, </span><span class="s1">avg</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">printf</span><span class="s2">(</span><span class="s5">&quot;Total Time: %d ms%n&quot;</span><span class="s2">, </span><span class="s1">total</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;═&quot;</span><span class="s2">.</span><span class="s1">repeat</span><span class="s2">(</span><span class="s4">70</span><span class="s2">));</span>
+
+        <span class="s1">Assert</span><span class="s2">.</span><span class="s1">assertTrue</span><span class="s2">(</span><span class="s1">success </span><span class="s2">&gt;= </span><span class="s4">1</span><span class="s2">, </span><span class="s5">&quot;At least 1  should pass&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

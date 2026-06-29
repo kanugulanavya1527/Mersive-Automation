@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>AVControlsPage.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+AVControlsPage.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">pages</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">base</span><span class="s2">.</span><span class="s1">BasePage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">By</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">WebElement</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">remote</span><span class="s2">.</span><span class="s1">RemoteWebDriver</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">ExpectedConditions</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ui</span><span class="s2">.</span><span class="s1">WebDriverWait</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">AVControlsPage </span><span class="s0">extends </span><span class="s1">BasePage </span><span class="s2">{</span>
+
+    <span class="s0">public </span><span class="s1">AVControlsPage</span><span class="s2">(</span><span class="s1">RemoteWebDriver driver</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Locators ───────────────────────────────────────────</span>
+
+    <span class="s0">private final </span><span class="s1">By cameraToggleButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[@AutomationId='CameraToggleButton']&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By micToggleButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//*[@AutomationId='MicToggleButton']&quot;</span><span class="s2">);</span>
+    <span class="s0">private final </span><span class="s1">By swipeToCloseButton </span><span class="s2">=</span>
+            <span class="s1">By</span><span class="s2">.</span><span class="s1">xpath</span><span class="s2">(</span><span class="s4">&quot;//Button[.//Text[@Name='swipe to close']]&quot;</span><span class="s2">);</span>
+
+    <span class="s3">// ── Camera ─────────────────────────────────────────────</span>
+
+    <span class="s0">public </span><span class="s1">String getCameraState</span><span class="s2">() {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">els </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">cameraToggleButton</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">els</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) </span><span class="s0">return </span><span class="s4">&quot;UNKNOWN&quot;</span><span class="s2">;</span>
+        <span class="s1">String name </span><span class="s2">= </span><span class="s1">els</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s5">0</span><span class="s2">).</span><span class="s1">getAttribute</span><span class="s2">(</span><span class="s4">&quot;Name&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[AVPanel] Camera = &quot; </span><span class="s2">+ </span><span class="s1">name</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">name </span><span class="s2">!= </span><span class="s0">null </span><span class="s2">? </span><span class="s1">name</span><span class="s2">.</span><span class="s1">trim</span><span class="s2">().</span><span class="s1">toUpperCase</span><span class="s2">() : </span><span class="s4">&quot;UNKNOWN&quot;</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isCameraOn</span><span class="s2">()  { </span><span class="s0">return </span><span class="s4">&quot;ON&quot;</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">getCameraState</span><span class="s2">()); }</span>
+    <span class="s0">public boolean </span><span class="s1">isCameraOff</span><span class="s2">() { </span><span class="s0">return </span><span class="s4">&quot;OFF&quot;</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">getCameraState</span><span class="s2">()); }</span>
+
+    <span class="s0">public void </span><span class="s1">clickCameraToggle</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">);</span>
+        <span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">cameraToggleButton</span><span class="s2">)).</span><span class="s1">click</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[AVPanel] Camera toggled&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForCameraOn</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt; isCameraOn</span><span class="s2">());</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">waitForCameraOff</span><span class="s2">() {</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">return new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">).</span><span class="s1">until</span><span class="s2">(</span><span class="s1">d -&gt; isCameraOff</span><span class="s2">());</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) { </span><span class="s0">return false</span><span class="s2">; }</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Mic ────────────────────────────────────────────────</span>
+
+    <span class="s0">public </span><span class="s1">String getMicState</span><span class="s2">() {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">WebElement</span><span class="s2">&gt; </span><span class="s1">els </span><span class="s2">= </span><span class="s1">driver</span><span class="s2">.</span><span class="s1">findElements</span><span class="s2">(</span><span class="s1">micToggleButton</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">els</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) </span><span class="s0">return </span><span class="s4">&quot;UNKNOWN&quot;</span><span class="s2">;</span>
+        <span class="s1">String name </span><span class="s2">= </span><span class="s1">els</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s5">0</span><span class="s2">).</span><span class="s1">getAttribute</span><span class="s2">(</span><span class="s4">&quot;Name&quot;</span><span class="s2">);</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[AVPanel] Mic = &quot; </span><span class="s2">+ </span><span class="s1">name</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">name </span><span class="s2">!= </span><span class="s0">null </span><span class="s2">? </span><span class="s1">name</span><span class="s2">.</span><span class="s1">trim</span><span class="s2">().</span><span class="s1">toUpperCase</span><span class="s2">() : </span><span class="s4">&quot;UNKNOWN&quot;</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isMicOn</span><span class="s2">()    { </span><span class="s0">return </span><span class="s4">&quot;ON&quot;</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">getMicState</span><span class="s2">()); }</span>
+    <span class="s0">public boolean </span><span class="s1">isMicMuted</span><span class="s2">() { </span><span class="s0">return </span><span class="s4">&quot;MUTED&quot;</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">getMicState</span><span class="s2">()); }</span>
+
+    <span class="s0">public void </span><span class="s1">clickMicToggle</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">15</span><span class="s2">);</span>
+        <span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">micToggleButton</span><span class="s2">)).</span><span class="s1">click</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[AVPanel] Mic toggled&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// ── Close ──────────────────────────────────────────────</span>
+
+    <span class="s0">public void </span><span class="s1">clickSwipeToClose</span><span class="s2">() {</span>
+        <span class="s1">WebDriverWait w </span><span class="s2">= </span><span class="s0">new </span><span class="s1">WebDriverWait</span><span class="s2">(</span><span class="s1">driver</span><span class="s2">, </span><span class="s5">10</span><span class="s2">);</span>
+        <span class="s1">w</span><span class="s2">.</span><span class="s1">until</span><span class="s2">(</span><span class="s1">ExpectedConditions</span><span class="s2">.</span><span class="s1">elementToBeClickable</span><span class="s2">(</span><span class="s1">swipeToCloseButton</span><span class="s2">)).</span><span class="s1">click</span><span class="s2">();</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;[AVPanel] Panel closed&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

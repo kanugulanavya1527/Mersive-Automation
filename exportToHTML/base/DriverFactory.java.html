@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>DriverFactory.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+DriverFactory.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">base</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">remote</span><span class="s2">.</span><span class="s1">DesiredCapabilities</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">openqa</span><span class="s2">.</span><span class="s1">selenium</span><span class="s2">.</span><span class="s1">remote</span><span class="s2">.</span><span class="s1">RemoteWebDriver</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">net</span><span class="s2">.</span><span class="s1">URL</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">concurrent</span><span class="s2">.</span><span class="s1">TimeUnit</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">DriverFactory </span><span class="s2">{</span>
+
+    <span class="s0">private static final </span><span class="s1">String WINAPPDRIVER_URL </span><span class="s2">= </span><span class="s3">&quot;http://127.0.0.1:4723/&quot;</span><span class="s2">;</span>
+    <span class="s0">private static final int </span><span class="s1">IMPLICIT_WAIT </span><span class="s2">= </span><span class="s4">15</span><span class="s2">;</span>
+
+    <span class="s0">public static </span><span class="s1">RemoteWebDriver attachByHexHandle</span><span class="s2">(</span><span class="s1">String hexHandle</span><span class="s2">) </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">DesiredCapabilities caps </span><span class="s2">= </span><span class="s0">new </span><span class="s1">DesiredCapabilities</span><span class="s2">();</span>
+        <span class="s1">caps</span><span class="s2">.</span><span class="s1">setCapability</span><span class="s2">(</span><span class="s3">&quot;platformName&quot;</span><span class="s2">, </span><span class="s3">&quot;Windows&quot;</span><span class="s2">);</span>
+        <span class="s1">caps</span><span class="s2">.</span><span class="s1">setCapability</span><span class="s2">(</span><span class="s3">&quot;deviceName&quot;</span><span class="s2">, </span><span class="s3">&quot;WindowsPC&quot;</span><span class="s2">);</span>
+        <span class="s1">caps</span><span class="s2">.</span><span class="s1">setCapability</span><span class="s2">(</span><span class="s3">&quot;appTopLevelWindow&quot;</span><span class="s2">, </span><span class="s1">hexHandle</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">build</span><span class="s2">(</span><span class="s1">caps</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public static </span><span class="s1">RemoteWebDriver createRootSession</span><span class="s2">() </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">DesiredCapabilities caps </span><span class="s2">= </span><span class="s0">new </span><span class="s1">DesiredCapabilities</span><span class="s2">();</span>
+        <span class="s1">caps</span><span class="s2">.</span><span class="s1">setCapability</span><span class="s2">(</span><span class="s3">&quot;platformName&quot;</span><span class="s2">, </span><span class="s3">&quot;Windows&quot;</span><span class="s2">);</span>
+        <span class="s1">caps</span><span class="s2">.</span><span class="s1">setCapability</span><span class="s2">(</span><span class="s3">&quot;deviceName&quot;</span><span class="s2">, </span><span class="s3">&quot;WindowsPC&quot;</span><span class="s2">);</span>
+        <span class="s1">caps</span><span class="s2">.</span><span class="s1">setCapability</span><span class="s2">(</span><span class="s3">&quot;app&quot;</span><span class="s2">, </span><span class="s3">&quot;Root&quot;</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">build</span><span class="s2">(</span><span class="s1">caps</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">private static </span><span class="s1">RemoteWebDriver build</span><span class="s2">(</span><span class="s1">DesiredCapabilities caps</span><span class="s2">) </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s1">RemoteWebDriver driver </span><span class="s2">= </span><span class="s0">new </span><span class="s1">RemoteWebDriver</span><span class="s2">(</span>
+                <span class="s0">new </span><span class="s1">URL</span><span class="s2">(</span><span class="s1">WINAPPDRIVER_URL</span><span class="s2">), </span><span class="s1">caps</span><span class="s2">);</span>
+        <span class="s1">driver</span><span class="s2">.</span><span class="s1">manage</span><span class="s2">().</span><span class="s1">timeouts</span><span class="s2">()</span>
+                <span class="s2">.</span><span class="s1">implicitlyWait</span><span class="s2">(</span><span class="s1">IMPLICIT_WAIT</span><span class="s2">, </span><span class="s1">TimeUnit</span><span class="s2">.</span><span class="s1">SECONDS</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">driver</span><span class="s2">;</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>
