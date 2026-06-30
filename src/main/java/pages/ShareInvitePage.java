@@ -13,25 +13,34 @@ public class ShareInvitePage extends BasePage {
     }
 
     private final By recipientEmailTextBox =
-            By.id("RecipientEmailsTextBox");
+            By.xpath("//Edit");
 
     private final By sendInviteButton =
             By.name("Send invite");
 
     private final By closeButton =
-            By.name("Close");
+            By.xpath("(//Button)[1]");
 
     private final By shareMeetingInviteTitle =
             By.name("Share meeting invite");
 
 
     public boolean isShareInviteScreenDisplayed() {
+
         try {
-            return wait.until(
-                            ExpectedConditions.visibilityOfElementLocated(
-                                    shareMeetingInviteTitle))
-                    .isDisplayed();
+
+            WebElement title = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(
+                            shareMeetingInviteTitle));
+
+            System.out.println("Found Title = " + title.getText());
+
+            return title.isDisplayed();
+
         } catch (Exception e) {
+
+            e.printStackTrace();
+
             return false;
         }
     }
@@ -60,8 +69,7 @@ public class ShareInvitePage extends BasePage {
     public void clickCloseButton() {
 
         WebElement closeBtn = wait.until(
-                ExpectedConditions.elementToBeClickable(
-                        closeButton));
+                ExpectedConditions.presenceOfElementLocated(closeButton));
 
         closeBtn.click();
 

@@ -1,5 +1,7 @@
 package tests;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.MeetingOverlayPage;
@@ -99,14 +101,39 @@ public class TeamsShareInviteTest extends BaseTest {
         System.out.println("Share Invite Handle = "+ shareInvitationhandle);
         attachByHandle(shareInvitationhandle);
 
-        // Verify Share Invite Screen
+
         ShareInvitePage shareInvite = new ShareInvitePage(driver);
 
-        Assert.assertTrue(shareInvite.isShareInviteScreenDisplayed(),
+        Assert.assertTrue(
+                shareInvite.isShareInviteScreenDisplayed(),
                 "Share Invite screen not displayed");
 
         System.out.println("✓ Share Invite screen displayed");
 
+        shareInvite.clickCloseButton();
+
+        System.out.println("✓ Share Invite screen closed");
+
+
+
+        switchToDesktop();
+
+        String blockerHandle =
+                WindowHelper.findWindowHandle("Mersive Room Blocker");
+
+        System.out.println("Blocker Handle = " + blockerHandle);
+
+        attachByHandle(blockerHandle);
+
+        MeetingOverlayPage meeting =
+                new MeetingOverlayPage(driver);
+
+        Assert.assertTrue(
+                meeting.waitForChatButtonReady(),
+                "Failed to return to meeting screen");
+
+        System.out.println("✓ Returned to meeting screen");
+        System.out.println("TC_021 PASSED");
         System.out.println("TC_021 PASSED");
     }
 
@@ -115,42 +142,79 @@ public class TeamsShareInviteTest extends BaseTest {
 
         System.out.println("=== TC_022: Verify Send Invite With Valid Email ===");
 
+        // Join meeting
         MeetingOverlayPage overlay = joinMeeting();
 
-        Assert.assertTrue(overlay.waitForPeopleButtonReady(),
+        // Open People panel
+        Assert.assertTrue(
+                overlay.waitForPeopleButtonReady(),
                 "People button not visible");
 
         overlay.clickPeopleButton();
 
-        Assert.assertTrue(overlay.waitForPeoplePanelOpened(),
+        Assert.assertTrue(
+                overlay.waitForPeoplePanelOpened(),
                 "Participants panel did not open");
 
+        // Attach to Microsoft Teams window
         switchToDesktop();
 
         String teamsHandle =
                 WindowHelper.findWindowHandle("Microsoft Teams");
 
+        Assert.assertNotNull(
+                teamsHandle,
+                "Microsoft Teams window not found");
+
         attachByHandle(teamsHandle);
 
-        MeetingOverlayPage teamsOverlay = new MeetingOverlayPage(driver);
+        MeetingOverlayPage teamsOverlay =
+                new MeetingOverlayPage(driver);
 
+        // Click Share Invite
         teamsOverlay.clickShareInviteButton();
 
+        Thread.sleep(3000);
 
-        ShareInvitePage shareInvite = new ShareInvitePage(driver);
+        // Attach to Share Invite window
+        switchToDesktop();
 
+        String shareInvitationHandle =
+                WindowHelper.findWindowHandle("Share meeting invite");
+
+        Assert.assertNotNull(
+                shareInvitationHandle,
+                "Share Invite window not found");
+
+        attachByHandle(shareInvitationHandle);
+
+        ShareInvitePage shareInvite =
+                new ShareInvitePage(driver);
+
+        // Verify Share Invite screen
         Assert.assertTrue(
                 shareInvite.isShareInviteScreenDisplayed(),
                 "Share Invite screen not displayed");
 
+        System.out.println("✓ Share Invite screen displayed");
+
+        // Enter email
         shareInvite.enterRecipientEmail("test@example.com");
 
+        // Click Send Invite
         shareInvite.clickSendInvite();
 
+        Thread.sleep(3000);
+
+        // Return to meeting screen
         switchToDesktop();
 
         String blockerHandle =
                 WindowHelper.findWindowHandle("Mersive Room Blocker");
+
+        Assert.assertNotNull(
+                blockerHandle,
+                "Failed to return to meeting screen");
 
         attachByHandle(blockerHandle);
 
@@ -160,6 +224,8 @@ public class TeamsShareInviteTest extends BaseTest {
         Assert.assertTrue(
                 meeting.waitForChatButtonReady(),
                 "Meeting screen not displayed");
+
+        System.out.println("✓ Returned to meeting screen");
 
         System.out.println("TC_022 PASSED");
     }
@@ -169,114 +235,88 @@ public class TeamsShareInviteTest extends BaseTest {
 
         System.out.println("=== TC_023: Empty Email Validation ===");
 
+        // Join meeting
         MeetingOverlayPage overlay = joinMeeting();
 
-        overlay.clickPeopleButton();
-        overlay.waitForPeoplePanelOpened();
+        // Open People panel
+        Assert.assertTrue(
+                overlay.waitForPeopleButtonReady(),
+                "People button not visible");
 
+        overlay.clickPeopleButton();
+
+        Assert.assertTrue(
+                overlay.waitForPeoplePanelOpened(),
+                "Participants panel did not open");
+
+        // Attach to Microsoft Teams window
         switchToDesktop();
 
         String teamsHandle =
                 WindowHelper.findWindowHandle("Microsoft Teams");
+
+        Assert.assertNotNull(
+                teamsHandle,
+                "Microsoft Teams window not found");
 
         attachByHandle(teamsHandle);
 
         MeetingOverlayPage teamsOverlay =
                 new MeetingOverlayPage(driver);
 
+        // Click Share Invite
         teamsOverlay.clickShareInviteButton();
+
+        Thread.sleep(3000);
+
+        // Attach to Share Invite window
+        switchToDesktop();
+
+        String shareInvitationHandle =
+                WindowHelper.findWindowHandle("Share meeting invite");
+
+        Assert.assertNotNull(
+                shareInvitationHandle,
+                "Share Invite window not found");
+
+        attachByHandle(shareInvitationHandle);
 
         ShareInvitePage shareInvite =
                 new ShareInvitePage(driver);
 
+        // Verify Share Invite screen
         Assert.assertTrue(
                 shareInvite.isShareInviteScreenDisplayed(),
                 "Share Invite screen not displayed");
 
+        System.out.println("✓ Share Invite screen displayed");
+
+        // Click Send Invite without entering email
         shareInvite.clickSendInvite();
 
+        Thread.sleep(2000);
+
+        // Verify Share Invite screen is still displayed
         Assert.assertTrue(
                 shareInvite.isShareInviteScreenDisplayed(),
-                "Unexpectedly left Share Invite screen");
+                "Share Invite screen closed unexpectedly");
 
-        System.out.println("TC_023 PASSED");
-    }
+        System.out.println("✓ Empty email validation displayed");
 
-    @Test(priority = 24)
-    public void TC_024_VerifyInvalidEmailValidation() throws Exception {
-
-        System.out.println("=== TC_024: Invalid Email ===");
-
-        MeetingOverlayPage overlay = joinMeeting();
-
-        overlay.clickPeopleButton();
-        overlay.waitForPeoplePanelOpened();
-
-        switchToDesktop();
-
-        String teamsHandle =
-                WindowHelper.findWindowHandle("Microsoft Teams");
-
-        attachByHandle(teamsHandle);
-
-        MeetingOverlayPage teamsOverlay =
-                new MeetingOverlayPage(driver);
-
-        teamsOverlay.clickShareInviteButton();
-
-        ShareInvitePage shareInvite =
-                new ShareInvitePage(driver);
-
-        Assert.assertTrue(
-                shareInvite.isShareInviteScreenDisplayed(),
-                "Share Invite screen not displayed");
-
-        shareInvite.enterRecipientEmail("abc");
-
-        shareInvite.clickSendInvite();
-
-        Assert.assertTrue(
-                shareInvite.isShareInviteScreenDisplayed(),
-                "Invalid email accepted");
-
-        System.out.println("TC_024 PASSED");
-    }
-
-    @Test(priority = 25)
-    public void TC_025_VerifyCloseShareInviteScreen() throws Exception {
-
-        System.out.println("=== TC_025: Close Share Invite ===");
-
-        MeetingOverlayPage overlay = joinMeeting();
-
-        overlay.clickPeopleButton();
-        overlay.waitForPeoplePanelOpened();
-
-        switchToDesktop();
-
-        String teamsHandle =
-                WindowHelper.findWindowHandle("Microsoft Teams");
-
-        attachByHandle(teamsHandle);
-
-        MeetingOverlayPage teamsOverlay =
-                new MeetingOverlayPage(driver);
-
-        teamsOverlay.clickShareInviteButton();
-
-        ShareInvitePage shareInvite =
-                new ShareInvitePage(driver);
-
-        Assert.assertTrue(
-                shareInvite.isShareInviteScreenDisplayed(),
-                "Share Invite screen not displayed");
-
+        // Close Share Invite screen
         shareInvite.clickCloseButton();
 
+        System.out.println("✓ Share Invite screen closed");
+
+        // Return to meeting screen
         switchToDesktop();
 
         String blockerHandle =
                 WindowHelper.findWindowHandle("Mersive Room Blocker");
+
+        Assert.assertNotNull(
+                blockerHandle,
+                "Failed to return to meeting screen");
 
         attachByHandle(blockerHandle);
 
@@ -287,7 +327,202 @@ public class TeamsShareInviteTest extends BaseTest {
                 meeting.waitForChatButtonReady(),
                 "Meeting screen not displayed");
 
-        System.out.println("TC_025 PASSED");
+        System.out.println("✓ Returned to meeting screen");
+
+        System.out.println("TC_023 PASSED");
+    }
+    @Test(priority = 24)
+    public void TC_024_VerifyInvalidEmailValidation() throws Exception {
+
+        System.out.println("=== TC_024: Invalid Email Validation ===");
+
+        // Join meeting
+        MeetingOverlayPage overlay = joinMeeting();
+
+        // Open People panel
+        Assert.assertTrue(
+                overlay.waitForPeopleButtonReady(),
+                "People button not visible");
+
+        overlay.clickPeopleButton();
+
+        Assert.assertTrue(
+                overlay.waitForPeoplePanelOpened(),
+                "Participants panel did not open");
+
+        // Attach to Microsoft Teams window
+        switchToDesktop();
+
+        String teamsHandle =
+                WindowHelper.findWindowHandle("Microsoft Teams");
+
+        Assert.assertNotNull(
+                teamsHandle,
+                "Microsoft Teams window not found");
+
+        attachByHandle(teamsHandle);
+
+        MeetingOverlayPage teamsOverlay =
+                new MeetingOverlayPage(driver);
+
+        // Click Share Invite
+        teamsOverlay.clickShareInviteButton();
+
+        Thread.sleep(3000);
+
+        // Attach to Share Invite window
+        switchToDesktop();
+
+        String shareInvitationHandle =
+                WindowHelper.findWindowHandle("Share meeting invite");
+
+        Assert.assertNotNull(
+                shareInvitationHandle,
+                "Share Invite window not found");
+
+        attachByHandle(shareInvitationHandle);
+
+        ShareInvitePage shareInvite =
+                new ShareInvitePage(driver);
+
+        // Verify Share Invite screen
+        Assert.assertTrue(
+                shareInvite.isShareInviteScreenDisplayed(),
+                "Share Invite screen not displayed");
+
+        System.out.println("✓ Share Invite screen displayed");
+
+        // Enter invalid email
+        shareInvite.enterRecipientEmail("abc");
+
+        // Click Send Invite
+        shareInvite.clickSendInvite();
+
+        Thread.sleep(2000);
+
+        // Verify Share Invite screen is still displayed
+        Assert.assertTrue(
+                shareInvite.isShareInviteScreenDisplayed(),
+                "Invalid email was accepted");
+
+        System.out.println("✓ Invalid email validation displayed");
+
+        // Close Share Invite screen
+        shareInvite.clickCloseButton();
+
+        System.out.println("✓ Share Invite screen closed");
+
+        // Return to meeting screen
+        switchToDesktop();
+
+        String blockerHandle =
+                WindowHelper.findWindowHandle("Mersive Room Blocker");
+
+        Assert.assertNotNull(
+                blockerHandle,
+                "Failed to return to meeting screen");
+
+        attachByHandle(blockerHandle);
+
+        MeetingOverlayPage meeting =
+                new MeetingOverlayPage(driver);
+
+        Assert.assertTrue(
+                meeting.waitForChatButtonReady(),
+                "Meeting screen not displayed");
+
+        System.out.println("✓ Returned to meeting screen");
+
+        System.out.println("TC_024 PASSED");
     }
 
+    @Test(priority = 25)
+    public void TC_025_VerifyCloseShareInviteScreen() throws Exception {
+
+        System.out.println("=== TC_025: Close Share Invite ===");
+
+        // Join meeting
+        MeetingOverlayPage overlay = joinMeeting();
+
+        // Open People panel
+        Assert.assertTrue(
+                overlay.waitForPeopleButtonReady(),
+                "People button not visible");
+
+        overlay.clickPeopleButton();
+
+        Assert.assertTrue(
+                overlay.waitForPeoplePanelOpened(),
+                "Participants panel did not open");
+
+        // Attach to Microsoft Teams window
+        switchToDesktop();
+
+        String teamsHandle =
+                WindowHelper.findWindowHandle("Microsoft Teams");
+
+        Assert.assertNotNull(
+                teamsHandle,
+                "Microsoft Teams window not found");
+
+        attachByHandle(teamsHandle);
+
+        MeetingOverlayPage teamsOverlay =
+                new MeetingOverlayPage(driver);
+
+        // Click Share Invite
+        teamsOverlay.clickShareInviteButton();
+
+        Thread.sleep(3000);
+
+        // Attach to Share Invite window
+        switchToDesktop();
+
+        String shareInvitationHandle =
+                WindowHelper.findWindowHandle("Share meeting invite");
+
+        Assert.assertNotNull(
+                shareInvitationHandle,
+                "Share Invite window not found");
+
+        attachByHandle(shareInvitationHandle);
+
+        ShareInvitePage shareInvite =
+                new ShareInvitePage(driver);
+
+        // Verify Share Invite screen
+        Assert.assertTrue(
+                shareInvite.isShareInviteScreenDisplayed(),
+                "Share Invite screen not displayed");
+
+        System.out.println("✓ Share Invite screen displayed");
+
+        // Close Share Invite screen
+        shareInvite.clickCloseButton();
+
+        System.out.println("✓ Share Invite screen closed");
+
+        // Return to meeting screen
+        switchToDesktop();
+
+        String blockerHandle =
+                WindowHelper.findWindowHandle("Mersive Room Blocker");
+
+        Assert.assertNotNull(
+                blockerHandle,
+                "Failed to return to meeting screen");
+
+        attachByHandle(blockerHandle);
+
+        MeetingOverlayPage meeting =
+                new MeetingOverlayPage(driver);
+
+        Assert.assertTrue(
+                meeting.waitForChatButtonReady(),
+                "Meeting screen not displayed");
+
+        System.out.println("✓ Returned to meeting screen");
+
+        System.out.println("TC_025 PASSED");
+    }
 }
