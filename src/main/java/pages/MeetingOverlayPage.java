@@ -8,6 +8,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+
 import java.util.List;
 
 public class MeetingOverlayPage extends BasePage {
@@ -82,12 +83,73 @@ public class MeetingOverlayPage extends BasePage {
     private final By stayInMeetingButton =
             By.name("Stay in meeting");
 
+    //share invite
+
+    private final By shareInviteButton =
+            By.name("Share invite");
+
     // ── Meeting Joined ─────────────────────────────────────
 
-    //    public boolean waitForMeetingJoinedScreen() {
-//        System.out.println("[Overlay] Waiting for meeting joined screen...");
-//        return waitForPresent(chatButton, 200);
+
+    public void clickShareInviteButton() {
+
+        WebElement btn = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        By.name("Share invite")));
+
+        try {
+            btn.click();
+            System.out.println("Clicked using normal click");
+            return;
+        } catch (Exception ignored) {
+        }
+
+        try {
+            ((RemoteWebDriver) driver)
+                    .executeScript("arguments[0].click();", btn);
+            System.out.println("Clicked using JavaScript");
+            return;
+        } catch (Exception ignored) {
+        }
+
+        try {
+            new Actions(driver)
+                    .moveToElement(btn)
+                    .click()
+                    .perform();
+            System.out.println("Clicked using Actions");
+            return;
+        } catch (Exception ignored) {
+        }
+
+        throw new RuntimeException("Unable to click Share invite button");
+    }
+//    ==> when share invite button is working for 1 click then use this code... till then use below code.. it will click that button 3 times.
+//public void clickShareInviteButton() {
+//
+//    WebElement btn = wait.until(
+//            ExpectedConditions.visibilityOfElementLocated(
+//                    By.name("Share invite")));
+//
+//    for (int i = 1; i <= 3; i++) {
+//        try {
+//            btn.click();
+//            System.out.println("Clicked Share Invite - Attempt " + i);
+//            Thread.sleep(1000);
+//
+//            // Stop if Share Invite screen opens
+//            if (!driver.findElements(By.name("Share meeting invite")).isEmpty()) {
+//                System.out.println("Share Invite screen opened");
+//                return;
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println("Click attempt " + i + " failed");
+//        }
 //    }
+//
+//    throw new RuntimeException("Unable to open Share Invite screen after 3 clicks.");
+//}
     public boolean waitForMeetingJoinedScreen() {
 
         System.out.println("[Overlay] Waiting for meeting joined screen...");
