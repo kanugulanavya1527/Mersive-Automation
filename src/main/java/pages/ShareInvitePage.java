@@ -23,7 +23,8 @@ public class ShareInvitePage extends BasePage {
 
     private final By shareMeetingInviteTitle =
             By.name("Share meeting invite");
-
+    private final By validationMessage =
+            By.xpath("//Text[@AutomationId='ValidationMessageTextBlock']");
 
     public boolean isShareInviteScreenDisplayed() {
 
@@ -74,5 +75,29 @@ public class ShareInvitePage extends BasePage {
         closeBtn.click();
 
         System.out.println("Close button clicked");
+    }
+
+    public String getValidationMessage() {
+
+        WebElement message = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        validationMessage));
+
+        String text = message.getText();
+
+        System.out.println("Validation Message = " + text);
+
+        return text;
+    }
+
+    public boolean isValidationMessageDisplayed() {
+
+        try {
+            return wait.until(
+                            ExpectedConditions.visibilityOfElementLocated(validationMessage))
+                    .isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

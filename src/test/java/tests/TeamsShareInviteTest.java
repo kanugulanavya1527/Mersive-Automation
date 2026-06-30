@@ -95,11 +95,30 @@ public class TeamsShareInviteTest extends BaseTest {
 
 // Click Share Invite
         teamsOverlay.clickShareInviteButton();
-        Thread.sleep(3000);
-        switchToDesktop();
-        String shareInvitationhandle = WindowHelper.findWindowHandle("Share meeting invite");
-        System.out.println("Share Invite Handle = "+ shareInvitationhandle);
-        attachByHandle(shareInvitationhandle);
+
+        String shareInvitationHandle = null;
+
+        for (int i = 0; i < 10; i++) {
+
+            Thread.sleep(1000);
+
+            switchToDesktop();
+
+            shareInvitationHandle =
+                    WindowHelper.findWindowHandle("Share meeting invite");
+
+            if (shareInvitationHandle != null) {
+                break;
+            }
+        }
+
+        Assert.assertNotNull(
+                shareInvitationHandle,
+                "Share Invite window not found");
+
+        System.out.println("Share Invite Handle = " + shareInvitationHandle);
+
+        attachByHandle(shareInvitationHandle);
 
 
         ShareInvitePage shareInvite = new ShareInvitePage(driver);
@@ -134,7 +153,7 @@ public class TeamsShareInviteTest extends BaseTest {
 
         System.out.println("✓ Returned to meeting screen");
         System.out.println("TC_021 PASSED");
-        System.out.println("TC_021 PASSED");
+
     }
 
     @Test(priority = 22)
@@ -296,10 +315,14 @@ public class TeamsShareInviteTest extends BaseTest {
 
         Thread.sleep(2000);
 
-        // Verify Share Invite screen is still displayed
-        Assert.assertTrue(
-                shareInvite.isShareInviteScreenDisplayed(),
-                "Share Invite screen closed unexpectedly");
+        Thread.sleep(3000);
+
+        String message = shareInvite.getValidationMessage();
+
+        Assert.assertEquals(
+                message,
+                "Enter at least one email address.",
+                "Incorrect validation message");
 
         System.out.println("✓ Empty email validation displayed");
 
@@ -397,6 +420,15 @@ public class TeamsShareInviteTest extends BaseTest {
 
         // Click Send Invite
         shareInvite.clickSendInvite();
+        Assert.assertTrue(
+                shareInvite.isValidationMessageDisplayed(),
+                "Validation message not displayed");
+
+        String message = shareInvite.getValidationMessage();
+
+        Assert.assertTrue(
+                message.contains("Invalid email"),
+                "Incorrect validation message");
 
         Thread.sleep(2000);
 
