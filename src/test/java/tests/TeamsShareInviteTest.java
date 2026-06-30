@@ -557,4 +557,109 @@ public class TeamsShareInviteTest extends BaseTest {
 
         System.out.println("TC_025 PASSED");
     }
+    @Test(priority = 26)
+    public void TC_026_VerifySpacesOnlyEmailValidation() throws Exception {
+
+        System.out.println("=== TC_026: Spaces Only Email Validation ===");
+
+        // Join meeting
+        MeetingOverlayPage overlay = joinMeeting();
+
+        Assert.assertTrue(
+                overlay.waitForPeopleButtonReady(),
+                "People button not visible");
+
+        overlay.clickPeopleButton();
+
+        Assert.assertTrue(
+                overlay.waitForPeoplePanelOpened(),
+                "Participants panel did not open");
+
+        // Switch to Teams
+        switchToDesktop();
+
+        String teamsHandle =
+                WindowHelper.findWindowHandle("Microsoft Teams");
+
+        Assert.assertNotNull(
+                teamsHandle,
+                "Microsoft Teams window not found");
+
+        attachByHandle(teamsHandle);
+
+        MeetingOverlayPage teamsOverlay =
+                new MeetingOverlayPage(driver);
+
+        // Open Share Invite
+        teamsOverlay.clickShareInviteButton();
+
+        Thread.sleep(3000);
+
+        switchToDesktop();
+
+        String shareInvitationHandle =
+                WindowHelper.findWindowHandle("Share meeting invite");
+
+        Assert.assertNotNull(
+                shareInvitationHandle,
+                "Share Invite window not found");
+
+        attachByHandle(shareInvitationHandle);
+
+        ShareInvitePage shareInvite =
+                new ShareInvitePage(driver);
+
+        Assert.assertTrue(
+                shareInvite.isShareInviteScreenDisplayed(),
+                "Share Invite screen not displayed");
+
+        System.out.println("✓ Share Invite screen displayed");
+
+        // Enter only spaces
+        shareInvite.enterRecipientEmail("     ");
+
+        // Click Send Invite
+        shareInvite.clickSendInvite();
+
+        Thread.sleep(3000);
+
+        // Verify validation message
+        String validationMessage =
+                shareInvite.getValidationMessage();
+
+        Assert.assertEquals(
+                validationMessage,
+                "Enter at least one email address.",
+                "Incorrect validation message");
+
+        System.out.println("✓ Spaces-only email validation displayed");
+
+        // Close Share Invite
+        shareInvite.clickCloseButton();
+
+        System.out.println("✓ Share Invite screen closed");
+
+        // Return to meeting
+        switchToDesktop();
+
+        String blockerHandle =
+                WindowHelper.findWindowHandle("Mersive Room Blocker");
+
+        Assert.assertNotNull(
+                blockerHandle,
+                "Failed to return to meeting screen");
+
+        attachByHandle(blockerHandle);
+
+        MeetingOverlayPage meeting =
+                new MeetingOverlayPage(driver);
+
+        Assert.assertTrue(
+                meeting.waitForChatButtonReady(),
+                "Meeting screen not displayed");
+
+        System.out.println("✓ Returned to meeting screen");
+
+        System.out.println("TC_026 PASSED");
+    }
 }
