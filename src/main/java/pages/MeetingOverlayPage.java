@@ -88,8 +88,22 @@ public class MeetingOverlayPage extends BasePage {
     private final By shareInviteButton =
             By.name("Share invite");
 
-    // ── Meeting Joined ─────────────────────────────────────
+    private final By zoomInviteButton =
+            By.xpath("//Button[contains(@Name,'Invite')]");
 
+
+
+    // ── Meeting Joined ─────────────────────────────────────
+    public void clickZoomInviteButton() {
+
+        WebElement btn = wait.until(
+                ExpectedConditions.elementToBeClickable(
+                        zoomInviteButton));
+
+        btn.click();
+
+        System.out.println("Zoom Invite button clicked");
+    }
 
     public void clickShareInviteButton() {
 
