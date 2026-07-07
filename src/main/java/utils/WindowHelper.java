@@ -11,7 +11,52 @@ public class WindowHelper {
 
     private static final int MAX_RETRIES    = 60;
     private static final int RETRY_DELAY_MS = 1000;
+    public static String findWindowHandle(String titleContains,
+                                          int maxRetries)
+            throws InterruptedException {
 
+        for (int attempt = 0; attempt < maxRetries; attempt++) {
+
+            List<String> found = new ArrayList<>();
+
+            User32.INSTANCE.EnumWindows((hwnd, data) -> {
+
+                char[] buffer = new char[512];
+                User32.INSTANCE.GetWindowText(hwnd, buffer, 512);
+
+                String title = Native.toString(buffer);
+
+                if (User32.INSTANCE.IsWindowVisible(hwnd)
+                        && title != null
+                        && title.toLowerCase()
+                        .contains(titleContains.toLowerCase())) {
+
+                    long val =
+                            Pointer.nativeValue(hwnd.getPointer());
+
+                    found.add(String.valueOf(val));
+                }
+
+                return true;
+
+            }, null);
+
+            if (!found.isEmpty()) {
+
+                System.out.println(
+                        "[WindowHelper] Found '" +
+                                titleContains +
+                                "' at attempt " +
+                                (attempt + 1));
+
+                return found.get(0);
+            }
+
+            Thread.sleep(RETRY_DELAY_MS);
+        }
+
+        return null;
+    }
     public static String findWindowHandle(String titleContains)
             throws InterruptedException {
 

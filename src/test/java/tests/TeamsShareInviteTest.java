@@ -105,7 +105,7 @@ public class TeamsShareInviteTest extends BaseTest {
             switchToDesktop();
 
             shareInvitationHandle =
-                    WindowHelper.findWindowHandle("Share meeting invite");
+                    WindowHelper.findWindowHandle("Share meeting invite" ,1);
 
             if (shareInvitationHandle != null) {
                 break;
@@ -199,7 +199,7 @@ public class TeamsShareInviteTest extends BaseTest {
         switchToDesktop();
 
         String shareInvitationHandle =
-                WindowHelper.findWindowHandle("Share meeting invite");
+                WindowHelper.findWindowHandle("Share meeting invite", 1);
 
         Assert.assertNotNull(
                 shareInvitationHandle,
@@ -292,7 +292,7 @@ public class TeamsShareInviteTest extends BaseTest {
         switchToDesktop();
 
         String shareInvitationHandle =
-                WindowHelper.findWindowHandle("Share meeting invite");
+                WindowHelper.findWindowHandle("Share meeting invite", 1);
 
         Assert.assertNotNull(
                 shareInvitationHandle,
@@ -397,7 +397,7 @@ public class TeamsShareInviteTest extends BaseTest {
         switchToDesktop();
 
         String shareInvitationHandle =
-                WindowHelper.findWindowHandle("Share meeting invite");
+                WindowHelper.findWindowHandle("Share meeting invite",1);
 
         Assert.assertNotNull(
                 shareInvitationHandle,
@@ -511,7 +511,7 @@ public class TeamsShareInviteTest extends BaseTest {
         switchToDesktop();
 
         String shareInvitationHandle =
-                WindowHelper.findWindowHandle("Share meeting invite");
+                WindowHelper.findWindowHandle("Share meeting invite", 1);
 
         Assert.assertNotNull(
                 shareInvitationHandle,
@@ -598,7 +598,7 @@ public class TeamsShareInviteTest extends BaseTest {
         switchToDesktop();
 
         String shareInvitationHandle =
-                WindowHelper.findWindowHandle("Share meeting invite");
+                WindowHelper.findWindowHandle("Share meeting invite",1);
 
         Assert.assertNotNull(
                 shareInvitationHandle,

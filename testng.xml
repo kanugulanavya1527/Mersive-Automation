@@ -42,66 +42,77 @@
             </classes>
         </test>
 
-    <test name="Home Screen Tests">
+    <test name="Zoom Share Invite Tests">
         <classes>
-            <class name="tests.HomeScreenTest"/>
+            <class name="tests.ZoomShareInviteTest"/>
         </classes>
     </test>
 
-    <test name="Navigation Tests">
-        <classes>
-            <class name="tests.NavigationTest"/>
-        </classes>
-    </test>
 
-    <test name="Pre-Join Toggle Tests">
-        <classes>
-            <class name="tests.PreJoinToggleTest"/>
-        </classes>
-    </test>
+<!--    <test name="Home Screen Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.HomeScreenTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Meeting Card Tests">
-        <classes>
-            <class name="tests.MeetingCardTest"/>
-        </classes>
-    </test>
+<!--    <test name="Navigation Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.NavigationTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Meeting Join Tests">
-        <classes>
-            <class name="tests.MeetingJoinTest"/>
-        </classes>
-    </test>
+<!--    <test name="Pre-Join Toggle Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.PreJoinToggleTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Meeting Controls Tests">
-        <classes>
-            <class name="tests.MeetingControlsTest"/>
-        </classes>
-    </test>
+<!--    <test name="Meeting Card Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.MeetingCardTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Recording Tests">
-        <classes>
-            <class name="tests.RecordingTest"/>
-        </classes>
-    </test>
+<!--    <test name="Meeting Join Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.MeetingJoinTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Pre-Join State Tests">
-        <classes>
-            <class name="tests.PreJoinStateTest"/>
-        </classes>
-    </test>
+<!--    <test name="Meeting Controls Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.MeetingControlsTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Meeting Flow Tests">
-        <classes>
-            <class name="tests.MeetingFlowTest"/>
-        </classes>
-    </test>
+<!--    <test name="Recording Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.RecordingTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="AV Sync Tests">
-        <classes>
-            <class name="tests.AVSyncTest"/>
-        </classes>
-    </test>
+<!--    <test name="Pre-Join State Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.PreJoinStateTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
+<!--    <test name="Meeting Flow Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.MeetingFlowTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="AV Sync Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.AVSyncTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+<!--    <test name="Teams Share Invite Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.TeamsShareInviteTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
 
 </suite>

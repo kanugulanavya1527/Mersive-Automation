@@ -220,4 +220,66 @@ public class AVSyncTest extends BaseTest {
 
         System.out.println("TC_031 PASSED");
     }
+
+    @Test(priority = 32)
+    public void TC_032_VerifySpeakerVolumeUpDown() throws Exception {
+
+        System.out.println("=== TC_032: Verify Speaker Volume Up/Down ===");
+
+        MeetingOverlayPage overlay = joinMeeting();
+        Thread.sleep(5000);
+
+        // Open AV panel
+        attachToControlsWindow();
+
+        MeetingOverlayPage controlsOverlay = new MeetingOverlayPage(driver);
+        controlsOverlay.clickAudioVisualButton();
+        System.out.println("✓ Audio & Visual clicked");
+
+        Thread.sleep(3000);
+
+        // Switch to AV Controls
+        attachToAVControlsWindow();
+
+        AVControlsPage avPanel = new AVControlsPage(driver);
+
+        int initialVolume = avPanel.getSpeakerVolume();
+        System.out.println("Initial Volume : " + initialVolume + "%");
+
+        // Increase
+        avPanel.increaseSpeakerVolume();
+
+        Thread.sleep(2000);
+
+        int increasedVolume = avPanel.getSpeakerVolume();
+
+        System.out.println("After Increase : " + increasedVolume + "%");
+
+        Assert.assertTrue(
+                increasedVolume > initialVolume,
+                "Speaker volume did not increase."
+        );
+
+        System.out.println("✓ Speaker volume increased");
+
+        // Decrease
+        avPanel.decreaseSpeakerVolume();
+
+        Thread.sleep(2000);
+
+        int decreasedVolume = avPanel.getSpeakerVolume();
+
+        System.out.println("After Decrease : " + decreasedVolume + "%");
+
+        Assert.assertTrue(
+                decreasedVolume < increasedVolume,
+                "Speaker volume did not decrease."
+        );
+
+        System.out.println("✓ Speaker volume decreased");
+
+        avPanel.clickSwipeToClose();
+
+        System.out.println("TC_032 PASSED");
+    }
 }

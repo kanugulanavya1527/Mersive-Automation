@@ -2,11 +2,15 @@ package pages;
 
 import base.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.awt.*;
+import java.awt.event.InputEvent;
 import java.util.List;
 
 public class AVControlsPage extends BasePage {
@@ -23,6 +27,11 @@ public class AVControlsPage extends BasePage {
             By.xpath("//*[@AutomationId='MicToggleButton']");
     private final By swipeToCloseButton =
             By.xpath("//Button[.//Text[@Name='swipe to close']]");
+
+    private final By speakerPercentage =
+            By.xpath("//Text[contains(@Name,'%')]");
+    private final By speakerSlider =
+            By.className("Slider");
 
     // ── Camera ─────────────────────────────────────────────
 
@@ -80,5 +89,55 @@ public class AVControlsPage extends BasePage {
         WebDriverWait w = new WebDriverWait(driver, 10);
         w.until(ExpectedConditions.elementToBeClickable(swipeToCloseButton)).click();
         System.out.println("[AVPanel] Panel closed");
+    }
+
+    public int getSpeakerVolume() {
+
+        String text = driver.findElement(speakerPercentage)
+                .getText()
+                .replace("%", "")
+                .trim();
+
+        return Integer.parseInt(text);
+    }
+    public void increaseSpeakerVolume() throws Exception {
+
+        Robot robot = new Robot();
+
+        int y = 392;      // Middle of slider
+        int startX = 1450;
+        int endX = 1650;
+
+        robot.mouseMove(startX, y);
+
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+
+        robot.delay(300);
+
+        robot.mouseMove(endX, y);
+
+        robot.delay(300);
+
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
+    public void decreaseSpeakerVolume() throws Exception {
+
+        Robot robot = new Robot();
+
+        int y = 392;
+        int startX = 1650;
+        int endX = 1450;
+
+        robot.mouseMove(startX, y);
+
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+
+        robot.delay(300);
+
+        robot.mouseMove(endX, y);
+
+        robot.delay(300);
+
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
 }

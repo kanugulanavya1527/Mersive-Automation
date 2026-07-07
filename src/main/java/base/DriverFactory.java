@@ -8,7 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
 
-    private static final String WINAPPDRIVER_URL = "http://127.0.0.1:4723/";
+    //private static final String WINAPPDRIVER_URL = "http://127.0.0.1:4723/";
+     private static final String WINAPPDRIVER_URL = "http://192.168.0.100:4723/";
     private static final int IMPLICIT_WAIT = 15;
 
     public static RemoteWebDriver attachByHexHandle(String hexHandle) throws Exception {
