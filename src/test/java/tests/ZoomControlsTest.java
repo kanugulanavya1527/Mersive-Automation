@@ -153,10 +153,10 @@ public class ZoomControlsTest extends BaseTest {
 
         return new MeetingOverlayPage(driver);
     }
-    @Test(priority = 36)
-    public void TC_036_OpenParticipantsPanel() throws Exception {
+    @Test(priority = 47)
+    public void TC_047_OpenParticipantsPanel() throws Exception {
 
-        System.out.println("TC_036 Started");
+        System.out.println("TC_047 Started");
 
         MeetingOverlayPage overlay =
                 joinZoomMeeting();
@@ -178,12 +178,12 @@ public class ZoomControlsTest extends BaseTest {
                 "Participants panel did not open"
         );
 
-        System.out.println("TC_036 PASSED");
+        System.out.println("TC_047 PASSED");
     }
-    @Test(priority = 37)
-    public void TC_037_VerifyChatPanelOpens() throws Exception {
+    @Test(priority = 48)
+    public void TC_048_VerifyChatPanelOpens() throws Exception {
 
-        System.out.println("TC_037 Started");
+        System.out.println("TC_048 Started");
 
         MeetingOverlayPage overlay = joinZoomMeeting();
 
@@ -204,12 +204,12 @@ public class ZoomControlsTest extends BaseTest {
                 "Chat panel did not open"
         );
 
-        System.out.println("TC_037 PASSED");
+        System.out.println("TC_048 PASSED");
     }
-    @Test(priority = 38)
-    public void TC_038_VerifyRaiseHandInZoomMeeting() throws Exception {
+    @Test(priority = 49)
+    public void TC_049_VerifyRaiseHandInZoomMeeting() throws Exception {
 
-        System.out.println("=== TC_038: Raise Hand In Zoom ===");
+        System.out.println("=== TC_0349: Raise Hand In Zoom ===");
 
         MeetingOverlayPage overlay = joinZoomMeeting();
 
@@ -248,14 +248,14 @@ public class ZoomControlsTest extends BaseTest {
 
         System.out.println("✓ Hand lowered");
 
-        System.out.println("TC_038 PASSED");
+        System.out.println("TC_049 PASSED");
     }
 
-    @Test(priority = 39)
-    public void TC_039_VerifyMuteUnmuteMicInZoomMeeting()
+    @Test(priority = 50)
+    public void TC_050_VerifyMuteUnmuteMicInZoomMeeting()
             throws Exception {
 
-        System.out.println("=== TC_039: Mic Sync In Zoom Meeting ===");
+        System.out.println("=== TC_050: Mic Sync In Zoom Meeting ===");
 
         MeetingOverlayPage overlay = joinZoomMeeting();
 
@@ -309,13 +309,13 @@ public class ZoomControlsTest extends BaseTest {
         Assert.assertTrue(overlay.isOverlayMicStateValid(), "Mic state invalid");
         System.out.println("✓ Unmuted state valid");
 
-        System.out.println("TC_039 PASSED");
+        System.out.println("TC_050 PASSED");
     }
-    @Test(priority = 40)
-    public void TC_040_VerifyCameraToggleOnOffOnInZoomMeeting()
+    @Test(priority = 51)
+    public void TC_051_VerifyCameraToggleOnOffOnInZoomMeeting()
             throws Exception {
 
-        System.out.println("=== TC_040: Camera Toggle In Zoom Meeting ===");
+        System.out.println("=== TC_051: Camera Toggle In Zoom Meeting ===");
 
         MeetingOverlayPage overlay = joinZoomMeeting();
 
@@ -379,13 +379,13 @@ public class ZoomControlsTest extends BaseTest {
             );
         }
 
-        System.out.println("TC_040 PASSED");
+        System.out.println("TC_051 PASSED");
     }
-    @Test(priority = 41)
-    public void TC_041_VerifyJoinAndLeaveZoomMeetingGracefully()
+    @Test(priority = 52)
+    public void TC_052_VerifyJoinAndLeaveZoomMeetingGracefully()
             throws Exception {
 
-        System.out.println("=== TC_041: Join and Leave Zoom Meeting ===");
+        System.out.println("=== TC_052: Join and Leave Zoom Meeting ===");
 
         MeetingOverlayPage overlay = joinZoomMeeting();
         pages.RootSessionPage root = new pages.RootSessionPage(driver);
@@ -400,12 +400,12 @@ public class ZoomControlsTest extends BaseTest {
 
         Thread.sleep(15000);
 
-        System.out.println("TC_041 PASSED");
+        System.out.println("TC_052 PASSED");
     }
-    @Test(priority = 42)
-    public void TC_042_VerifyStayInMeeting() throws Exception {
+    @Test(priority = 53)
+    public void TC_053_VerifyStayInMeeting() throws Exception {
 
-        System.out.println("=== TC_042: Stay In Meeting ===");
+        System.out.println("=== TC_053: Stay In Meeting ===");
 
         MeetingOverlayPage overlay = joinZoomMeeting();
 
@@ -423,7 +423,7 @@ public class ZoomControlsTest extends BaseTest {
                 "Meeting was exited unexpectedly"
         );
 
-        System.out.println("TC_042 PASSED");
+        System.out.println("TC_053 PASSED");
     }
 //    @Test(priority = 43)
 //    public void TC_043_VerifyMeetingTitleAfterJoiningZoom()

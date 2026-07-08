@@ -61,10 +61,10 @@ public class TeamsShareInviteTest extends BaseTest {
         return overlay;
     }
 
-    @Test(priority = 21)
-    public void TC_021_VerifyTeamsShareInviteScreen() throws Exception {
+    @Test(priority = 33)
+    public void TC_033_VerifyTeamsShareInviteScreen() throws Exception {
 
-        System.out.println("=== TC_021: Verify Teams Share Invite Screen ===");
+        System.out.println("=== TC_033: Verify Teams Share Invite Screen ===");
 
         MeetingOverlayPage overlay = joinMeeting();
 
@@ -152,14 +152,14 @@ public class TeamsShareInviteTest extends BaseTest {
                 "Failed to return to meeting screen");
 
         System.out.println("✓ Returned to meeting screen");
-        System.out.println("TC_021 PASSED");
+        System.out.println("TC_033 PASSED");
 
     }
 
-    @Test(priority = 22)
-    public void TC_022_VerifySendInviteWithValidEmail() throws Exception {
+    @Test(priority = 34)
+    public void TC_034_VerifySendInviteWithValidEmail() throws Exception {
 
-        System.out.println("=== TC_022: Verify Send Invite With Valid Email ===");
+        System.out.println("=== TC_034: Verify Send Invite With Valid Email ===");
 
         // Join meeting
         MeetingOverlayPage overlay = joinMeeting();
@@ -246,13 +246,13 @@ public class TeamsShareInviteTest extends BaseTest {
 
         System.out.println("✓ Returned to meeting screen");
 
-        System.out.println("TC_022 PASSED");
+        System.out.println("TC_034 PASSED");
     }
 
-    @Test(priority = 23)
-    public void TC_023_VerifySendInviteWithoutEmail() throws Exception {
+    @Test(priority = 35)
+    public void TC_035_VerifySendInviteWithoutEmail() throws Exception {
 
-        System.out.println("=== TC_023: Empty Email Validation ===");
+        System.out.println("=== TC_035: Empty Email Validation ===");
 
         // Join meeting
         MeetingOverlayPage overlay = joinMeeting();
@@ -352,12 +352,12 @@ public class TeamsShareInviteTest extends BaseTest {
 
         System.out.println("✓ Returned to meeting screen");
 
-        System.out.println("TC_023 PASSED");
+        System.out.println("TC_035 PASSED");
     }
-    @Test(priority = 24)
-    public void TC_024_VerifyInvalidEmailValidation() throws Exception {
+    @Test(priority = 36)
+    public void TC_036_VerifyInvalidEmailValidation() throws Exception {
 
-        System.out.println("=== TC_024: Invalid Email Validation ===");
+        System.out.println("=== TC_036: Invalid Email Validation ===");
 
         // Join meeting
         MeetingOverlayPage overlay = joinMeeting();
@@ -465,13 +465,13 @@ public class TeamsShareInviteTest extends BaseTest {
 
         System.out.println("✓ Returned to meeting screen");
 
-        System.out.println("TC_024 PASSED");
+        System.out.println("TC_036 PASSED");
     }
 
-    @Test(priority = 25)
-    public void TC_025_VerifyCloseShareInviteScreen() throws Exception {
+    @Test(priority = 37)
+    public void TC_037_VerifyCloseShareInviteScreen() throws Exception {
 
-        System.out.println("=== TC_025: Close Share Invite ===");
+        System.out.println("=== TC_037: Close Share Invite ===");
 
         // Join meeting
         MeetingOverlayPage overlay = joinMeeting();
@@ -555,12 +555,12 @@ public class TeamsShareInviteTest extends BaseTest {
 
         System.out.println("✓ Returned to meeting screen");
 
-        System.out.println("TC_025 PASSED");
+        System.out.println("TC_037 PASSED");
     }
-    @Test(priority = 26)
-    public void TC_026_VerifySpacesOnlyEmailValidation() throws Exception {
+    @Test(priority = 38)
+    public void TC_038_VerifySpacesOnlyEmailValidation() throws Exception {
 
-        System.out.println("=== TC_026: Spaces Only Email Validation ===");
+        System.out.println("=== TC_038: Spaces Only Email Validation ===");
 
         // Join meeting
         MeetingOverlayPage overlay = joinMeeting();
@@ -660,6 +660,6 @@ public class TeamsShareInviteTest extends BaseTest {
 
         System.out.println("✓ Returned to meeting screen");
 
-        System.out.println("TC_026 PASSED");
+        System.out.println("TC_038 PASSED");
     }
 }

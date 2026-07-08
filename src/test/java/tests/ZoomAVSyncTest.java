@@ -67,12 +67,12 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
     return overlay;
 }
 
-    @Test(priority = 44)
-    public void TC_044_VerifyCameraStateSyncBetweenAVPanelAndTopRibbon()
+    @Test(priority = 56)
+    public void TC_056_VerifyCameraStateSyncBetweenAVPanelAndTopRibbon()
             throws Exception {
 
         System.out.println(
-                "=== TC_044: Camera Sync AV Panel ↔ Top Ribbon ==="
+                "=== TC_056: Camera Sync AV Panel ↔ Top Ribbon ==="
         );
 
         MeetingOverlayPage overlay =
@@ -172,15 +172,15 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
 
         avPanel.clickSwipeToClose();
 
-        System.out.println("TC_044 PASSED");
+        System.out.println("TC_056 PASSED");
     }
 
-    @Test(priority = 45)
-    public void TC_045_VerifyMicStateSyncBetweenAVPanelAndTopRibbon()
+    @Test(priority = 57)
+    public void TC_057_VerifyMicStateSyncBetweenAVPanelAndTopRibbon()
             throws Exception {
 
         System.out.println(
-                "=== TC_045: Mic Sync AV Panel ↔ Top Ribbon ==="
+                "=== TC_057: Mic Sync AV Panel ↔ Top Ribbon ==="
         );
 
         MeetingOverlayPage overlay =
@@ -280,6 +280,6 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
 
         avPanel.clickSwipeToClose();
 
-        System.out.println("TC_045 PASSED");
+        System.out.println("TC_057 PASSED");
     }
 }

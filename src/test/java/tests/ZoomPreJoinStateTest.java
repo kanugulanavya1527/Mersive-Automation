@@ -139,10 +139,10 @@ public class ZoomPreJoinStateTest extends BaseTest {
 
         return overlay;
     }
-    @Test(priority = 48)
-    public void TC_048_VerifyCameraOffAndMicOffAfterJoining()
+    @Test(priority = 42)
+    public void TC_042_VerifyCameraOffAndMicOffAfterJoining()
             throws Exception {
-        System.out.println("=== TC_048: Camera OFF, Mic OFF ===");
+        System.out.println("=== TC_042: Camera OFF, Mic OFF ===");
 
         MeetingOverlayPage overlay = joinWithState(false, false);
 
@@ -154,13 +154,13 @@ public class ZoomPreJoinStateTest extends BaseTest {
                 "Mic is not OFF in overlay");
         System.out.println("✓ Mic OFF confirmed");
 
-        System.out.println("TC_048 PASSED");
+        System.out.println("TC_042 PASSED");
     }
 
-    @Test(priority = 49)
-    public void TC_049_VerifyCameraOnAndMicOffAfterJoining()
+    @Test(priority = 43)
+    public void TC_043_VerifyCameraOnAndMicOffAfterJoining()
             throws Exception {
-        System.out.println("=== TC_049: Camera ON, Mic OFF ===");
+        System.out.println("=== TC_043: Camera ON, Mic OFF ===");
 
         MeetingOverlayPage overlay = joinWithState(true, false);
 
@@ -172,13 +172,13 @@ public class ZoomPreJoinStateTest extends BaseTest {
                 "Mic is not OFF in overlay");
         System.out.println("✓ Mic OFF confirmed");
 
-        System.out.println("TC_049 PASSED");
+        System.out.println("TC_043 PASSED");
     }
 
-    @Test(priority = 50)
-    public void TC_050_VerifyCameraOffAndMicOnAfterJoining()
+    @Test(priority = 44)
+    public void TC_044_VerifyCameraOffAndMicOnAfterJoining()
             throws Exception {
-        System.out.println("=== TC_050: Camera OFF, Mic ON ===");
+        System.out.println("=== TC_044: Camera OFF, Mic ON ===");
 
         MeetingOverlayPage overlay = joinWithState(false, true);
 
@@ -190,13 +190,13 @@ public class ZoomPreJoinStateTest extends BaseTest {
                 "Mic is not ON in overlay");
         System.out.println("✓ Mic ON confirmed");
 
-        System.out.println("TC_050 PASSED");
+        System.out.println("TC_044 PASSED");
     }
 
-    @Test(priority = 51)
-    public void TC_051_VerifyCameraOnAndMicOnAfterJoining()
+    @Test(priority = 45)
+    public void TC_045_VerifyCameraOnAndMicOnAfterJoining()
             throws Exception {
-        System.out.println("=== TC_051: Camera ON, Mic ON ===");
+        System.out.println("=== TC_045: Camera ON, Mic ON ===");
 
         MeetingOverlayPage overlay = joinWithState(true, true);
 
@@ -208,6 +208,6 @@ public class ZoomPreJoinStateTest extends BaseTest {
                 "Mic is not ON in overlay");
         System.out.println("✓ Mic ON confirmed");
 
-        System.out.println("TC_051 PASSED");
+        System.out.println("TC_045 PASSED");
     }
 }

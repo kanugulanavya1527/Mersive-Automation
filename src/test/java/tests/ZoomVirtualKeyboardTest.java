@@ -54,12 +54,12 @@ public class ZoomVirtualKeyboardTest extends BaseTest {
         return overlay;
     }
 
-    @Test(priority = 52)
-    public void TC_052_VerifyVirtualKeyboardAppearsWhenChatOpened()
+    @Test(priority = 54)
+    public void TC_054_VerifyVirtualKeyboardAppearsWhenChatOpened()
             throws Exception {
 
         System.out.println(
-                "=== TC_052: Verify Virtual Keyboard Appears ==="
+                "=== TC_054: Verify Virtual Keyboard Appears ==="
         );
 
         MeetingOverlayPage overlay =
@@ -87,11 +87,12 @@ public class ZoomVirtualKeyboardTest extends BaseTest {
 
         System.out.println("✓ Virtual keyboard appeared");
 
-        System.out.println("TC_052 PASSED");
+        System.out.println("TC_054 PASSED");
 
     }
-    @Test(priority = 53)
-    public void TC_053_VerifyChatTextboxAcceptsInput()
+
+    @Test(priority = 55)
+    public void TC_055_VerifyChatTextboxAcceptsInput()
             throws Exception {
 
         MeetingOverlayPage overlay = joinZoomMeeting();
@@ -103,7 +104,7 @@ public class ZoomVirtualKeyboardTest extends BaseTest {
         Thread.sleep(10000);
 
         throw new AssertionError(
-                "TC_053 FAILED: Chat textbox did not remain focused. " +
+                "TC_055 FAILED: Chat textbox did not remain focused. " +
                         "Known defect: Focus continuously switches between virtual keyboard and Chat icon."
         );
     }

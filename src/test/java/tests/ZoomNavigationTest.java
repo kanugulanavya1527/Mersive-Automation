@@ -10,10 +10,10 @@ import org.testng.annotations.Test;
 
 public class ZoomNavigationTest extends BaseTest {
 
-    @Test(priority = 32)
-    public void TC_032_VerifyZoomMeetingNavigatesToPreJoin() throws InterruptedException {
+    @Test(priority = 39)
+    public void TC_039_VerifyZoomMeetingNavigatesToPreJoin() throws InterruptedException {
 
-        System.out.println("=== TC_032: Zoom Meeting -> PreJoin ===");
+        System.out.println("=== TC_039: Zoom Meeting -> PreJoin ===");
 
         MeetingCardPage cardPage = new MeetingCardPage(driver);
         PreJoinPage preJoin = new PreJoinPage(driver);
@@ -30,13 +30,13 @@ public class ZoomNavigationTest extends BaseTest {
                 "Pre-join screen not loaded"
         );
 
-        System.out.println("TC_032 PASSED");
+        System.out.println("TC_039 PASSED");
     }
-    @Test(priority = 33)
-    public void TC_033_VerifyZoomCameraToggleOnOffOn() throws Exception {
+    @Test(priority = 40)
+    public void TC_040_VerifyZoomCameraToggleOnOffOn() throws Exception {
 
         System.out.println(
-                "=== TC_033: Zoom Camera Toggle ON -> OFF -> ON ==="
+                "=== TC_040: Zoom Camera Toggle ON -> OFF -> ON ==="
         );
 
         HomeScreenPage home =
@@ -89,14 +89,14 @@ public class ZoomNavigationTest extends BaseTest {
 
         System.out.println("✓ Camera ON again");
 
-        System.out.println("TC_033 PASSED");
+        System.out.println("TC_040 PASSED");
     }
 
-    @Test(priority = 34)
-    public void TC_034_VerifyZoomMicrophoneToggleOnOffOn() throws Exception {
+    @Test(priority = 41)
+    public void TC_041_VerifyZoomMicrophoneToggleOnOffOn() throws Exception {
 
         System.out.println(
-                "=== TC_034: Zoom Microphone Toggle ON -> OFF -> ON ==="
+                "=== TC_041: Zoom Microphone Toggle ON -> OFF -> ON ==="
         );
 
         HomeScreenPage home =
@@ -144,6 +144,6 @@ public class ZoomNavigationTest extends BaseTest {
 
         System.out.println("✓ Microphone ON again");
 
-        System.out.println("TC_034 PASSED");
+        System.out.println("TC_041 PASSED");
     }
 }

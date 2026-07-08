@@ -102,10 +102,10 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
     return new MeetingOverlayPage(driver);
 }
 
-    @Test(priority = 35)
-    public void TC_035_VerifyJoinZoomMeeting() throws Exception {
+    @Test(priority = 46)
+    public void TC_046_VerifyJoinZoomMeeting() throws Exception {
 
-        System.out.println("TC_035 Started");
+        System.out.println("TC_046 Started");
 
         MeetingOverlayPage overlay =
                 joinZoomMeeting();
@@ -120,7 +120,7 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
                 "Chat button not visible"
         );
 
-        System.out.println("TC_035 PASSED");
+        System.out.println("TC_046 PASSED");
     }
 
 

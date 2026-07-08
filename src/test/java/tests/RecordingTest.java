@@ -77,9 +77,9 @@ public class RecordingTest extends BaseTest {
         );
     }
 
-    @Test(priority = 26)
-    public void TC_026_VerifyTranscribeFunctionality() throws Exception {
-        System.out.println("=== TC_026: Verify Transcribe Functionality ===");
+    @Test(priority = 22)
+    public void TC_022_VerifyTranscribeFunctionality() throws Exception {
+        System.out.println("=== TC_022: Verify Transcribe Functionality ===");
 
         MeetingOverlayPage overlay = joinMeeting();
         RootSessionPage root       = new RootSessionPage(driver);
@@ -102,6 +102,6 @@ public class RecordingTest extends BaseTest {
                 "FAILED: Transcription stopped toast not visible");
         System.out.println("✓ Transcription stopped confirmed");
 
-        System.out.println("TC_026 PASSED");
+        System.out.println("TC_022 PASSED");
     }
 }
