@@ -141,7 +141,7 @@ public class LobbyManagementTest extends BaseTest {
         System.out.println("------------------------------------------");
 
         System.out.println("TC_040 COMPLETED");
-        System.out.println("==========================================");
+        System.out.println("=========================================");
     }
 
 //    @Test(priority = 41)
