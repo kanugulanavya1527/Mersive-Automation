@@ -637,27 +637,33 @@ public class MeetingOverlayPage extends BasePage {
 
 public boolean isJoinRequestDisplayed() {
 
-    System.out.println("Waiting for Admit/Deny buttons...");
+    for (int i = 1; i <= 120; i++) {
 
-    try {
+        int admit =
+                driver.findElements(By.name("Admit")).size();
 
-        return new WebDriverWait(driver, 60)
-                .until(d ->
+        int deny =
+                driver.findElements(By.name("Deny")).size();
 
-                        !d.findElements(By.name("Admit")).isEmpty()
+        System.out.println(
+                "Second "
+                        + i
+                        + " -> Admit="
+                        + admit
+                        + " Deny="
+                        + deny
+        );
 
-                                &&
+        if (admit > 0 && deny > 0) {
+            return true;
+        }
 
-                                !d.findElements(By.name("Deny")).isEmpty()
-
-                );
-
-    } catch (Exception e) {
-
-        return false;
-
+        try {
+            Thread.sleep(1000);
+        } catch (Exception ignored) {}
     }
 
+    return false;
 }
 
     public void clickAdmitButton() {

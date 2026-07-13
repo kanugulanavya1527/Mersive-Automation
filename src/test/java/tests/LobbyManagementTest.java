@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -101,6 +102,15 @@ public class LobbyManagementTest extends BaseTest {
         overlay.clickPeopleButton();
 
         System.out.println("Waiting for join request...");
+
+        System.out.println("Waiting 30 seconds for manual join...");
+        Thread.sleep(30000);
+
+        System.out.println("Admit Count = "
+                + driver.findElements(By.name("Admit")).size());
+
+        System.out.println("Deny Count = "
+                + driver.findElements(By.name("Deny")).size());
 
         Assert.assertTrue(
 
