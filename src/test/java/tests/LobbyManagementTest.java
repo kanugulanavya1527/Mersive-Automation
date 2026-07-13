@@ -88,16 +88,24 @@ public class LobbyManagementTest extends BaseTest {
 
         clickAdmitFromRoot();
 
-        Thread.sleep(3000);
+        Thread.sleep(5000);
 
         overlay.clickPeopleButton();
 
         Assert.assertTrue(
                 overlay.waitForPeoplePanelOpened());
 
-        System.out.println("Verify participant manually");
+        System.out.println("In Meeting Count = " +
+                driver.findElements(
+                        By.xpath("//*[contains(@Name,'In this meeting')]")
+                ).size());
 
-        System.out.println("TC_040 PASSED");
+        System.out.println("Navya Count = " +
+                driver.findElements(
+                        By.name("Navya Kanugula")
+                ).size());
+
+        Assert.fail("Debug");
     }
 
 //    @Test(priority = 41)
