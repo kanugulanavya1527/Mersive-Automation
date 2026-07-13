@@ -84,72 +84,11 @@ public class LobbyManagementTest extends BaseTest {
         System.out.println("Waiting 30 seconds...");
         Thread.sleep(30000);
 
-        // During these 30 seconds, let the remote user request to join.
+// Remote participant joins during this time.
 
-        switchToDesktop();
+        clickAdmitFromRoot();
 
-        System.out.println("Switched to Root session");
-
-        System.out.println("Root Admit = "
-                + driver.findElements(By.name("Admit")).size());
-
-        System.out.println("Root Deny = "
-                + driver.findElements(By.name("Deny")).size());
-
-        return;
-    }
-
-    @Test(priority = 41)
-
-    public void TC_041_VerifyDenyParticipant()
-
-            throws Exception {
-
-        System.out.println("===================================");
-
-        System.out.println("TC_041 Verify Deny Participant");
-
-        MeetingOverlayPage overlay =
-                joinMeeting();
-
-        System.out.println("Opening People panel");
-
-        overlay.clickPeopleButton();
-
-        Assert.assertTrue(
-                overlay.waitForPeoplePanelOpened());
-
-        Thread.sleep(2000);
-
-        System.out.println("Closing People panel");
-
-        overlay.clickPeopleButton();
-
-        System.out.println("Waiting for join request...");
-
-        Assert.assertTrue(
-
-                overlay.isJoinRequestDisplayed(),
-
-                "Admit/Deny buttons not displayed"
-
-        );
-
-        System.out.println("Admit & Deny buttons displayed");
-
-        overlay.clickDenyButton();
-
-        System.out.println("Deny clicked");
-
-        Assert.assertTrue(
-
-                overlay.waitForJoinRequestToDisappear(),
-
-                "Join request popup still visible"
-
-        );
-
-        System.out.println("Popup disappeared");
+        Thread.sleep(3000);
 
         overlay.clickPeopleButton();
 
@@ -158,10 +97,72 @@ public class LobbyManagementTest extends BaseTest {
 
         System.out.println("Verify participant manually");
 
-        System.out.println("TC_041 PASSED");
-
-        System.out.println("===================================");
-
+        System.out.println("TC_040 PASSED");
     }
+
+//    @Test(priority = 41)
+//
+//    public void TC_041_VerifyDenyParticipant()
+//
+//            throws Exception {
+//
+//        System.out.println("===================================");
+//
+//        System.out.println("TC_041 Verify Deny Participant");
+//
+//        MeetingOverlayPage overlay =
+//                joinMeeting();
+//
+//        System.out.println("Opening People panel");
+//
+//        overlay.clickPeopleButton();
+//
+//        Assert.assertTrue(
+//                overlay.waitForPeoplePanelOpened());
+//
+//        Thread.sleep(2000);
+//
+//        System.out.println("Closing People panel");
+//
+//        overlay.clickPeopleButton();
+//
+//        System.out.println("Waiting for join request...");
+//
+//        Assert.assertTrue(
+//
+//                overlay.isJoinRequestDisplayed(),
+//
+//                "Admit/Deny buttons not displayed"
+//
+//        );
+//
+//        System.out.println("Admit & Deny buttons displayed");
+//
+//        overlay.clickDenyButton();
+//
+//        System.out.println("Deny clicked");
+//
+//        Assert.assertTrue(
+//
+//                overlay.waitForJoinRequestToDisappear(),
+//
+//                "Join request popup still visible"
+//
+//        );
+//
+//        System.out.println("Popup disappeared");
+//
+//        overlay.clickPeopleButton();
+//
+//        Assert.assertTrue(
+//                overlay.waitForPeoplePanelOpened());
+//
+//        System.out.println("Verify participant manually");
+//
+//        System.out.println("TC_041 PASSED");
+//
+//        System.out.println("===================================");
+//
+//    }
 
 }

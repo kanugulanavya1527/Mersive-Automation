@@ -134,6 +134,11 @@ public class BaseTest {
 //            lastMeetingOverlayHandle = null;
 //        }
 //    }
+    protected void switchBackToMeetingOverlay() throws Exception {
+
+        attachByHandle(lastMeetingOverlayHandle);
+
+    }
 
     private void leaveActiveMeeting() {
         if (lastMeetingOverlayHandle == null) return;
@@ -242,5 +247,27 @@ public class BaseTest {
     }
     protected void setLastMeetingOverlayHandle(String handle) {
         lastMeetingOverlayHandle = handle;
+    }
+
+    protected void clickAdmitFromRoot() throws Exception {
+
+        switchToDesktop();
+
+        new MeetingOverlayPage(driver)
+                .clickAdmitButton();
+
+        switchBackToMeetingOverlay();
+
+    }
+
+    protected void clickDenyFromRoot() throws Exception {
+
+        switchToDesktop();
+
+        new MeetingOverlayPage(driver)
+                .clickDenyButton();
+
+        switchBackToMeetingOverlay();
+
     }
 }
