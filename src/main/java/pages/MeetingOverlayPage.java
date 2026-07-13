@@ -91,6 +91,10 @@ public class MeetingOverlayPage extends BasePage {
     private final By zoomInviteButton =
             By.xpath("//Button[contains(@Name,'Invite')]");
 
+    // Lobby
+    private final By admitButton = By.name("Admit");
+    private final By denyButton = By.name("Deny");
+
 
 
     // ── Meeting Joined ─────────────────────────────────────
@@ -624,5 +628,85 @@ public class MeetingOverlayPage extends BasePage {
         WebDriverWait w = new WebDriverWait(driver, 15);
         w.until(ExpectedConditions.elementToBeClickable(kioskExitButton)).click();
         System.out.println("[Kiosk] Exit button clicked");
+    }
+
+
+////////////////////////////////////////////////////////
+
+
+
+public boolean isJoinRequestDisplayed() {
+
+    System.out.println("Waiting for Admit/Deny buttons...");
+
+    try {
+
+        return new WebDriverWait(driver, 60)
+                .until(d ->
+
+                        !d.findElements(By.name("Admit")).isEmpty()
+
+                                &&
+
+                                !d.findElements(By.name("Deny")).isEmpty()
+
+                );
+
+    } catch (Exception e) {
+
+        return false;
+
+    }
+
+}
+
+    public void clickAdmitButton() {
+
+        wait.until(
+                ExpectedConditions.elementToBeClickable(
+                        By.name("Admit")
+                )
+        ).click();
+
+        System.out.println("Admit button clicked");
+
+    }
+
+    public void clickDenyButton() {
+
+        wait.until(
+                ExpectedConditions.elementToBeClickable(
+                        By.name("Deny")
+                )
+        ).click();
+
+        System.out.println("Deny button clicked");
+
+    }
+
+    public boolean waitForJoinRequestToDisappear() {
+
+        try {
+
+            return new WebDriverWait(driver,20)
+
+                    .until(d ->
+
+                            d.findElements(By.name("Admit")).isEmpty()
+
+                                    &&
+
+                                    d.findElements(By.name("Deny")).isEmpty()
+
+                    );
+
+        }
+
+        catch (Exception e) {
+
+            return false;
+
+        }
+
     }
 }
