@@ -17,6 +17,7 @@ public class LobbyManagementTest extends BaseTest {
         MeetingCardPage cards = new MeetingCardPage(driver);
         PreJoinPage preJoin = new PreJoinPage(driver);
 
+        cards.printAllImages();
         cards.clickJoinForFirstTeamsMeeting();
 
         new WebDriverWait(driver,20)

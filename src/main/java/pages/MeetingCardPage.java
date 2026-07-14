@@ -171,7 +171,7 @@ public class MeetingCardPage extends BasePage {
             throw new RuntimeException("No joinable meeting cards on the home screen.");
 
         // Look for a "Teams" label element
-        By teamsLabels = By.xpath("//Text[@Name='Teams']");
+        By teamsLabels = By.className("Image");
         List<WebElement> teams = driver.findElements(teamsLabels);
         if (teams.isEmpty())
             throw new RuntimeException(
@@ -274,5 +274,26 @@ public class MeetingCardPage extends BasePage {
         }
 
         return "";
+    }
+
+    public void printAllImages() {
+
+        List<WebElement> images = driver.findElements(By.className("Image"));
+
+        System.out.println("Total Images = " + images.size());
+
+        int i = 1;
+        for (WebElement image : images) {
+
+            System.out.println("----------------------");
+            System.out.println("Image " + i++);
+            System.out.println("Y = " + image.getLocation().getY());
+
+            try {
+                System.out.println("Name = " + image.getText());
+            } catch (Exception e) {
+                System.out.println("No text");
+            }
+        }
     }
 }
