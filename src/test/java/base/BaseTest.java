@@ -264,10 +264,16 @@ public class BaseTest {
 
         switchToDesktop();
 
-        new MeetingOverlayPage(driver)
-                .clickDenyButton();
+        System.out.println("================================");
+        System.out.println("Looking for Deny button...");
+        System.out.println("Deny buttons found = "
+                + driver.findElements(By.name("Deny")).size());
+        System.out.println("================================");
+
+        new MeetingOverlayPage(driver).clickDenyButton();
+
+        System.out.println("✓ Deny button clicked");
 
         switchBackToMeetingOverlay();
-
     }
 }

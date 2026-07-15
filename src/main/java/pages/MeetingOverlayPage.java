@@ -652,5 +652,39 @@ public class MeetingOverlayPage extends BasePage {
 
     }
 
+    public boolean isJoinRequestDisplayed() {
+
+        try {
+
+            return new WebDriverWait(driver, 30)
+                    .until(d ->
+                            !d.findElements(admitButton).isEmpty()
+                                    &&
+                                    !d.findElements(denyButton).isEmpty());
+
+        } catch (Exception e) {
+
+            return false;
+
+        }
+    }
+
+    public boolean waitForJoinRequestToDisappear() {
+
+        try {
+
+            return new WebDriverWait(driver, 20)
+                    .until(d ->
+                            d.findElements(admitButton).isEmpty()
+                                    &&
+                                    d.findElements(denyButton).isEmpty());
+
+        } catch (Exception e) {
+
+            return false;
+
+        }
+    }
+
 
 }

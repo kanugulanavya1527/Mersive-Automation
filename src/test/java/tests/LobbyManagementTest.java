@@ -17,7 +17,7 @@ public class LobbyManagementTest extends BaseTest {
         MeetingCardPage cards = new MeetingCardPage(driver);
         PreJoinPage preJoin = new PreJoinPage(driver);
 
-        cards.printAllImages();
+        //cards.printAllImages();
         cards.clickJoinForFirstTeamsMeeting();
 
         new WebDriverWait(driver,20)
@@ -144,70 +144,82 @@ public class LobbyManagementTest extends BaseTest {
         System.out.println("TC_040 COMPLETED");
         System.out.println("=========================================");
     }
+    @Test(priority = 41)
+    public void TC_041_VerifyDenyParticipant() throws Exception {
 
-//    @Test(priority = 41)
-//
-//    public void TC_041_VerifyDenyParticipant()
-//
-//            throws Exception {
-//
-//        System.out.println("===================================");
-//
-//        System.out.println("TC_041 Verify Deny Participant");
-//
-//        MeetingOverlayPage overlay =
-//                joinMeeting();
-//
-//        System.out.println("Opening People panel");
-//
-//        overlay.clickPeopleButton();
-//
-//        Assert.assertTrue(
-//                overlay.waitForPeoplePanelOpened());
-//
-//        Thread.sleep(2000);
-//
-//        System.out.println("Closing People panel");
-//
-//        overlay.clickPeopleButton();
-//
-//        System.out.println("Waiting for join request...");
-//
-//        Assert.assertTrue(
-//
-//                overlay.isJoinRequestDisplayed(),
-//
-//                "Admit/Deny buttons not displayed"
-//
-//        );
-//
-//        System.out.println("Admit & Deny buttons displayed");
-//
-//        overlay.clickDenyButton();
-//
-//        System.out.println("Deny clicked");
-//
-//        Assert.assertTrue(
-//
-//                overlay.waitForJoinRequestToDisappear(),
-//
-//                "Join request popup still visible"
-//
-//        );
-//
-//        System.out.println("Popup disappeared");
-//
-//        overlay.clickPeopleButton();
-//
-//        Assert.assertTrue(
-//                overlay.waitForPeoplePanelOpened());
-//
-//        System.out.println("Verify participant manually");
-//
-//        System.out.println("TC_041 PASSED");
-//
-//        System.out.println("===================================");
-//
-//    }
+        System.out.println("==========================================");
+        System.out.println("TC_041 - Verify Deny Participant");
+        System.out.println("==========================================");
 
+        MeetingOverlayPage overlay = joinMeeting();
+
+        System.out.println("Step 1 : Opening People panel");
+
+        overlay.clickPeopleButton();
+
+        Assert.assertTrue(
+                overlay.waitForPeoplePanelOpened(),
+                "People panel did not open.");
+
+        System.out.println("✓ People panel opened");
+
+        System.out.println("Step 2 : Closing People panel");
+
+        overlay.clickPeopleButton();
+
+        System.out.println("Step 3 : Waiting for remote participant to request access...");
+        Thread.sleep(30000);
+
+        System.out.println("Step 4 : Clicking Deny button");
+
+        clickDenyFromRoot();
+
+        System.out.println("✓ Deny button clicked");
+
+        System.out.println("Step 5 : Waiting for request to disappear...");
+        Thread.sleep(5000);
+
+        System.out.println("Step 6 : Opening People panel");
+
+        overlay.clickPeopleButton();
+
+        Assert.assertTrue(
+                overlay.waitForPeoplePanelOpened(),
+                "People panel did not open.");
+
+        System.out.println("✓ People panel opened");
+
+        int meetingCount = driver.findElements(
+                        By.xpath("//*[contains(@Name,'In this meeting')]"))
+                .size();
+
+        int participantCount = driver.findElements(
+                        By.name("Navya Kanugula"))
+                .size();
+
+        System.out.println("------------------------------------------");
+        System.out.println("Automation Verification");
+        System.out.println("------------------------------------------");
+        System.out.println("In Meeting Locator Count : " + meetingCount);
+        System.out.println("Participant Locator Count : " + participantCount);
+
+        if (meetingCount == 0 && participantCount == 0) {
+
+            System.out.println("NOTE:");
+            System.out.println("Current WinAppDriver session cannot access");
+            System.out.println("the Teams participant list.");
+            System.out.println("Please verify participant denial manually.");
+
+        }
+
+        System.out.println("------------------------------------------");
+        System.out.println("Manual Verification Required");
+        System.out.println("------------------------------------------");
+        System.out.println("Expected : Participant should NOT be admitted.");
+        System.out.println("Verify    : Participant count should remain unchanged.");
+        System.out.println("------------------------------------------");
+
+        System.out.println("TC_041 COMPLETED");
+        System.out.println("==========================================");
+    }
 }

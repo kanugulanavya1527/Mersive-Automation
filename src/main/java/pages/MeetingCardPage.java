@@ -165,38 +165,99 @@ public class MeetingCardPage extends BasePage {
                 "Could not match JOIN button to Zoom meeting."
         );
     }
-    public void clickJoinForFirstTeamsMeeting() {
-        List<WebElement> joinBtns = waitForJoinButtons(20);
-        if (joinBtns.isEmpty())
-            throw new RuntimeException("No joinable meeting cards on the home screen.");
+//    public void clickJoinForFirstTeamsMeeting() {
+//        List<WebElement> joinBtns = waitForJoinButtons(20);
+//        if (joinBtns.isEmpty())
+//            throw new RuntimeException("No joinable meeting cards on the home screen.");
+//
+//        // Look for a "Teams" label element
+//        By teamsLabels = By.className("Image");
+//        List<WebElement> teams = driver.findElements(teamsLabels);
+//        if (teams.isEmpty())
+//            throw new RuntimeException(
+//                    "No Teams meeting is scheduled on the room right now. "
+//                            + "Schedule a Teams meeting covering the test window.");
+//
+//        // Match each Teams label to the JOIN button on the same card row (closest Y)
+//        for (WebElement label : teams) {
+//            int labelY = label.getLocation().getY();
+//            WebElement best = null;
+//            int bestDist = Integer.MAX_VALUE;
+//            for (WebElement join : joinBtns) {
+//                int d = Math.abs(join.getLocation().getY() - labelY);
+//                if (d < bestDist) { bestDist = d; best = join; }
+//            }
+//            if (best != null && bestDist < 150) {   // same card row
+//                best.click();
+//                System.out.println("[MeetingCardPage] Joined first Teams meeting card");
+//                return;
+//            }
+//        }
+//        throw new RuntimeException("Could not match a JOIN button to a Teams card.");
+//    }
+//
+public void clickJoinForFirstTeamsMeeting() {
 
-        // Look for a "Teams" label element
-        By teamsLabels = By.className("Image");
-        List<WebElement> teams = driver.findElements(teamsLabels);
-        if (teams.isEmpty())
-            throw new RuntimeException(
-                    "No Teams meeting is scheduled on the room right now. "
-                            + "Schedule a Teams meeting covering the test window.");
+    List<WebElement> joinBtns = waitForJoinButtons(20);
 
-        // Match each Teams label to the JOIN button on the same card row (closest Y)
-        for (WebElement label : teams) {
-            int labelY = label.getLocation().getY();
-            WebElement best = null;
-            int bestDist = Integer.MAX_VALUE;
+    if (joinBtns.isEmpty()) {
+        throw new RuntimeException("No joinable meeting cards on the home screen.");
+    }
+
+    // Teams icon is now an Image instead of Text
+    List<WebElement> images = driver.findElements(By.className("Image"));
+
+    if (images.isEmpty()) {
+        throw new RuntimeException("No Images found on Home Screen.");
+    }
+
+    for (WebElement image : images) {
+
+        int x = image.getLocation().getX();
+        int y = image.getLocation().getY();
+        int width = image.getSize().getWidth();
+        int height = image.getSize().getHeight();
+
+        System.out.println(
+                "Image -> X=" + x +
+                        " Y=" + y +
+                        " W=" + width +
+                        " H=" + height);
+
+        // Ignore background images and keep only the Teams icon
+        if (width == 44 && height == 41 && x > 2500) {
+
+            WebElement bestJoin = null;
+            int bestDistance = Integer.MAX_VALUE;
+
             for (WebElement join : joinBtns) {
-                int d = Math.abs(join.getLocation().getY() - labelY);
-                if (d < bestDist) { bestDist = d; best = join; }
+
+                int distance =
+                        Math.abs(join.getLocation().getY() - y);
+
+                if (distance < bestDistance) {
+                    bestDistance = distance;
+                    bestJoin = join;
+                }
             }
-            if (best != null && bestDist < 150) {   // same card row
-                best.click();
-                System.out.println("[MeetingCardPage] Joined first Teams meeting card");
+
+            if (bestJoin != null) {
+
+                System.out.println(
+                        "[MeetingCardPage] Teams icon matched with JOIN button");
+
+                bestJoin.click();
+
+                System.out.println(
+                        "[MeetingCardPage] Joined first Teams meeting");
+
                 return;
             }
         }
-        throw new RuntimeException("Could not match a JOIN button to a Teams card.");
     }
 
-
+    throw new RuntimeException("Could not locate Teams meeting card.");
+}
 
     public String getMeetingCardTitle() {
 
@@ -283,17 +344,35 @@ public class MeetingCardPage extends BasePage {
         System.out.println("Total Images = " + images.size());
 
         int i = 1;
+
         for (WebElement image : images) {
 
-            System.out.println("----------------------");
+            System.out.println("--------------------------");
             System.out.println("Image " + i++);
             System.out.println("Y = " + image.getLocation().getY());
+            System.out.println("X = " + image.getLocation().getX());
+            System.out.println("Width = " + image.getSize().getWidth());
+            System.out.println("Height = " + image.getSize().getHeight());
 
             try {
-                System.out.println("Name = " + image.getText());
-            } catch (Exception e) {
-                System.out.println("No text");
+                System.out.println("AutomationId = " + image.getAttribute("AutomationId"));
+                System.out.println("ClassName = " + image.getAttribute("ClassName"));
+                System.out.println("Name = " + image.getAttribute("Name"));
+            } catch (Exception ignored) {
             }
+        }
+
+        List<WebElement> joins = driver.findElements(By.name("JOIN"));
+
+        System.out.println("\n===== JOIN BUTTONS =====");
+
+        for (WebElement join : joins) {
+
+            System.out.println(
+                    "JOIN -> X="
+                            + join.getLocation().getX()
+                            + " Y="
+                            + join.getLocation().getY());
         }
     }
 }
