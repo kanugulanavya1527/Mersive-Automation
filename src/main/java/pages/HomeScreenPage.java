@@ -12,7 +12,7 @@ public class HomeScreenPage extends BasePage {
 
     // ── Locators ───────────────────────────────────────────
 
-    private final By roomName        = By.name("Infocomm 2026");
+    private final By roomName        = By.name("InfoComm 2026");
     private final By startMeetingBtn = By.xpath("//Button[.//Text[@Name='Start a meeting']]");
     private final By joinWithIdBtn   = By.xpath("//Button[.//Text[@Name='Join with ID']]");
     private final By settingsBtn     = By.xpath("//Button[.//Text[@Name='Settings']]");
