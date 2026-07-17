@@ -40,10 +40,9 @@ public class MeetingOverlayPage extends BasePage {
 
     // Raise Hand
     private final By raiseHandButton =
-            By.xpath("//Button[.//Text[@Name='Hand Raise']]");
+            By.xpath("//*[@AutomationId='HandRaiseButton']");
     private final By handRaisedButton =
-            By.xpath("//Button[.//Text[@Name='Hand Raised']]");
-
+            By.xpath("//*[@AutomationId='HandRaiseButton']//Text[@Name='Lower Hand']");
     // Leave
     private final By leaveButton =
             By.xpath("//Button[.//Text[@Name='Leave']]");
@@ -227,7 +226,7 @@ public class MeetingOverlayPage extends BasePage {
             if (els.isEmpty()) return false;
             String name = els.get(0).getAttribute("Name");
             System.out.println("[Camera] State = " + name);
-            return "Cam Off".equals(name);
+            return "Camera Off".equalsIgnoreCase(name);
         } catch (Exception e) { return false; }
     }
 
@@ -266,47 +265,27 @@ public class MeetingOverlayPage extends BasePage {
     // ── Mic ────────────────────────────────────────────────
 
     public String getOverlayMicState() {
-        try {
-            return driver.findElement(overlayMicButtonText)
-                    .getAttribute("Name");
-        } catch (Exception e) { return "UNKNOWN"; }
-    }
 
-    public boolean isOverlayMicMuted() {
         try {
-            return new WebDriverWait(driver, 15).until(d ->
-                    getOverlayMicState().equalsIgnoreCase("Muted"));
-        } catch (Exception e) { return false; }
-    }
 
-    public boolean isOverlayMicUnmuted() {
-        try {
-            return new WebDriverWait(driver, 15).until(d ->
-                    getOverlayMicState().equalsIgnoreCase("Mic"));
-        } catch (Exception e) { return false; }
-    }
+            List<WebElement> texts =
+                    driver.findElements(By.xpath("//*[@AutomationId='MicButton']//Text"));
 
-    public boolean waitForOverlayMicMuted() {
-        try {
-            new WebDriverWait(driver, 10).until(d ->
-                    getOverlayMicState().equalsIgnoreCase("Muted"));
-            return true;
-        } catch (Exception e) { return false; }
-    }
+            if (texts.isEmpty())
+                return "UNKNOWN";
 
-    public boolean waitForOverlayMicUnmuted() {
-        try {
-            new WebDriverWait(driver, 10).until(d ->
-                    getOverlayMicState().equalsIgnoreCase("Mic"));
-            return true;
-        } catch (Exception e) { return false; }
-    }
+            String state =
+                    texts.get(texts.size() - 1).getAttribute("Name").trim();
 
-    public boolean isOverlayMicStateValid() {
-        String state = getOverlayMicState();
-        System.out.println("[Mic] State = " + state);
-        return state.equalsIgnoreCase("Muted")
-                || state.equalsIgnoreCase("Mic");
+            System.out.println("[Mic] State = " + state);
+
+            return state;
+
+        } catch (Exception e) {
+
+            return "UNKNOWN";
+
+        }
     }
 
     public void clickOverlayMicToggle() {
@@ -453,13 +432,30 @@ public class MeetingOverlayPage extends BasePage {
     }
 
     // ── Raise Hand ─────────────────────────────────────────
-
     public void clickRaiseHandButton() {
-        WebDriverWait w = new WebDriverWait(driver, 20);
-        w.until(ExpectedConditions.elementToBeClickable(raiseHandButton)).click();
-        System.out.println("[Hand] Raise Hand clicked");
-    }
 
+        List<WebElement> buttons = driver.findElements(By.xpath("//Button"));
+
+        System.out.println("========= BUTTONS =========");
+
+        for (WebElement b : buttons) {
+
+            System.out.println(
+                    "AutomationId = " + b.getAttribute("AutomationId")
+                            + " | Name = " + b.getAttribute("Name")
+            );
+        }
+
+        System.out.println("===========================");
+
+        WebElement button = driver.findElement(
+                By.xpath("//*[@AutomationId='HandRaiseButton']")
+        );
+
+        button.click();
+
+        System.out.println("✓ Raise Hand clicked");
+    }
     public void clickLowerHandButton() {
         WebDriverWait w = new WebDriverWait(driver, 20);
         w.until(ExpectedConditions.elementToBeClickable(handRaisedButton)).click();
@@ -483,44 +479,53 @@ public class MeetingOverlayPage extends BasePage {
     }
 
     public boolean isMyHandRaised() {
-        try {
-            boolean buttonChanged = new WebDriverWait(driver, 15).until(d ->
-                    !d.findElements(handRaisedButton).isEmpty());
-            if (buttonChanged) {
-                System.out.println("[Hand] ✓ Hand raised — toolbar changed");
-                return true;
-            }
-        } catch (Exception ignored) {}
 
-        By[] tileLocators = {
-                By.xpath("//*[contains(@Name,'Navya Kanugula')" +
-                        " and contains(@Name,'Hand raised')]"),
-                By.xpath("//*[contains(@Name,'Hand raised')]"),
-                By.xpath("//*[contains(@Name,'Raised hand')]")
-        };
-        for (By locator : tileLocators) {
-            try {
-                if (!driver.findElements(locator).isEmpty()) {
-                    System.out.println("[Hand] ✓ Hand raised via tile: " + locator);
-                    return true;
-                }
-            } catch (Exception ignored) {}
+        try {
+
+            List<WebElement> texts =
+                    driver.findElements(
+                            By.xpath("//*[@AutomationId='HandRaiseButton']//Text"));
+
+            if (texts.isEmpty())
+                return false;
+
+            String state =
+                    texts.get(0).getAttribute("Name");
+
+            System.out.println("[Hand] State = " + state);
+
+            return state.equalsIgnoreCase("Lower Hand");
+
+        } catch (Exception e) {
+
+            return false;
+
         }
-        return false;
     }
-
     public boolean isMyHandLowered() {
-        try {
-            boolean reverted = new WebDriverWait(driver, 15).until(d ->
-                    !d.findElements(raiseHandButton).isEmpty());
-            if (reverted) {
-                System.out.println("[Hand] ✓ Hand lowered — toolbar reverted");
-                return true;
-            }
-        } catch (Exception ignored) {}
-        return false;
-    }
 
+        try {
+
+            List<WebElement> texts =
+                    driver.findElements(
+                            By.xpath("//*[@AutomationId='HandRaiseButton']//Text"));
+
+            if (texts.isEmpty())
+                return false;
+
+            String state =
+                    texts.get(0).getAttribute("Name");
+
+            System.out.println("[Hand] State = " + state);
+
+            return state.equalsIgnoreCase("Raise Hand");
+
+        } catch (Exception e) {
+
+            return false;
+
+        }
+    }
     // ── Leave ──────────────────────────────────────────────
 
     public void clickLeaveButton() {
@@ -686,5 +691,43 @@ public class MeetingOverlayPage extends BasePage {
         }
     }
 
+
+
+
+    public boolean isOverlayMicMuted() {
+        return getOverlayMicState().equalsIgnoreCase("Unmute");
+    }
+
+    public boolean isOverlayMicUnmuted() {
+        return getOverlayMicState().equalsIgnoreCase("Mute");
+    }
+
+    public boolean waitForOverlayMicMuted() {
+        try {
+            new WebDriverWait(driver,10)
+                    .until(d -> getOverlayMicState().equalsIgnoreCase("Unmute"));
+            return true;
+        } catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean waitForOverlayMicUnmuted() {
+        try {
+            new WebDriverWait(driver,10)
+                    .until(d -> getOverlayMicState().equalsIgnoreCase("Mute"));
+            return true;
+        } catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isOverlayMicStateValid() {
+
+        String state = getOverlayMicState();
+
+        return state.equalsIgnoreCase("Mute")
+                || state.equalsIgnoreCase("Unmute");
+    }
 
 }

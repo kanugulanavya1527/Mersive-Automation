@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import org.openqa.selenium.WebElement;
 import pages.MeetingCardPage;
 import pages.MeetingOverlayPage;
 import pages.PreJoinPage;
@@ -10,61 +11,81 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import utils.WindowHelper;
 
+import java.util.List;
+
 public class MeetingControlsTest extends BaseTest {
 
     // ── Shared join flow ───────────────────────────────────
 
     private MeetingOverlayPage joinMeeting() throws Exception {
-        MeetingCardPage cards = new MeetingCardPage(driver);
-        PreJoinPage preJoin   = new PreJoinPage(driver);
 
-        cards.clickJoinForFirstTeamsMeeting();
+        MeetingCardPage meetingCard = new MeetingCardPage(driver);
 
-        new WebDriverWait(driver, 20).until(
-                d -> {
-                    try {
-                        return new PreJoinPage(driver).isPreJoinScreenLoaded();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
+        meetingCard.clickJoinForFirstTeamsMeeting();
 
-//        preJoin.clickJoinMicrosoftTeamsMeeting();
-//        switchToDesktop();
+        PreJoinPage preJoin = new PreJoinPage(driver);
+
+        Assert.assertTrue(
+                preJoin.isPreJoinScreenLoaded(),
+                "Pre-Join screen did not appear"
+        );
+
         preJoin.clickJoinMicrosoftTeamsMeeting();
 
-        Thread.sleep(5000);
+        Thread.sleep(3000);
 
-        if (preJoin.isJoinNowVisible()) {
+        try {
             preJoin.clickJoinNow();
-            Thread.sleep(8000);
+        } catch (Exception ignored) {
         }
 
         switchToDesktop();
 
-        String blockerHandle =
-                WindowHelper.findWindowHandle(
-                        "Mersive Room Blocker"
-                );
+// Give Root session time to stabilize
+        Thread.sleep(2000);
+
+        String blockerHandle = null;
+
+        for (int i = 0; i < 30; i++) {
+
+            blockerHandle =
+                    WindowHelper.findWindowHandle("Mersive Room Blocker", 1);
+
+            if (blockerHandle != null) {
+                break;
+            }
+
+            System.out.println("Waiting for Blocker... " + (i + 1));
+            Thread.sleep(1000);
+        }
 
         if (blockerHandle == null) {
+
+            WindowHelper.printAllWindows();
+
             throw new RuntimeException(
                     "Mersive Room Blocker not found."
             );
         }
 
-        setLastMeetingOverlayHandle(blockerHandle);
         attachByHandle(blockerHandle);
+        setLastMeetingOverlayHandle(blockerHandle);
+
+        System.out.println("✓ Reattached to Mersive Room");
+
+        System.out.println("✓ Reattached to Mersive Room");
 
         MeetingOverlayPage overlay = new MeetingOverlayPage(driver);
-        Thread.sleep(8000);
 
-        Assert.assertTrue(overlay.waitForMeetingJoinedScreen(),
-                "Meeting screen did not load");
+        Assert.assertTrue(
+                overlay.waitForMeetingJoinedScreen(),
+                "Meeting screen did not load"
+        );
+
         System.out.println("✓ Meeting joined");
+
         return overlay;
     }
-
     // ── Tests ──────────────────────────────────────────────
 
     @Test(priority = 15)
@@ -222,7 +243,7 @@ public class MeetingControlsTest extends BaseTest {
         Thread.sleep(3000);
         System.out.println("✓ Participants panel opened");
 
-        overlay.clickRaiseHandButton();
+
         Assert.assertTrue(overlay.isMyHandRaised(),
                 "Hand raise not reflected");
         System.out.println("✓ Hand raised");

@@ -178,46 +178,52 @@ public class WindowHelper {
 
         for (int i = 0; i < timeoutSeconds; i++) {
 
-            String handle =
-                    findWindowHandle("Mersive Room Blocker");
+            List<String> found = new ArrayList<>();
 
-            if (handle != null) {
+            User32.INSTANCE.EnumWindows((hwnd, data) -> {
+
+                char[] buffer = new char[512];
+                User32.INSTANCE.GetWindowText(hwnd, buffer, 512);
+
+                String title = Native.toString(buffer);
+
+                if (User32.INSTANCE.IsWindowVisible(hwnd)
+                        && title != null
+                        && title.toLowerCase().contains("mersive room blocker")) {
+
+                    long val = Pointer.nativeValue(hwnd.getPointer());
+                    found.add(String.valueOf(val));
+                }
+
+                return true;
+
+            }, null);
+
+            if (!found.isEmpty()) {
+
                 System.out.println(
-                        "[WindowHelper] Blocker window found: "
-                                + handle
-                );
-                return handle;
-            }
-
-
-
-            if (isWindowPresent("Zoom Meeting")
-                    || isWindowPresent("Zoom Workplace")) {
-
-                System.out.println(
-                        "[WindowHelper] Zoom launched outside Mersive."
+                        "[WindowHelper] Blocker window found at "
+                                + (i + 1) + " sec"
                 );
 
-                printAllWindows();
-                return null;
+                return found.get(0);
             }
-
 
             if (i % 5 == 0) {
                 System.out.println(
                         "[WindowHelper] Waiting for Blocker... "
-                                + i + "s"
+                                + i + " sec"
                 );
             }
 
             Thread.sleep(1000);
         }
 
+        System.out.println("[WindowHelper] Blocker window not found.");
         printAllWindows();
+
         return null;
     }
-
-
     public static boolean isWindowPresent(String titleContains)
             throws InterruptedException {
 

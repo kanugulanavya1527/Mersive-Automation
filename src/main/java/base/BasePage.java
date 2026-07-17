@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class BasePage {
 
-    protected RemoteWebDriver driver;
+    protected static RemoteWebDriver driver;
     protected final WebDriverWait wait;
 
     protected BasePage(RemoteWebDriver driver) {

@@ -1,6 +1,7 @@
 package pages;
 
 import base.BasePage;
+import io.appium.java_client.windows.WindowsElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -19,11 +20,15 @@ public class MeetingCardPage extends BasePage {
 
     // ── Locators ───────────────────────────────────────────
 
-    private final By joinButtons     = By.name("JOIN");
+    private final By joinButtons = By.name("JOIN");
     private final By meetingStatuses = By.xpath("//Text[@Name='In use' or @Name='Available']");
-    private final By meetingPlatforms = By.xpath("//Text[@Name='Teams' or @Name='Zoom']");
-    private final By zoomLabels      = By.xpath("//Text[@Name='Zoom']");
+    //private final By meetingPlatforms = By.xpath("//Text[@Name='Teams' or @Name='Zoom']");
+    //private final By zoomLabels      = By.xpath("//Text[@Name='Zoom']");
+    private final By zoomLabels =
+            By.xpath("//Text[translate(@Name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='zoom']");
 
+    private final By teamIcons =
+            By.className("Image");
     private final By rangeMeetingTimes =
             By.xpath("//Text[@ClassName='TextBlock' and contains(@Name,' - ')]");
     private final By singleMeetingTimes =
@@ -55,16 +60,38 @@ public class MeetingCardPage extends BasePage {
 
     public List<MeetingCard> getAllMeetings() {
         List<MeetingCard> meetings = new ArrayList<>();
-        List<WebElement> joinBtns  = driver.findElements(joinButtons);
+        List<WebElement> joinBtns = driver.findElements(joinButtons);
+        List<WebElement> allTexts = driver.findElements(By.className("TextBlock"));
 
         System.out.println("[MeetingCardPage] JOIN buttons found: " + joinBtns.size());
 
+        List<int[]> yPositions = new ArrayList<>();
+        List<String> textValues = new ArrayList<>();
+        for (WebElement el : allTexts) {
+            String t = el.getText().trim();
+            if (t.isEmpty()) continue;
+            textValues.add(t);
+            yPositions.add(new int[]{el.getLocation().getY()});
+        }
+
         for (int i = 0; i < joinBtns.size(); i++) {
-            MeetingCard card    = new MeetingCard();
-            card.title          = getTitleByIndex(i);
-            card.time           = getTimeByIndex(i);
-            card.status         = getTextByIndex(meetingStatuses, i);
-            card.platform       = getTextByIndex(meetingPlatforms, i);
+            int joinY = joinBtns.get(i).getLocation().getY();
+
+            MeetingCard card = new MeetingCard();
+          //  card.title = pickByOffset(textValues, yPositions, joinY, 60, 200, true);
+            card.title = getTitleByIndex(i);
+           // card.time = pickByOffset(textValues, yPositions, joinY, 0, 260, false);
+            card.time = getTimeByIndex(i);
+            card.status = "";
+            for (int j = 0; j < textValues.size(); j++) {
+                String t = textValues.get(j);
+                if ((t.equalsIgnoreCase("In use") || t.equalsIgnoreCase("Available"))
+                        && Math.abs(joinY - yPositions.get(j)[0]) < 260) {
+                    card.status = t;
+                    break;
+                }
+            }
+            card.platform = getPlatformByIndex(i);
             card.joinButtonVisible = true;
             meetings.add(card);
         }
@@ -80,6 +107,7 @@ public class MeetingCardPage extends BasePage {
         }
         buttons.get(index).click();
     }
+
     public void clickJoinForFirstZoomMeeting()
             throws InterruptedException {
 
@@ -165,7 +193,8 @@ public class MeetingCardPage extends BasePage {
                 "Could not match JOIN button to Zoom meeting."
         );
     }
-//    public void clickJoinForFirstTeamsMeeting() {
+
+    //    public void clickJoinForFirstTeamsMeeting() {
 //        List<WebElement> joinBtns = waitForJoinButtons(20);
 //        if (joinBtns.isEmpty())
 //            throw new RuntimeException("No joinable meeting cards on the home screen.");
@@ -196,68 +225,68 @@ public class MeetingCardPage extends BasePage {
 //        throw new RuntimeException("Could not match a JOIN button to a Teams card.");
 //    }
 //
-public void clickJoinForFirstTeamsMeeting() {
+    public void clickJoinForFirstTeamsMeeting() {
 
-    List<WebElement> joinBtns = waitForJoinButtons(20);
+        List<WebElement> joinBtns = waitForJoinButtons(20);
 
-    if (joinBtns.isEmpty()) {
-        throw new RuntimeException("No joinable meeting cards on the home screen.");
-    }
+        if (joinBtns.isEmpty()) {
+            throw new RuntimeException("No joinable meeting cards on the home screen.");
+        }
 
-    // Teams icon is now an Image instead of Text
-    List<WebElement> images = driver.findElements(By.className("Image"));
+        // Teams icon is now an Image instead of Text
+        List<WebElement> images = driver.findElements(By.className("Image"));
 
-    if (images.isEmpty()) {
-        throw new RuntimeException("No Images found on Home Screen.");
-    }
+        if (images.isEmpty()) {
+            throw new RuntimeException("No Images found on Home Screen.");
+        }
 
-    for (WebElement image : images) {
+        for (WebElement image : images) {
 
-        int x = image.getLocation().getX();
-        int y = image.getLocation().getY();
-        int width = image.getSize().getWidth();
-        int height = image.getSize().getHeight();
+            int x = image.getLocation().getX();
+            int y = image.getLocation().getY();
+            int width = image.getSize().getWidth();
+            int height = image.getSize().getHeight();
 
-        System.out.println(
-                "Image -> X=" + x +
-                        " Y=" + y +
-                        " W=" + width +
-                        " H=" + height);
+            System.out.println(
+                    "Image -> X=" + x +
+                            " Y=" + y +
+                            " W=" + width +
+                            " H=" + height);
 
-        // Ignore background images and keep only the Teams icon
-        if (width == 44 && height == 41 && x > 2500) {
+            // Ignore background images and keep only the Teams icon
+            if (width == 44 && height == 41 && x > 2500) {
 
-            WebElement bestJoin = null;
-            int bestDistance = Integer.MAX_VALUE;
+                WebElement bestJoin = null;
+                int bestDistance = Integer.MAX_VALUE;
 
-            for (WebElement join : joinBtns) {
+                for (WebElement join : joinBtns) {
 
-                int distance =
-                        Math.abs(join.getLocation().getY() - y);
+                    int distance =
+                            Math.abs(join.getLocation().getY() - y);
 
-                if (distance < bestDistance) {
-                    bestDistance = distance;
-                    bestJoin = join;
+                    if (distance < bestDistance) {
+                        bestDistance = distance;
+                        bestJoin = join;
+                    }
+                }
+
+                if (bestJoin != null) {
+
+                    System.out.println(
+                            "[MeetingCardPage] Teams icon matched with JOIN button");
+
+                    bestJoin.click();
+
+                    System.out.println(
+                            "[MeetingCardPage] Joined first Teams meeting");
+
+                    return;
                 }
             }
-
-            if (bestJoin != null) {
-
-                System.out.println(
-                        "[MeetingCardPage] Teams icon matched with JOIN button");
-
-                bestJoin.click();
-
-                System.out.println(
-                        "[MeetingCardPage] Joined first Teams meeting");
-
-                return;
-            }
         }
-    }
 
-    throw new RuntimeException("Could not locate Teams meeting card.");
-}
+        throw new RuntimeException("Could not locate Teams meeting card.");
+    }
 
     public String getMeetingCardTitle() {
 
@@ -292,49 +321,82 @@ public void clickJoinForFirstTeamsMeeting() {
     }
 
     private String getTimeByIndex(int index) {
-        List<WebElement> rangeTimes = driver.findElements(rangeMeetingTimes);
-        if (index < rangeTimes.size())
-            return rangeTimes.get(index).getText().trim();
 
-        List<WebElement> singleTimes = driver.findElements(singleMeetingTimes);
-        return index < singleTimes.size()
-                ? singleTimes.get(index).getText().trim() : "";
-    }
+        List<WebElement> joinBtns = driver.findElements(joinButtons);
+        if (index >= joinBtns.size()) return "";
 
-    private String getTitleByIndex(int index) {
+        int joinY = joinBtns.get(index).getLocation().getY();
 
-        List<WebElement> texts =
-                driver.findElements(By.className("TextBlock"));
+        List<WebElement> times = driver.findElements(
+                By.xpath("//Text[contains(@Name,'AM') or contains(@Name,'PM')]"));
 
-        for (int i = 0; i < texts.size(); i++) {
+        String bestTime = "";
+        int bestGap = Integer.MAX_VALUE;
 
-            String text =
-                    texts.get(i).getText().trim();
+        for (WebElement el : times) {
+            int y = el.getLocation().getY();
 
-            if (text.equalsIgnoreCase("Zoom")
-                    || text.equalsIgnoreCase("Teams")) {
+            // exclude the wall clock (fixed near top of screen)
+            if (y < 200) continue;
 
-                for (int j = i + 1; j < texts.size(); j++) {
-
-                    String title =
-                            texts.get(j).getText().trim();
-
-                    if (!title.isEmpty()
-                            && !title.equalsIgnoreCase("Zoom")
-                            && !title.equalsIgnoreCase("Teams")
-                            && !title.equalsIgnoreCase("In use")
-                            && !title.equalsIgnoreCase("Available")
-                            && !title.contains("AM")
-                            && !title.contains("PM")
-                            && !title.equals("|")) {
-
-                        return title;
-                    }
-                }
+            int gap = joinY - y;
+            if (gap >= 0 && gap <= 250 && gap < bestGap) {
+                bestGap = gap;
+                bestTime = el.getText().trim();
             }
         }
 
+        return bestTime;
+    }
+
+    private String getPlatformByIndex(int index) {
+
+        List<WebElement> joinBtns = driver.findElements(joinButtons);
+
+        int joinY = joinBtns.get(index).getLocation().getY();
+
+        System.out.println("\n===========================");
+        System.out.println("JOIN Y = " + joinY);
+        System.out.println("===========================");
+
+        List<WebElement> images = driver.findElements(By.className("Image"));
+
+        for(WebElement img : images){
+
+            System.out.println(
+                    "IMAGE -> X=" + img.getLocation().getX()
+                            + " Y=" + img.getLocation().getY()
+                            + " W=" + img.getSize().getWidth()
+                            + " H=" + img.getSize().getHeight());
+        }
+
+        List<WebElement> texts = driver.findElements(By.className("TextBlock"));
+
+        for(WebElement t : texts){
+
+            System.out.println(
+                    "TEXT = " + t.getText()
+                            + "  X=" + t.getLocation().getX()
+                            + " Y=" + t.getLocation().getY());
+        }
+
         return "";
+    }
+
+
+// ── getAllMeetings now waits per-card before reading ────
+
+    public static void printAllTextBlocks() {
+        List<WebElement> texts = driver.findElements(By.className("TextBlock"));
+        System.out.println("Total TextBlocks = " + texts.size());
+        for (WebElement el : texts) {
+            System.out.println(
+                    "Name=\"" + el.getText() + "\"" +
+                            " X=" + el.getLocation().getX() +
+                            " Y=" + el.getLocation().getY() +
+                            " W=" + el.getSize().getWidth() +
+                            " H=" + el.getSize().getHeight());
+        }
     }
 
     public void printAllImages() {
@@ -375,4 +437,226 @@ public void clickJoinForFirstTeamsMeeting() {
                             + join.getLocation().getY());
         }
     }
+
+    public static void printAllJoinButtons() {
+        List<WebElement> joins = driver.findElements(By.name("JOIN"));
+        System.out.println("Total JOIN matches = " + joins.size());
+        for (WebElement el : joins) {
+            System.out.println(
+                    "Name=\"" + el.getText() + "\"" +
+                            " X=" + el.getLocation().getX() +
+                            " Y=" + el.getLocation().getY());
+        }
+    }
+
+    // ── Wait until the card row for this JOIN index has a REAL title ────
+    private boolean cardHasRealTitle(int joinY) {
+        List<WebElement> texts = driver.findElements(By.className("TextBlock"));
+        for (WebElement el : texts) {
+            String t = el.getText().trim();
+            if (t.isEmpty()) continue;
+
+            // skip on-screen keyboard row (fixed Y=452 in all captures) and single characters
+            if (t.length() <= 2) continue;
+
+            int y = el.getLocation().getY();
+            int gap = joinY - y;
+
+            if (gap >= 80 && gap <= 160) return true;
+        }
+        return false;
+    }
+
+    private void waitForCardToRender(int joinIndex, int timeoutSeconds) {
+        long deadline = System.currentTimeMillis() + timeoutSeconds * 1000L;
+        while (System.currentTimeMillis() < deadline) {
+            List<WebElement> joinBtns = driver.findElements(joinButtons);
+            if (joinIndex >= joinBtns.size()) return;
+            int joinY = joinBtns.get(joinIndex).getLocation().getY();
+            if (cardHasRealTitle(joinY)) return;
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException ignored) {
+            }
+        }
+    }
+
+
+    private String pickByOffset(List<String> texts, List<int[]> ys, int joinY,
+
+                                int minGap, int maxGap, boolean isTitle) {
+
+        String best = "";
+
+        int bestGap = Integer.MAX_VALUE;
+
+        for (int i = 0; i < texts.size(); i++) {
+
+            String t = texts.get(i);
+
+            if (t.length() <= 2) continue;
+
+            if (t.equalsIgnoreCase("In use") || t.equalsIgnoreCase("Available")) continue;
+
+            if (t.equalsIgnoreCase("Zoom") || t.equalsIgnoreCase("Teams")) continue;
+
+            if (t.equals("|")) continue;
+
+            // exclude home-screen UI chrome
+
+            if (t.equalsIgnoreCase("Start a meeting") || t.equalsIgnoreCase("Join with ID")
+
+                    || t.equalsIgnoreCase("Settings") || t.equalsIgnoreCase("Screen key")
+
+                    || t.equalsIgnoreCase("AirPlay") || t.equalsIgnoreCase("Google Cast")
+
+                    || t.equalsIgnoreCase("Miracast") || t.equalsIgnoreCase("HDMI In")
+
+                    || t.contains("InfoComm") || t.contains("Visit ")
+
+                    || t.equalsIgnoreCase("Conference Room3") || t.contains("Wednesday")
+
+                    || t.contains("Kumar Medikonda") || t.contains("onwards"))
+
+                continue;
+
+            boolean looksLikeTime = t.matches(".*\\d.*(AM|PM).*");
+
+            if (isTitle && looksLikeTime) continue;
+
+            if (!isTitle && !looksLikeTime) continue;
+
+            int gap = joinY - ys.get(i)[0];
+
+            if (gap >= minGap && gap <= maxGap && gap < bestGap) {
+
+                bestGap = gap;
+
+                best = t;
+
+            }
+
+        }
+
+        return best;
+
+    }
+    private String getTitleByIndex(int index) {
+
+        List<WebElement> joinBtns = driver.findElements(joinButtons);
+
+        if (index >= joinBtns.size())
+            return "";
+
+        int joinY = joinBtns.get(index).getLocation().getY();
+
+        List<WebElement> texts = driver.findElements(By.className("TextBlock"));
+
+        String bestTitle = "";
+        int bestGap = Integer.MAX_VALUE;
+
+        for (WebElement el : texts) {
+
+            String text = el.getText().trim();
+
+            if (text.isEmpty())
+                continue;
+
+            if (text.length() <= 2)
+                continue;
+
+            // Ignore status
+            if (text.equalsIgnoreCase("In use")
+                    || text.equalsIgnoreCase("Available"))
+                continue;
+
+            // Ignore platform
+            if (text.equalsIgnoreCase("Zoom")
+                    || text.equalsIgnoreCase("Teams"))
+                continue;
+
+            // Ignore separator
+            if (text.equals("|"))
+                continue;
+
+            // Ignore day/date
+            if (text.contains("Monday")
+                    || text.contains("Tuesday")
+                    || text.contains("Wednesday")
+                    || text.contains("Thursday")
+                    || text.contains("Friday")
+                    || text.contains("Saturday")
+                    || text.contains("Sunday"))
+                continue;
+
+            // Ignore times
+            if (text.matches(".*\\d.*AM.*")
+                    || text.matches(".*\\d.*PM.*"))
+                continue;
+
+            // Ignore home page labels
+            if (text.equalsIgnoreCase("AirPlay")
+                    || text.equalsIgnoreCase("Google Cast")
+                    || text.equalsIgnoreCase("Miracast")
+                    || text.equalsIgnoreCase("HDMI In")
+                    || text.equalsIgnoreCase("Start a meeting")
+                    || text.equalsIgnoreCase("Join with ID")
+                    || text.equalsIgnoreCase("Settings")
+                    || text.equalsIgnoreCase("Screen key")
+                    || text.contains("Visit")
+                    || text.contains("InfoComm"))
+                continue;
+
+            int y = el.getLocation().getY();
+
+            int gap = joinY - y;
+
+            // Title should be above JOIN
+            if (gap <= 0 || gap > 200)
+                continue;
+
+            // Skip room/organizer line
+            if (gap < 80)
+                continue;
+
+            if (gap < bestGap) {
+                bestGap = gap;
+                bestTitle = text;
+            }
+        }
+
+        return bestTitle;
+    }
+
+    public static void printGroupStructure() {
+
+        List<WebElement> groups =
+                driver.findElements(By.className("Group"));
+
+        System.out.println("Groups = " + groups.size());
+
+        for (int i = 0; i < groups.size(); i++) {
+
+            WebElement g = groups.get(i);
+
+            System.out.println("----------------------------");
+            System.out.println("GROUP " + i);
+
+            List<WebElement> children =
+                    g.findElements(By.xpath("./*"));
+
+            System.out.println("Children = " + children.size());
+
+            for (WebElement c : children) {
+
+                System.out.println(
+                        c.getTagName()
+                                + " | "
+                                + c.getAttribute("LocalizedControlType")
+                                + " | "
+                                + c.getText());
+            }
+        }
+    }
+
 }
