@@ -13,41 +13,69 @@ import utils.WindowHelper;
 public class RecordingTest extends BaseTest {
 
     private MeetingOverlayPage joinMeeting() throws Exception {
-        MeetingCardPage cards = new MeetingCardPage(driver);
-        PreJoinPage preJoin   = new PreJoinPage(driver);
 
-        cards.clickJoinForFirstTeamsMeeting();
+        MeetingCardPage meetingCard = new MeetingCardPage(driver);
 
-        new WebDriverWait(driver, 20).until(
-                d -> {
-                    try {
-                        return new PreJoinPage(driver).isPreJoinScreenLoaded();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
+        meetingCard.clickJoinForFirstTeamsMeeting();
+
+        PreJoinPage preJoin = new PreJoinPage(driver);
+
+        Assert.assertTrue(
+                preJoin.isPreJoinScreenLoaded(),
+                "Pre-Join screen did not appear"
+        );
 
         preJoin.clickJoinMicrosoftTeamsMeeting();
-        switchToDesktop();
 
-        String blockerHandle =
-                WindowHelper.findWindowHandle(
-                        "Mersive Room Blocker");
+        Thread.sleep(3000);
 
-        if (blockerHandle == null) {
-            throw new RuntimeException(
-                    "Mersive Room Blocker not found.");
+        try {
+            preJoin.clickJoinNow();
+        } catch (Exception ignored) {
         }
 
-        setLastMeetingOverlayHandle(blockerHandle);
+        switchToDesktop();
+
+        Thread.sleep(2000);
+
+        String blockerHandle = null;
+
+        for (int i = 0; i < 30; i++) {
+
+            blockerHandle =
+                    WindowHelper.findWindowHandle("Mersive Room Blocker", 1);
+
+            if (blockerHandle != null) {
+                break;
+            }
+
+            System.out.println("Waiting for Blocker... " + (i + 1));
+            Thread.sleep(1000);
+        }
+
+        if (blockerHandle == null) {
+
+            WindowHelper.printAllWindows();
+
+            throw new RuntimeException(
+                    "Mersive Room Blocker not found."
+            );
+        }
+
         attachByHandle(blockerHandle);
+        setLastMeetingOverlayHandle(blockerHandle);
+
+        System.out.println("✓ Reattached to Mersive Room");
 
         MeetingOverlayPage overlay = new MeetingOverlayPage(driver);
-        Thread.sleep(8000);
 
-        Assert.assertTrue(overlay.waitForMeetingJoinedScreen(),
-                "Meeting screen did not load");
+        Assert.assertTrue(
+                overlay.waitForMeetingJoinedScreen(),
+                "Meeting screen did not load"
+        );
+
         System.out.println("✓ Meeting joined");
+
         return overlay;
     }
 
