@@ -290,28 +290,21 @@ public class MeetingCardPage extends BasePage {
 
     public String getMeetingCardTitle() {
 
-        List<WebElement> texts = driver.findElements(By.className("TextBlock"));
+        List<WebElement> joinButtons =
+                driver.findElements(By.name("JOIN"));
 
-        for (int i = 0; i < texts.size(); i++) {
-
-            String text = texts.get(i).getText().trim();
-
-            if (text.equalsIgnoreCase("Zoom") || text.equalsIgnoreCase("Teams")) {
-
-                if (i + 1 < texts.size()) {
-
-                    String title = texts.get(i + 1).getText().trim();
-
-                    System.out.println("[MeetingCardPage] Card title: " + title);
-
-                    return title;
-                }
-            }
+        if (joinButtons.isEmpty()) {
+            return null;
         }
 
-        return null;
-    }
+        String title = getTitleByIndex(0);
 
+        System.out.println("[MeetingCardPage] Card title = " + title);
+
+        return title == null || title.trim().isEmpty()
+                ? null
+                : title;
+    }
     // ── Private Helpers ────────────────────────────────────
 
     private String getTextByIndex(By locator, int index) {
