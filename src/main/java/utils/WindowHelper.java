@@ -101,10 +101,15 @@ public class WindowHelper {
 
             String title = Native.toString(buffer);
 
-            if (User32.INSTANCE.IsWindowVisible(hwnd)
-                    && !title.isBlank()) {
+            if (User32.INSTANCE.IsWindowVisible(hwnd) && !title.isBlank()) {
 
-                System.out.println("WINDOW -> " + title);
+                long handle = Pointer.nativeValue(hwnd.getPointer());
+
+                System.out.println(
+                        "HWND=" + handle +
+                                " HEX=0x" + Long.toHexString(handle).toUpperCase() +
+                                " TITLE=" + title
+                );
             }
 
             return true;

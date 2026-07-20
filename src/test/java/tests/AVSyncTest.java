@@ -81,14 +81,17 @@ public class AVSyncTest extends BaseTest {
             throw new RuntimeException("Cannot detect initial camera state");
 
         // Open AV panel
-        attachToControlsWindow();
-        MeetingOverlayPage controlsOverlay = new MeetingOverlayPage(driver);
-        controlsOverlay.clickAudioVisualButton();
+     //  attachToControlsWindow();
+//        MeetingOverlayPage controlsOverlay = new MeetingOverlayPage(driver);
+//        controlsOverlay.clickAudioVisualButton();
+        overlay.clickAudioVisualButton();
         System.out.println("✓ Audio & Visual clicked");
         Thread.sleep(3000);
+        WindowHelper.printAllWindows();
+
 
         // Read AV panel state
-        attachToAVControlsWindow();
+       // attachToAVControlsWindow();
         AVControlsPage avPanel = new AVControlsPage(driver);
         System.out.println("AV Panel Camera: " + avPanel.getCameraState());
 
@@ -117,7 +120,7 @@ public class AVSyncTest extends BaseTest {
         }
 
         // Verify ribbon updated
-        attachByHandle(overlayHandle);
+      //  attachByHandle(overlayHandle);
         overlay = new MeetingOverlayPage(driver);
 
         if (ribbonOn) {
@@ -131,7 +134,7 @@ public class AVSyncTest extends BaseTest {
         }
 
         // Restore original state
-        attachToAVControlsWindow();
+     //   attachToAVControlsWindow();
         avPanel = new AVControlsPage(driver);
         avPanel.clickCameraToggle();
         Thread.sleep(2000);
@@ -160,14 +163,15 @@ public class AVSyncTest extends BaseTest {
             throw new RuntimeException("Cannot detect initial mic state");
 
         // Open AV panel
-        attachToControlsWindow();
-        MeetingOverlayPage controlsOverlay = new MeetingOverlayPage(driver);
-        controlsOverlay.clickAudioVisualButton();
+       // attachToControlsWindow();
+//        MeetingOverlayPage controlsOverlay = new MeetingOverlayPage(driver);
+//        controlsOverlay.clickAudioVisualButton();
+        overlay.clickAudioVisualButton();
         System.out.println("✓ Audio & Visual clicked");
         Thread.sleep(3000);
 
         // Read AV panel state
-        attachToAVControlsWindow();
+      //  attachToAVControlsWindow();
         AVControlsPage avPanel = new AVControlsPage(driver);
         System.out.println("AV Panel Mic: " + avPanel.getMicState());
 
@@ -196,7 +200,7 @@ public class AVSyncTest extends BaseTest {
         }
 
         // Verify ribbon updated
-        attachByHandle(overlayHandle);
+    //    attachByHandle(overlayHandle);
         overlay = new MeetingOverlayPage(driver);
 
         if (ribbonMuted) {
@@ -210,7 +214,7 @@ public class AVSyncTest extends BaseTest {
         }
 
         // Restore
-        attachToAVControlsWindow();
+     //   attachToAVControlsWindow();
         avPanel = new AVControlsPage(driver);
         avPanel.clickMicToggle();
         Thread.sleep(2000);
@@ -220,66 +224,50 @@ public class AVSyncTest extends BaseTest {
 
         System.out.println("TC_031 PASSED");
     }
-
     @Test(priority = 32)
     public void TC_032_VerifySpeakerVolumeUpDown() throws Exception {
-
         System.out.println("=== TC_032: Verify Speaker Volume Up/Down ===");
 
         MeetingOverlayPage overlay = joinMeeting();
         Thread.sleep(5000);
 
-        // Open AV panel
-        attachToControlsWindow();
-
-        MeetingOverlayPage controlsOverlay = new MeetingOverlayPage(driver);
-        controlsOverlay.clickAudioVisualButton();
+        overlay.clickAudioVisualButton();
         System.out.println("✓ Audio & Visual clicked");
-
         Thread.sleep(3000);
-
-        // Switch to AV Controls
-        attachToAVControlsWindow();
 
         AVControlsPage avPanel = new AVControlsPage(driver);
 
         int initialVolume = avPanel.getSpeakerVolume();
         System.out.println("Initial Volume : " + initialVolume + "%");
 
-        // Increase
         avPanel.increaseSpeakerVolume();
-
         Thread.sleep(2000);
-
         int increasedVolume = avPanel.getSpeakerVolume();
-
         System.out.println("After Increase : " + increasedVolume + "%");
 
-        Assert.assertTrue(
-                increasedVolume > initialVolume,
-                "Speaker volume did not increase."
-        );
+        if (initialVolume < 100) {
+            Assert.assertTrue(increasedVolume > initialVolume,
+                    "Speaker volume did not increase. Initial=" + initialVolume + ", After=" + increasedVolume);
+            System.out.println("✓ Speaker volume increased");
+        } else {
+            System.out.println("⚠ Already at max volume, skipping increase check");
+        }
 
-        System.out.println("✓ Speaker volume increased");
-
-        // Decrease
         avPanel.decreaseSpeakerVolume();
-
         Thread.sleep(2000);
-
         int decreasedVolume = avPanel.getSpeakerVolume();
-
         System.out.println("After Decrease : " + decreasedVolume + "%");
 
-        Assert.assertTrue(
-                decreasedVolume < increasedVolume,
-                "Speaker volume did not decrease."
-        );
-
-        System.out.println("✓ Speaker volume decreased");
+        if (increasedVolume > 0) {
+            Assert.assertTrue(decreasedVolume < increasedVolume,
+                    "Speaker volume did not decrease. Increased=" + increasedVolume + ", After=" + decreasedVolume);
+            System.out.println("✓ Speaker volume decreased");
+        } else {
+            System.out.println("⚠ Already at min volume, skipping decrease check");
+        }
 
         avPanel.clickSwipeToClose();
-
         System.out.println("TC_032 PASSED");
     }
+
 }
