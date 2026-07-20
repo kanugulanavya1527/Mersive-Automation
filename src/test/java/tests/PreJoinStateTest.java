@@ -69,7 +69,7 @@ public class PreJoinStateTest extends BaseTest {
 
     @Test(priority = 23)
     public void TC_023_VerifyCameraOffAndMicOffAfterJoining()
-            throws Exception {
+           throws Exception {
         System.out.println("=== TC_023: Camera OFF, Mic OFF ===");
 
         MeetingOverlayPage overlay = joinWithState(false, false);
