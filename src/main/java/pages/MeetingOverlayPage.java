@@ -63,7 +63,7 @@ public class MeetingOverlayPage extends BasePage {
     // Record / Transcribe
     private final By recordButton =
             By.xpath("//Button[.//Text[@Name='Record']]");
-    private final By stoprecordButton = By.xpath("//Button[.//Text[@Name='Stop recording'");
+    private final By stoprecordButton = By.xpath("//Button[.//Text[@Name='Stop recording']]");
 
     private final By transcribeButton =
             By.xpath("//Button[.//Text[@Name='Transcribe']]");
@@ -777,15 +777,85 @@ public class MeetingOverlayPage extends BasePage {
     }
 
     private boolean waitForChatText(By locator, int timeoutSeconds, String label) {
+
         try {
-            WebElement el = new WebDriverWait(driver, timeoutSeconds)
-                    .until(ExpectedConditions.presenceOfElementLocated(locator));
-            System.out.println("[Chat] " + label + " message found: \"" + el.getAttribute("Name") + "\"");
+
+            WebDriverWait wait = new WebDriverWait(driver, timeoutSeconds);
+
+            List<WebElement> messages = wait.until(d -> {
+                List<WebElement> list = d.findElements(locator);
+                return list.isEmpty() ? null : list;
+            });
+
+            WebElement latest = messages.get(messages.size() - 1);
+
+            System.out.println("[Chat] Total matching messages = " + messages.size());
+            System.out.println("[Chat] Latest " + label + ": \"" +
+                    latest.getAttribute("Name") + "\"");
+
             return true;
+
         } catch (Exception e) {
-            System.out.println("[Chat] " + label + " message NOT found within " + timeoutSeconds + "s");
+
+            System.out.println("[Chat] " + label +
+                    " message NOT found within " + timeoutSeconds + "s");
+
             return false;
         }
     }
-}
+
+    public int getRecordingStoppedMessageCount() {
+        return driver.findElements(recordingStoppedText).size();
+    }
+
+    public int getRecordingSavedMessageCount() {
+        return driver.findElements(recordingSavedText).size();
+    }
+    public boolean waitForNewRecordingStoppedMessage(int previousCount, int timeoutSeconds) {
+
+        try {
+
+            new WebDriverWait(driver, timeoutSeconds).until(d ->
+                    d.findElements(recordingStoppedText).size() > previousCount);
+
+            int newCount = driver.findElements(recordingStoppedText).size();
+
+            System.out.println("[Chat] New 'Recording stopped' message arrived.");
+            System.out.println("[Chat] Previous = " + previousCount +
+                    " Current = " + newCount);
+
+            return true;
+
+        } catch (Exception e) {
+
+            System.out.println("[Chat] No NEW 'Recording stopped' message.");
+
+            return false;
+        }
+    }
+
+    public boolean waitForNewRecordingSavedMessage(int previousCount, int timeoutSeconds) {
+
+        try {
+
+            new WebDriverWait(driver, timeoutSeconds).until(d ->
+                    d.findElements(recordingSavedText).size() > previousCount);
+
+            int newCount = driver.findElements(recordingSavedText).size();
+
+            System.out.println("[Chat] New 'Recording saved' message arrived.");
+            System.out.println("[Chat] Previous = " + previousCount +
+                    " Current = " + newCount);
+
+            return true;
+
+        } catch (Exception e) {
+
+            System.out.println("[Chat] No NEW 'Recording saved' message.");
+
+            return false;
+        }
+    }
+    }
+
 

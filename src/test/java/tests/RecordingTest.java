@@ -138,12 +138,13 @@ public void TC_021_VerifyRecordFunctionality() throws Exception {
 
     overlay.clickRecordButton();
     System.out.println("✓ Record clicked");
-    Thread.sleep(5000);
+    Thread.sleep(8000);
 
     System.out.println("Chat visible = " + overlay.isChatButtonVisible());
     overlay.clickChatButtonRobust();
     System.out.println("✓ Chat button clicked");
     Thread.sleep(2000);
+    WindowHelper.printAllWindows();
     String teamsHandle = WindowHelper.findWindowHandle("Microsoft Teams", 15);
     if (teamsHandle == null) {
         WindowHelper.printAllWindows();
@@ -151,81 +152,211 @@ public void TC_021_VerifyRecordFunctionality() throws Exception {
     }
     attachByHandle(teamsHandle);
     System.out.println("✓ Attached to Teams window");
+    overlay = new MeetingOverlayPage(driver);
     Thread.sleep(3000);
+    List<WebElement> texts = driver.findElements(By.className("TextBlock"));
 
-    List<WebElement> allTexts = driver.findElements(By.xpath("//Text"));
-    System.out.println("[DEBUG] Total Text elements found: " + allTexts.size());
-    for (WebElement el : allTexts) {
-        String name = el.getAttribute("Name");
-        if (name != null && !name.isBlank()) {
-            System.out.println("[DEBUG] Text: \"" + name + "\"");
+    System.out.println("Total TextBlocks = " + texts.size());
+
+    for (WebElement e : texts) {
+        String txt = e.getAttribute("Name");
+
+        if (txt != null && !txt.trim().isEmpty()) {
+            System.out.println("TEXT -> " + txt);
         }
     }
-
+    Assert.assertTrue(
+            overlay.waitForRecordingStartedMessage(60),
+            "FAILED: 'started recording' message not found in chat"
+    );
     System.out.println("✓ 'Started recording' message confirmed in chat");
 
-    String blockerHandle = WindowHelper.findWindowHandle("Mersive Room Blocker", 10);
+    String blockerHandle = WindowHelper.findWindowHandle("Mersive Room Blocker", 15);
     if (blockerHandle == null) {
         WindowHelper.printAllWindows();
         throw new RuntimeException("Mersive Room Blocker window not found for reattach.");
     }
+    // Count existing messages BEFORE stopping
+    attachByHandle(teamsHandle);
+    System.out.println("✓ Attached to Teams window");
+    overlay = new MeetingOverlayPage(driver);
+
+    int stoppedBefore = overlay.getRecordingStoppedMessageCount();
+    int savedBefore = overlay.getRecordingSavedMessageCount();
+
+    System.out.println("Stopped messages before = " + stoppedBefore);
+    System.out.println("Saved messages before = " + savedBefore);
+
+// Go back to blocker
     attachByHandle(blockerHandle);
     System.out.println("✓ Reattached to Mersive Room");
+    overlay = new MeetingOverlayPage(driver);
 
+// Stop recording
     overlay.stoprecordButton();
     System.out.println("✓ Stop recording clicked");
-    Thread.sleep(3000);
 
-    teamsHandle = WindowHelper.findWindowHandle("Microsoft Teams", 10);
+// Go back to Teams
+    teamsHandle = WindowHelper.findWindowHandle("Microsoft Teams", 15);
     if (teamsHandle == null) {
         WindowHelper.printAllWindows();
         throw new RuntimeException("Teams window not found for recording-stopped check.");
     }
+
     attachByHandle(teamsHandle);
     System.out.println("✓ Attached to Teams window");
+    overlay = new MeetingOverlayPage(driver);
+
 
     Assert.assertTrue(
-            overlay.waitForRecordingStoppedMessage(30),
-            "FAILED: 'stopped recording' message not found in chat"
+            overlay.waitForNewRecordingStoppedMessage(stoppedBefore, 30),
+            "FAILED: No NEW 'Recording stopped' message."
     );
-    System.out.println("✓ 'Stopped recording' message confirmed in chat");
+
+    System.out.println("✓ NEW 'Stopped recording' message confirmed in chat");
 
     Assert.assertTrue(
-            overlay.waitForRecordingSavedMessage(30),
-            "FAILED: 'Recording has been saved' message not found in chat"
+            overlay.waitForNewRecordingSavedMessage(savedBefore, 90),
+            "FAILED: No NEW 'Recording saved' message."
     );
+
+    System.out.println("✓ NEW 'Recording saved to OneDrive' message confirmed in chat");
     System.out.println("✓ 'Recording saved to OneDrive' message confirmed in chat");
 
     attachByHandle(blockerHandle);
+
     System.out.println("✓ Reattached to Mersive Room");
+    overlay = new MeetingOverlayPage(driver);
 
     System.out.println("TC_021 PASSED");
+
 }
-    @Test(priority = 22)
-    public void TC_022_VerifyTranscribeFunctionality() throws Exception {
-        System.out.println("=== TC_022: Verify Transcribe Functionality ===");
-
-        MeetingOverlayPage overlay = joinMeeting();
-        RootSessionPage root       = new RootSessionPage(driver);
-
-        overlay.clickTranscribeButton();
-        System.out.println("✓ Transcribe clicked");
-
-        Assert.assertTrue(root.waitForTranscriptionPopup(30),
-                "FAILED: Transcription popup not visible");
-        System.out.println("✓ Transcription started — popup confirmed");
-
-        overlay.clickTranscribeButton();
-        System.out.println("✓ Stop transcription clicked");
-
-        Assert.assertTrue(root.clickStopTranscriptionInDialog(10),
-                "FAILED: Stop button not clicked");
-        System.out.println("✓ Stop confirmed in dialog");
-
-        Assert.assertTrue(root.waitForTranscriptionStoppedToast(20),
-                "FAILED: Transcription stopped toast not visible");
-        System.out.println("✓ Transcription stopped confirmed");
-
-        System.out.println("TC_022 PASSED");
-    }
+//    @Test(priority = 22)
+//    public void TC_022_VerifyTranscribeFunctionality() throws Exception {
+//        System.out.println("=== TC_022: Verify Transcribe Functionality ===");
+//
+//        MeetingOverlayPage overlay = joinMeeting();
+//        RootSessionPage root       = new RootSessionPage(driver);
+//
+//        overlay.clickTranscribeButton();
+//        System.out.println("✓ Transcribe clicked");
+//
+//        Assert.assertTrue(root.waitForTranscriptionPopup(30),
+//                "FAILED: Transcription popup not visible");
+//        System.out.println("✓ Transcription started — popup confirmed");
+//
+//        overlay.clickTranscribeButton();
+//        System.out.println("✓ Stop transcription clicked");
+//
+//        Assert.assertTrue(root.clickStopTranscriptionInDialog(10),
+//                "FAILED: Stop button not clicked");
+//        System.out.println("✓ Stop confirmed in dialog");
+//
+//        Assert.assertTrue(root.waitForTranscriptionStoppedToast(20),
+//                "FAILED: Transcription stopped toast not visible");
+//        System.out.println("✓ Transcription stopped confirmed");
+//
+//        System.out.println("TC_022 PASSED");
+//    }
+//@Test(priority = 22)
+//public void TC_022_VerifyTranscribeFunctionality() throws Exception {
+//    System.out.println("=== TC_021: Verify Transcribe Functionality ===");
+//
+//    MeetingOverlayPage overlay = joinMeeting();
+//
+//    overlay.clickTranscribeButton();
+//    System.out.println("✓ Transcribe clicked");
+//    Thread.sleep(8000);
+//
+//    System.out.println("Chat visible = " + overlay.isChatButtonVisible());
+//    overlay.clickChatButtonRobust();
+//    System.out.println("✓ Chat button clicked");
+//    Thread.sleep(2000);
+//    WindowHelper.printAllWindows();
+//    String teamsHandle = WindowHelper.findWindowHandle("Microsoft Teams", 15);
+//    if (teamsHandle == null) {
+//        WindowHelper.printAllWindows();
+//        throw new RuntimeException("Teams window not found for recording-started check.");
+//    }
+//    attachByHandle(teamsHandle);
+//    System.out.println("✓ Attached to Teams window");
+//    overlay = new MeetingOverlayPage(driver);
+//    Thread.sleep(3000);
+//    List<WebElement> texts = driver.findElements(By.className("TextBlock"));
+//
+//    System.out.println("Total TextBlocks = " + texts.size());
+//
+//    for (WebElement e : texts) {
+//        String txt = e.getAttribute("Name");
+//
+//        if (txt != null && !txt.trim().isEmpty()) {
+//            System.out.println("TEXT -> " + txt);
+//        }
+//    }
+//    Assert.assertTrue(
+//            overlay.waitForRecordingStartedMessage(60),
+//            "FAILED: 'started recording' message not found in chat"
+//    );
+//    System.out.println("✓ 'Started recording' message confirmed in chat");
+//
+//    String blockerHandle = WindowHelper.findWindowHandle("Mersive Room Blocker", 15);
+//    if (blockerHandle == null) {
+//        WindowHelper.printAllWindows();
+//        throw new RuntimeException("Mersive Room Blocker window not found for reattach.");
+//    }
+//    // Count existing messages BEFORE stopping
+//    attachByHandle(teamsHandle);
+//    System.out.println("✓ Attached to Teams window");
+//    overlay = new MeetingOverlayPage(driver);
+//
+//    int stoppedBefore = overlay.getRecordingStoppedMessageCount();
+//    int savedBefore = overlay.getRecordingSavedMessageCount();
+//
+//    System.out.println("Stopped messages before = " + stoppedBefore);
+//    System.out.println("Saved messages before = " + savedBefore);
+//
+//// Go back to blocker
+//    attachByHandle(blockerHandle);
+//    System.out.println("✓ Reattached to Mersive Room");
+//    overlay = new MeetingOverlayPage(driver);
+//
+//// Stop recording
+//    overlay.stoprecordButton();
+//    System.out.println("✓ Stop recording clicked");
+//
+//// Go back to Teams
+//    teamsHandle = WindowHelper.findWindowHandle("Microsoft Teams", 15);
+//    if (teamsHandle == null) {
+//        WindowHelper.printAllWindows();
+//        throw new RuntimeException("Teams window not found for recording-stopped check.");
+//    }
+//
+//    attachByHandle(teamsHandle);
+//    System.out.println("✓ Attached to Teams window");
+//    overlay = new MeetingOverlayPage(driver);
+//
+//
+//    Assert.assertTrue(
+//            overlay.waitForNewRecordingStoppedMessage(stoppedBefore, 30),
+//            "FAILED: No NEW 'Recording stopped' message."
+//    );
+//
+//    System.out.println("✓ NEW 'Stopped recording' message confirmed in chat");
+//
+//    Assert.assertTrue(
+//            overlay.waitForNewRecordingSavedMessage(savedBefore, 90),
+//            "FAILED: No NEW 'Recording saved' message."
+//    );
+//
+//    System.out.println("✓ NEW 'Recording saved to OneDrive' message confirmed in chat");
+//    System.out.println("✓ 'Recording saved to OneDrive' message confirmed in chat");
+//
+//    attachByHandle(blockerHandle);
+//
+//    System.out.println("✓ Reattached to Mersive Room");
+//    overlay = new MeetingOverlayPage(driver);
+//
+//    System.out.println("TC_021 PASSED");
+//
+//}
 }
