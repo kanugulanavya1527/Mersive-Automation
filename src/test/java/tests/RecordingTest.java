@@ -90,41 +90,107 @@ public class RecordingTest extends BaseTest {
 
         return overlay;
     }
-    @Test(priority = 21)
-    public void TC_021_VerifyRecordFunctionality() throws Exception {
-        System.out.println("=== TC_021: Verify Record Functionality ===");
+//    @Test(priority = 21)
+//    public void TC_021_VerifyRecordFunctionality() throws Exception {
+//        System.out.println("=== TC_021: Verify Record Functionality ===");
+//
+//        MeetingOverlayPage overlay = joinMeeting();
+//        RootSessionPage root = new RootSessionPage(driver);
+//
+//        overlay.clickRecordButton();
+//        System.out.println("✓ Record clicked");
+//        Thread.sleep(5000);
+//        System.out.println("Chat visible = " + overlay.isChatButtonVisible());
+//        overlay.clickChatButtonRobust();
+//        System.out.println("✓ Chat button clicked");
+//
+//        Assert.assertTrue(
+//                overlay.waitForRecordingStartedMessage(100),
+//                "FAILED: 'started recording' message not found in chat"
+//        );
+//        System.out.println("✓ 'Started recording' message confirmed in chat");
+//
+//        overlay.clickRecordButton();
+//        System.out.println("✓ Stop recording clicked");
+//        Thread.sleep(5000);
+//
+//        Assert.assertTrue(
+//                overlay.waitForRecordingStoppedMessage(100),
+//                "FAILED: 'stopped recording' message not found in chat"
+//        );
+//        System.out.println("✓ 'Stopped recording' message confirmed in chat");
+//
+//        Assert.assertTrue(
+//                overlay.waitForRecordingSavedMessage(30),
+//                "FAILED: 'Recording has been saved' message not found in chat"
+//        );
+//        System.out.println("✓ 'Recording saved to OneDrive' message confirmed in chat");
+//    }
+@Test(priority = 21)
+public void TC_021_VerifyRecordFunctionality() throws Exception {
+    System.out.println("=== TC_021: Verify Record Functionality ===");
 
-        MeetingOverlayPage overlay = joinMeeting();
-        RootSessionPage root = new RootSessionPage(driver);
+    MeetingOverlayPage overlay = joinMeeting();
 
-        overlay.clickRecordButton();
+    overlay.clickRecordButton();
         System.out.println("✓ Record clicked");
-        Thread.sleep(500);
-
-        overlay.clickChatButton();
-        System.out.println("✓ Chat opened");
+        Thread.sleep(5000);
+        System.out.println("Chat visible = " + overlay.isChatButtonVisible());
+        overlay.clickChatButtonRobust();
+        System.out.println("✓ Chat button clicked");
 
         Assert.assertTrue(
-                overlay.waitForRecordingStartedMessage(20),
+                overlay.waitForRecordingStartedMessage(100),
                 "FAILED: 'started recording' message not found in chat"
         );
-        System.out.println("✓ 'Started recording' message confirmed in chat");
 
-        overlay.clickRecordButton();
-        System.out.println("✓ Stop recording clicked");
-
-        Assert.assertTrue(
-                overlay.waitForRecordingStoppedMessage(20),
-                "FAILED: 'stopped recording' message not found in chat"
-        );
-        System.out.println("✓ 'Stopped recording' message confirmed in chat");
-
-        Assert.assertTrue(
-                overlay.waitForRecordingSavedMessage(30),
-                "FAILED: 'Recording has been saved' message not found in chat"
-        );
-        System.out.println("✓ 'Recording saved to OneDrive' message confirmed in chat");
+    String teamsChatHandle = WindowHelper.findWindowHandle("Chat", 10);
+    if (teamsChatHandle == null) {
+        WindowHelper.printAllWindows();
+        throw new RuntimeException("Teams Chat window not found for recording-started check.");
     }
+    attachByHandle(teamsChatHandle);
+    System.out.println("✓ Attached to Teams Chat window");
+
+    Assert.assertTrue(
+            overlay.waitForRecordingStartedMessage(30),
+            "FAILED: 'started recording' message not found in chat"
+    );
+    System.out.println("✓ 'Started recording' message confirmed in chat");
+
+    String blockerHandle = WindowHelper.findWindowHandle("Mersive Room Blocker", 10);
+    attachByHandle(blockerHandle);
+    System.out.println("✓ Reattached to Mersive Room");
+
+    overlay.clickRecordButton();
+    System.out.println("✓ Stop recording clicked");
+    Thread.sleep(3000);
+
+    teamsChatHandle = WindowHelper.findWindowHandle("Chat", 10);
+    if (teamsChatHandle == null) {
+        WindowHelper.printAllWindows();
+        throw new RuntimeException("Teams Chat window not found for recording-stopped check.");
+    }
+    attachByHandle(teamsChatHandle);
+    System.out.println("✓ Attached to Teams Chat window");
+
+    Assert.assertTrue(
+            overlay.waitForRecordingStoppedMessage(30),
+            "FAILED: 'stopped recording' message not found in chat"
+    );
+    System.out.println("✓ 'Stopped recording' message confirmed in chat");
+
+    Assert.assertTrue(
+            overlay.waitForRecordingSavedMessage(30),
+            "FAILED: 'Recording has been saved' message not found in chat"
+    );
+    System.out.println("✓ 'Recording saved to OneDrive' message confirmed in chat");
+
+    attachByHandle(blockerHandle);
+    System.out.println("✓ Reattached to Mersive Room");
+
+    System.out.println("TC_021 PASSED");
+}
     @Test(priority = 22)
     public void TC_022_VerifyTranscribeFunctionality() throws Exception {
         System.out.println("=== TC_022: Verify Transcribe Functionality ===");

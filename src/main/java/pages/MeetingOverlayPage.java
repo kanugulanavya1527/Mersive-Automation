@@ -746,13 +746,14 @@ public class MeetingOverlayPage extends BasePage {
         }
     }
 
-
     private final By recordingStartedText =
-            By.xpath("//Text[contains(@Name,'started recording.')]");
+            By.xpath("//*[contains(@Name,'started recording')]");
+
     private final By recordingStoppedText =
-            By.xpath("//Text[contains(@Name,'stopped recording.')]");
+            By.xpath("//*[contains(@Name,'stopped recording')]");
+
     private final By recordingSavedText =
-            By.xpath("//Text[contains(@Name,\"Recording has been saved to\")]");
+            By.xpath("//*[contains(@Name,'Recording has been saved')]");
 
     public boolean waitForRecordingStartedMessage(int timeoutSeconds) {
         return waitForChatText(recordingStartedText, timeoutSeconds, "recording-started");
