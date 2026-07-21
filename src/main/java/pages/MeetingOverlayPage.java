@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
+import java.time.Duration;
 import java.util.List;
 
 public class MeetingOverlayPage extends BasePage {
@@ -93,6 +94,7 @@ public class MeetingOverlayPage extends BasePage {
     // Lobby
     private final By admitButton = By.name("Admit");
     private final By denyButton = By.name("Deny");
+
 
 
 
@@ -730,4 +732,50 @@ public class MeetingOverlayPage extends BasePage {
                 || state.equalsIgnoreCase("Unmute");
     }
 
+
+    private boolean waitForText(By locator, int timeoutSeconds, String label) {
+        try {WebElement el = new WebDriverWait(driver,timeoutSeconds)
+                .until(ExpectedConditions.visibilityOfElementLocated(locator));
+
+            System.out.println("[Chat] " + label + " message found: \"" + el.getAttribute("Name") + "\"");
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("[Chat] " + label + " message NOT found within " + timeoutSeconds + "s");
+            return false;
+        }
+    }
+
+
+    private final By recordingStartedText =
+            By.xpath("//Text[contains(@Name,'started recording.')]");
+    private final By recordingStoppedText =
+            By.xpath("//Text[contains(@Name,'stopped recording.')]");
+    private final By recordingSavedText =
+            By.xpath("//Text[contains(@Name,\"Recording has been saved to\")]");
+
+    public boolean waitForRecordingStartedMessage(int timeoutSeconds) {
+        return waitForChatText(recordingStartedText, timeoutSeconds, "recording-started");
+    }
+
+    public boolean waitForRecordingStoppedMessage(int timeoutSeconds) {
+        return waitForChatText(recordingStoppedText, timeoutSeconds, "recording-stopped");
+    }
+
+    public boolean waitForRecordingSavedMessage(int timeoutSeconds) {
+        return waitForChatText(recordingSavedText, timeoutSeconds, "recording-saved");
+    }
+
+    private boolean waitForChatText(By locator, int timeoutSeconds, String label) {
+        try {
+            WebElement el = new WebDriverWait(driver, timeoutSeconds)
+                    .until(ExpectedConditions.presenceOfElementLocated(locator));
+            System.out.println("[Chat] " + label + " message found: \"" + el.getAttribute("Name") + "\"");
+            return true;
+        } catch (Exception e) {
+            System.out.println("[Chat] " + label + " message NOT found within " + timeoutSeconds + "s");
+            return false;
+        }
+    }
 }
+

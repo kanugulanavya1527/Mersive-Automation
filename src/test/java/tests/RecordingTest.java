@@ -36,11 +36,14 @@ public class RecordingTest extends BaseTest {
 
         switchToDesktop();
 
-        Thread.sleep(2000);
+        // Give Mersive Room time to detect the live Teams meeting before
+        // we start polling for the Blocker window it creates once attached.
+        Thread.sleep(5000);
 
         String blockerHandle = null;
+        int maxAttempts = 60;
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < maxAttempts; i++) {
 
             blockerHandle =
                     WindowHelper.findWindowHandle("Mersive Room Blocker", 1);
@@ -50,15 +53,24 @@ public class RecordingTest extends BaseTest {
             }
 
             System.out.println("Waiting for Blocker... " + (i + 1));
+
+            // Mid-wait diagnostic every 10 attempts so we can see whether
+            // Mersive Room is progressing through states or stuck idle.
+            if ((i + 1) % 10 == 0) {
+                System.out.println("--- Mid-wait window snapshot (attempt " + (i + 1) + ") ---");
+                WindowHelper.printAllWindows();
+            }
+
             Thread.sleep(1000);
         }
 
         if (blockerHandle == null) {
 
+            System.out.println("--- Final window snapshot before failure ---");
             WindowHelper.printAllWindows();
 
             throw new RuntimeException(
-                    "Mersive Room Blocker not found."
+                    "Mersive Room Blocker not found after " + maxAttempts + " attempts."
             );
         }
 
@@ -78,7 +90,6 @@ public class RecordingTest extends BaseTest {
 
         return overlay;
     }
-
     @Test(priority = 21)
     public void TC_021_VerifyRecordFunctionality() throws Exception {
         System.out.println("=== TC_021: Verify Record Functionality ===");
@@ -88,23 +99,32 @@ public class RecordingTest extends BaseTest {
 
         overlay.clickRecordButton();
         System.out.println("✓ Record clicked");
+        Thread.sleep(500);
+
+        overlay.clickChatButton();
+        System.out.println("✓ Chat opened");
 
         Assert.assertTrue(
-                root.waitForRecordingPopup(30),
-                "FAILED: Recording popup not visible"
+                overlay.waitForRecordingStartedMessage(20),
+                "FAILED: 'started recording' message not found in chat"
         );
-        System.out.println("✓ Recording started — popup confirmed");
+        System.out.println("✓ 'Started recording' message confirmed in chat");
 
         overlay.clickRecordButton();
         System.out.println("✓ Stop recording clicked");
 
-        Thread.sleep(3000);
-
-        throw new RuntimeException(
-                "BUG: Stop Recording dialog appears, but Stop/Cancel buttons are not automatable and cause Root session to hang."
+        Assert.assertTrue(
+                overlay.waitForRecordingStoppedMessage(20),
+                "FAILED: 'stopped recording' message not found in chat"
         );
-    }
+        System.out.println("✓ 'Stopped recording' message confirmed in chat");
 
+        Assert.assertTrue(
+                overlay.waitForRecordingSavedMessage(30),
+                "FAILED: 'Recording has been saved' message not found in chat"
+        );
+        System.out.println("✓ 'Recording saved to OneDrive' message confirmed in chat");
+    }
     @Test(priority = 22)
     public void TC_022_VerifyTranscribeFunctionality() throws Exception {
         System.out.println("=== TC_022: Verify Transcribe Functionality ===");
