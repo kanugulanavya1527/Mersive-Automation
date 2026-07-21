@@ -3,6 +3,7 @@ package utils;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.User32;
+import com.sun.jna.platform.win32.WinDef;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -234,4 +235,64 @@ public class WindowHelper {
 
         return findWindowHandle(titleContains) != null;
     }
+
+    public static String findChromeRenderChildHandle(String parentTitleContains,
+                                                     int maxRetries)
+            throws InterruptedException {
+
+        for (int attempt = 0; attempt < maxRetries; attempt++) {
+
+            List<Long> parentHandles = new ArrayList<>();
+
+            User32.INSTANCE.EnumWindows((hwnd, data) -> {
+                char[] buffer = new char[512];
+                User32.INSTANCE.GetWindowText(hwnd, buffer, 512);
+                String title = Native.toString(buffer);
+
+                if (User32.INSTANCE.IsWindowVisible(hwnd)
+                        && title != null
+                        && title.toLowerCase().contains(parentTitleContains.toLowerCase())) {
+                    parentHandles.add(Pointer.nativeValue(hwnd.getPointer()));
+                }
+                return true;
+            }, null);
+
+            for (Long parentVal : parentHandles) {
+
+                WinDef.HWND parentHwnd = new WinDef.HWND(new Pointer(parentVal));
+                List<String> childMatches = new ArrayList<>();
+
+                User32.INSTANCE.EnumChildWindows(parentHwnd, (childHwnd, data) -> {
+
+                    char[] classBuffer = new char[256];
+                    User32.INSTANCE.GetClassName(childHwnd, classBuffer, 256);
+                    String className = Native.toString(classBuffer);
+
+                    if ("Chrome_RenderWidgetHostHWND".equals(className)) {
+                        long childVal = Pointer.nativeValue(childHwnd.getPointer());
+                        childMatches.add(String.valueOf(childVal));
+                    }
+                    return true;
+
+                }, null);
+
+                if (!childMatches.isEmpty()) {
+                    System.out.println(
+                            "[WindowHelper] Found Chrome_RenderWidgetHostHWND child under '"
+                                    + parentTitleContains + "' at attempt " + (attempt + 1)
+                                    + " -> " + childMatches.get(0));
+                    return childMatches.get(0);
+                }
+            }
+
+            Thread.sleep(RETRY_DELAY_MS);
+        }
+
+        System.out.println("[WindowHelper] NOT FOUND: Chrome_RenderWidgetHostHWND child under "
+                + parentTitleContains);
+        printAllWindows();
+        return null;
+    }
+
+
 }

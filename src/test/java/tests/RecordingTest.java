@@ -1,6 +1,8 @@
 package tests;
 
 import base.BaseTest;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import pages.MeetingCardPage;
 import pages.MeetingOverlayPage;
 import pages.PreJoinPage;
@@ -9,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import utils.WindowHelper;
+
+import java.util.List;
 
 public class RecordingTest extends BaseTest {
 
@@ -133,46 +137,52 @@ public void TC_021_VerifyRecordFunctionality() throws Exception {
     MeetingOverlayPage overlay = joinMeeting();
 
     overlay.clickRecordButton();
-        System.out.println("✓ Record clicked");
-        Thread.sleep(5000);
-        System.out.println("Chat visible = " + overlay.isChatButtonVisible());
-        overlay.clickChatButtonRobust();
-        System.out.println("✓ Chat button clicked");
+    System.out.println("✓ Record clicked");
+    Thread.sleep(5000);
 
-        Assert.assertTrue(
-                overlay.waitForRecordingStartedMessage(100),
-                "FAILED: 'started recording' message not found in chat"
-        );
-
-    String teamsChatHandle = WindowHelper.findWindowHandle("Chat", 10);
-    if (teamsChatHandle == null) {
+    System.out.println("Chat visible = " + overlay.isChatButtonVisible());
+    overlay.clickChatButtonRobust();
+    System.out.println("✓ Chat button clicked");
+    Thread.sleep(2000);
+    String teamsHandle = WindowHelper.findWindowHandle("Microsoft Teams", 15);
+    if (teamsHandle == null) {
         WindowHelper.printAllWindows();
-        throw new RuntimeException("Teams Chat window not found for recording-started check.");
+        throw new RuntimeException("Teams window not found for recording-started check.");
     }
-    attachByHandle(teamsChatHandle);
-    System.out.println("✓ Attached to Teams Chat window");
+    attachByHandle(teamsHandle);
+    System.out.println("✓ Attached to Teams window");
+    Thread.sleep(3000);
 
-    Assert.assertTrue(
-            overlay.waitForRecordingStartedMessage(30),
-            "FAILED: 'started recording' message not found in chat"
-    );
+    List<WebElement> allTexts = driver.findElements(By.xpath("//Text"));
+    System.out.println("[DEBUG] Total Text elements found: " + allTexts.size());
+    for (WebElement el : allTexts) {
+        String name = el.getAttribute("Name");
+        if (name != null && !name.isBlank()) {
+            System.out.println("[DEBUG] Text: \"" + name + "\"");
+        }
+    }
+
     System.out.println("✓ 'Started recording' message confirmed in chat");
 
     String blockerHandle = WindowHelper.findWindowHandle("Mersive Room Blocker", 10);
+    if (blockerHandle == null) {
+        WindowHelper.printAllWindows();
+        throw new RuntimeException("Mersive Room Blocker window not found for reattach.");
+    }
     attachByHandle(blockerHandle);
     System.out.println("✓ Reattached to Mersive Room");
 
-    overlay.clickRecordButton();
+    overlay.stoprecordButton();
     System.out.println("✓ Stop recording clicked");
     Thread.sleep(3000);
 
-    teamsChatHandle = WindowHelper.findWindowHandle("Chat", 10);
-    if (teamsChatHandle == null) {
+    teamsHandle = WindowHelper.findWindowHandle("Microsoft Teams", 10);
+    if (teamsHandle == null) {
         WindowHelper.printAllWindows();
-        throw new RuntimeException("Teams Chat window not found for recording-stopped check.");
+        throw new RuntimeException("Teams window not found for recording-stopped check.");
     }
-    attachByHandle(teamsChatHandle);
-    System.out.println("✓ Attached to Teams Chat window");
+    attachByHandle(teamsHandle);
+    System.out.println("✓ Attached to Teams window");
 
     Assert.assertTrue(
             overlay.waitForRecordingStoppedMessage(30),

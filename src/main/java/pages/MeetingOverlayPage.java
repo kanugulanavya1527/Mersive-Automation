@@ -63,6 +63,8 @@ public class MeetingOverlayPage extends BasePage {
     // Record / Transcribe
     private final By recordButton =
             By.xpath("//Button[.//Text[@Name='Record']]");
+    private final By stoprecordButton = By.xpath("//Button[.//Text[@Name='Stop recording'");
+
     private final By transcribeButton =
             By.xpath("//Button[.//Text[@Name='Transcribe']]");
 
@@ -569,6 +571,13 @@ public class MeetingOverlayPage extends BasePage {
         w.until(ExpectedConditions.elementToBeClickable(recordButton)).click();
         System.out.println("[Record] Record button clicked");
     }
+    public void stoprecordButton() {
+        WebDriverWait w = new WebDriverWait(driver, 20);
+        w.until(ExpectedConditions.elementToBeClickable(stoprecordButton)).click();
+        System.out.println("[Record]Stop Record button clicked");
+    }
+
+
 
     // ── Transcribe ─────────────────────────────────────────
 
