@@ -10,51 +10,51 @@ import java.util.List;
 
 public class MeetingCardTest extends BaseTest {
 
-//    @Test(priority = 9)
-//    public void TC_009_VerifyMeetingCardDetailsForAllStates() {
-//        System.out.println("=== TC_009: Verify Meeting Card Details ===");
-//
-//        MeetingCardPage cardPage = new MeetingCardPage(driver);
-//        MeetingCardPage.printGroupStructure();
-//        MeetingCardPage.printAllTextBlocks();
-//        MeetingCardPage.printAllJoinButtons();
-//        List<MeetingCardPage.MeetingCard> meetings = cardPage.getAllMeetings();
-//
-//        System.out.println("Total meeting cards found: " + meetings.size());
-//
-//        Assert.assertFalse(
-//                meetings.isEmpty(),
-//                "TC_009 FAILED: No meeting cards found on screen"
-//        );
-//
-//        for (int i = 0; i < meetings.size(); i++) {
-//            MeetingCardPage.MeetingCard card = meetings.get(i);
-//
-//            System.out.println("--- Card " + (i + 1) + " ---");
-//            System.out.println("Title    : " + card.title);
-//            System.out.println("Time     : " + card.time);
-//            System.out.println("Status   : " + card.status);
-//            System.out.println("Platform : " + card.platform);
-//            System.out.println("Join Btn : " + card.joinButtonVisible);
-//
-//            Assert.assertTrue(
-//                    card.joinButtonVisible,
-//                    "TC_009 FAILED: JOIN button missing for card " + (i + 1)
-//            );
-//
-//            Assert.assertNotNull(
-//                    card.title,
-//                    "TC_009 FAILED: Title null for card " + (i + 1)
-//            );
-//
-//            Assert.assertFalse(
-//                    card.title.trim().isEmpty(),
-//                    "TC_009 FAILED: Title empty for card " + (i + 1)
-//            );
-//        }
-//
-//        System.out.println("TC_009 PASSED");
-//    }
+    @Test(priority = 9)
+    public void TC_009_VerifyMeetingCardDetailsForAllStates() {
+        System.out.println("=== TC_009: Verify Meeting Card Details ===");
+
+        MeetingCardPage cardPage = new MeetingCardPage(driver);
+        MeetingCardPage.printGroupStructure();
+        MeetingCardPage.printAllTextBlocks();
+        MeetingCardPage.printAllJoinButtons();
+        List<MeetingCardPage.MeetingCard> meetings = cardPage.getAllMeetings();
+
+        System.out.println("Total meeting cards found: " + meetings.size());
+
+        Assert.assertFalse(
+                meetings.isEmpty(),
+                "TC_009 FAILED: No meeting cards found on screen"
+        );
+
+        for (int i = 0; i < meetings.size(); i++) {
+            MeetingCardPage.MeetingCard card = meetings.get(i);
+
+            System.out.println("--- Card " + (i + 1) + " ---");
+            System.out.println("Title    : " + card.title);
+            System.out.println("Time     : " + card.time);
+            System.out.println("Status   : " + card.status);
+            System.out.println("Platform : " + card.platform);
+            System.out.println("Join Btn : " + card.joinButtonVisible);
+
+            Assert.assertTrue(
+                    card.joinButtonVisible,
+                    "TC_009 FAILED: JOIN button missing for card " + (i + 1)
+            );
+
+            Assert.assertNotNull(
+                    card.title,
+                    "TC_009 FAILED: Title null for card " + (i + 1)
+            );
+
+            Assert.assertFalse(
+                    card.title.trim().isEmpty(),
+                    "TC_009 FAILED: Title empty for card " + (i + 1)
+            );
+        }
+
+        System.out.println("TC_009 PASSED");
+    }
 
     @Test(priority = 10)
     public void TC_010_VerifyJoinButtonNavigatesToPreJoinScreen() throws InterruptedException {

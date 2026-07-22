@@ -59,46 +59,45 @@ public class MeetingCardPage extends BasePage {
     }
 
     public List<MeetingCard> getAllMeetings() {
+
         List<MeetingCard> meetings = new ArrayList<>();
-        List<WebElement> joinBtns = driver.findElements(joinButtons);
-        List<WebElement> allTexts = driver.findElements(By.className("TextBlock"));
 
-        System.out.println("[MeetingCardPage] JOIN buttons found: " + joinBtns.size());
-
-        List<int[]> yPositions = new ArrayList<>();
-        List<String> textValues = new ArrayList<>();
-        for (WebElement el : allTexts) {
-            String t = el.getText().trim();
-            if (t.isEmpty()) continue;
-            textValues.add(t);
-            yPositions.add(new int[]{el.getLocation().getY()});
-        }
+        List<WebElement> joinBtns = waitForJoinButtons(20);
 
         for (int i = 0; i < joinBtns.size(); i++) {
-            int joinY = joinBtns.get(i).getLocation().getY();
+
+            waitForCardToRender(i, 5);
 
             MeetingCard card = new MeetingCard();
-          //  card.title = pickByOffset(textValues, yPositions, joinY, 60, 200, true);
+
             card.title = getTitleByIndex(i);
-           // card.time = pickByOffset(textValues, yPositions, joinY, 0, 260, false);
             card.time = getTimeByIndex(i);
-            card.status = "";
-            for (int j = 0; j < textValues.size(); j++) {
-                String t = textValues.get(j);
-                if ((t.equalsIgnoreCase("In use") || t.equalsIgnoreCase("Available"))
-                        && Math.abs(joinY - yPositions.get(j)[0]) < 260) {
-                    card.status = t;
-                    break;
-                }
-            }
-            card.platform = getPlatformByIndex(i);
+            card.platform = getPlatformByTitle(card.title);
+
+            card.status = getTextByIndex(meetingStatuses, i);
+
             card.joinButtonVisible = true;
+
             meetings.add(card);
         }
 
         return meetings;
     }
+    private String getPlatformByTitle(String title) {
 
+        if (title == null)
+            return "Teams";
+
+        String t = title.toLowerCase();
+
+        if (t.contains("zoom"))
+            return "Zoom";
+
+        if (t.contains("teams"))
+            return "Teams";
+
+        return "Teams";
+    }
     public void clickJoinButtonByIndex(int index) {
         List<WebElement> buttons = driver.findElements(joinButtons);
         if (index >= buttons.size()) {
@@ -341,41 +340,39 @@ public class MeetingCardPage extends BasePage {
 
         return bestTime;
     }
-
     private String getPlatformByIndex(int index) {
 
         List<WebElement> joinBtns = driver.findElements(joinButtons);
 
+        if (index >= joinBtns.size())
+            return "";
+
         int joinY = joinBtns.get(index).getLocation().getY();
 
-        System.out.println("\n===========================");
-        System.out.println("JOIN Y = " + joinY);
-        System.out.println("===========================");
+        List<WebElement> zooms = driver.findElements(
+                By.xpath("//Text[contains(translate(@Name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'zoom')]"));
 
-        List<WebElement> images = driver.findElements(By.className("Image"));
+        int bestGap = Integer.MAX_VALUE;
 
-        for(WebElement img : images){
+        for (WebElement zoom : zooms) {
 
-            System.out.println(
-                    "IMAGE -> X=" + img.getLocation().getX()
-                            + " Y=" + img.getLocation().getY()
-                            + " W=" + img.getSize().getWidth()
-                            + " H=" + img.getSize().getHeight());
+            int y = zoom.getLocation().getY();
+
+            if (y == 0)
+                continue;
+
+            int gap = Math.abs(joinY - y);
+
+            if (gap < 150 && gap < bestGap) {
+
+                bestGap = gap;
+
+                return "Zoom";
+            }
         }
 
-        List<WebElement> texts = driver.findElements(By.className("TextBlock"));
-
-        for(WebElement t : texts){
-
-            System.out.println(
-                    "TEXT = " + t.getText()
-                            + "  X=" + t.getLocation().getX()
-                            + " Y=" + t.getLocation().getY());
-        }
-
-        return "";
+        return "Teams";
     }
-
 
 // ── getAllMeetings now waits per-card before reading ────
 
@@ -412,7 +409,11 @@ public class MeetingCardPage extends BasePage {
             try {
                 System.out.println("AutomationId = " + image.getAttribute("AutomationId"));
                 System.out.println("ClassName = " + image.getAttribute("ClassName"));
-                System.out.println("Name = " + image.getAttribute("Name"));
+                System.out.println("Name         = " + image.getAttribute("Name"));
+                System.out.println("AutomationId = " + image.getAttribute("AutomationId"));
+                System.out.println("ClassName    = " + image.getAttribute("ClassName"));
+                System.out.println("HelpText     = " + image.getAttribute("HelpText"));
+                System.out.println("LocalizedControlType = " + image.getAttribute("LocalizedControlType"));
             } catch (Exception ignored) {
             }
         }
@@ -555,31 +556,23 @@ public class MeetingCardPage extends BasePage {
             if (text.isEmpty())
                 continue;
 
+            // Ignore tiny keyboard characters
             if (text.length() <= 2)
                 continue;
 
             // Ignore status
             if (text.equalsIgnoreCase("In use")
-                    || text.equalsIgnoreCase("Available"))
+                    || text.equalsIgnoreCase("Available")
+                    || text.startsWith("In "))
                 continue;
 
-            // Ignore platform
+            // Ignore platform labels
             if (text.equalsIgnoreCase("Zoom")
                     || text.equalsIgnoreCase("Teams"))
                 continue;
 
-            // Ignore separator
+            // Ignore separators
             if (text.equals("|"))
-                continue;
-
-            // Ignore day/date
-            if (text.contains("Monday")
-                    || text.contains("Tuesday")
-                    || text.contains("Wednesday")
-                    || text.contains("Thursday")
-                    || text.contains("Friday")
-                    || text.contains("Saturday")
-                    || text.contains("Sunday"))
                 continue;
 
             // Ignore times
@@ -587,7 +580,15 @@ public class MeetingCardPage extends BasePage {
                     || text.matches(".*\\d.*PM.*"))
                 continue;
 
-            // Ignore home page labels
+            // Ignore room/location
+            if (text.startsWith("Conference Room"))
+                continue;
+
+            // Ignore organizer name
+            if (text.equalsIgnoreCase("Kumar Medikonda"))
+                continue;
+
+            // Ignore home screen labels
             if (text.equalsIgnoreCase("AirPlay")
                     || text.equalsIgnoreCase("Google Cast")
                     || text.equalsIgnoreCase("Miracast")
@@ -597,22 +598,20 @@ public class MeetingCardPage extends BasePage {
                     || text.equalsIgnoreCase("Settings")
                     || text.equalsIgnoreCase("Screen key")
                     || text.contains("Visit")
-                    || text.contains("InfoComm"))
+                    || text.contains("InfoComm")
+                    || text.contains("Monday")
+                    || text.contains("Tuesday")
+                    || text.contains("Wednesday")
+                    || text.contains("Thursday")
+                    || text.contains("Friday")
+                    || text.contains("Saturday")
+                    || text.contains("Sunday"))
                 continue;
 
-            int y = el.getLocation().getY();
+            int gap = joinY - el.getLocation().getY();
 
-            int gap = joinY - y;
-
-            // Title should be above JOIN
-            if (gap <= 0 || gap > 200)
-                continue;
-
-            // Skip room/organizer line
-            if (gap < 80)
-                continue;
-
-            if (gap < bestGap) {
+            // Title should be roughly 80–180 pixels above JOIN
+            if (gap >= 80 && gap <= 180 && gap < bestGap) {
                 bestGap = gap;
                 bestTitle = text;
             }
@@ -620,7 +619,6 @@ public class MeetingCardPage extends BasePage {
 
         return bestTitle;
     }
-
     public static void printGroupStructure() {
 
         List<WebElement> groups =
