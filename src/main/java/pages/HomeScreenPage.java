@@ -26,6 +26,8 @@ public class HomeScreenPage extends BasePage {
     private final By miracastText   = By.name("Miracast");
     private final By hdmiInText     = By.name("HDMI In");
 
+
+
     // ── Validations ────────────────────────────────────────
 
     public boolean isHomeScreenLoaded() {
@@ -63,7 +65,16 @@ public class HomeScreenPage extends BasePage {
         click(joinWithIdBtn);
     }
 
+
+    public boolean isSettingsButtonDisplayed() {
+        return waitForPresent(settingsBtn, 10);
+    }
+
     public void clickSettings() {
         click(settingsBtn);
     }
+
+
 }
+
+
