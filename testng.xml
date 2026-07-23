@@ -3,118 +3,118 @@
 
 <suite name="Mersive Clean Suite" verbose="1" thread-count="1">
 
-        <test name="Zoom Navigation Tests">
-            <classes>
-                <class name="tests.ZoomNavigationTest"/>
-            </classes>
-        </test>
+<!--        <test name="Zoom Navigation Tests">-->
+<!--            <classes>-->
+<!--                <class name="tests.ZoomNavigationTest"/>-->
+<!--            </classes>-->
+<!--        </test>-->
 
 
-        <test name="Zoom PreJoin State Tests">
-            <classes>
-                <class name="tests.ZoomPreJoinStateTest"/>
-            </classes>
-        </test>
+<!--        <test name="Zoom PreJoin State Tests">-->
+<!--            <classes>-->
+<!--                <class name="tests.ZoomPreJoinStateTest"/>-->
+<!--            </classes>-->
+<!--        </test>-->
 
-        <test name="Zoom Meeting Join Tests">
-            <classes>
-                <class name="tests.ZoomMeetingJoinTest"/>
-            </classes>
-        </test>
+<!--        <test name="Zoom Meeting Join Tests">-->
+<!--            <classes>-->
+<!--                <class name="tests.ZoomMeetingJoinTest"/>-->
+<!--            </classes>-->
+<!--        </test>-->
 
-        <test name="Zoom Controls Tests">
-            <classes>
-                <class name="tests.ZoomControlsTest"/>
-            </classes>
-        </test>
+<!--        <test name="Zoom Controls Tests">-->
+<!--            <classes>-->
+<!--                <class name="tests.ZoomControlsTest"/>-->
+<!--            </classes>-->
+<!--        </test>-->
 
 
 
-        <test name="Zoom Virtual Keyboard Tests">
-            <classes>
-                <class name="tests.ZoomVirtualKeyboardTest"/>
-            </classes>
-        </test>
+<!--        <test name="Zoom Virtual Keyboard Tests">-->
+<!--            <classes>-->
+<!--                <class name="tests.ZoomVirtualKeyboardTest"/>-->
+<!--            </classes>-->
+<!--        </test>-->
 
-        <test name="Zoom AV Sync Tests">
-            <classes>
-                <class name="tests.ZoomAVSyncTest"/>
-            </classes>
-        </test>
+<!--        <test name="Zoom AV Sync Tests">-->
+<!--            <classes>-->
+<!--                <class name="tests.ZoomAVSyncTest"/>-->
+<!--            </classes>-->
+<!--        </test>-->
 
-    <test name="Zoom Share Invite Tests">
+<!--    <test name="Zoom Share Invite Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.ZoomShareInviteTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+
+    <test name="Home Screen Tests">
         <classes>
-            <class name="tests.ZoomShareInviteTest"/>
+            <class name="tests.HomeScreenTest"/>
         </classes>
     </test>
 
+    <test name="Navigation Tests">
+        <classes>
+            <class name="tests.NavigationTest"/>
+        </classes>
+    </test>
 
-<!--    <test name="Home Screen Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.HomeScreenTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Pre-Join Toggle Tests">
+        <classes>
+            <class name="tests.PreJoinToggleTest"/>
+        </classes>
+    </test>
 
-<!--    <test name="Navigation Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.NavigationTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Meeting Card Tests">
+        <classes>
+            <class name="tests.MeetingCardTest"/>
+        </classes>
+    </test>
 
-<!--    <test name="Pre-Join Toggle Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.PreJoinToggleTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-
-<!--    <test name="Meeting Card Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.MeetingCardTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-
-<!--    <test name="Meeting Join Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.MeetingJoinTest"/>-->
-<!--        </classes>-->
+    <test name="Meeting Join Tests">
+        <classes>
+            <class name="tests.MeetingJoinTest"/>
+        </classes>
 
 
-<!--    </test>-->
+    </test>
 
-<!--    <test name="Meeting Controls Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.MeetingControlsTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Meeting Controls Tests">
+        <classes>
+            <class name="tests.MeetingControlsTest"/>
+        </classes>
+    </test>
 
-<!--    <test name="Recording Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.RecordingTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Recording Tests">
+        <classes>
+            <class name="tests.RecordingTest"/>
+        </classes>
+    </test>
 
-<!--    <test name="Pre-Join State Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.PreJoinStateTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Pre-Join State Tests">
+        <classes>
+            <class name="tests.PreJoinStateTest"/>
+        </classes>
+    </test>
 
-<!--    <test name="Meeting Flow Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.MeetingFlowTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Meeting Flow Tests">
+        <classes>
+            <class name="tests.MeetingFlowTest"/>
+        </classes>
+    </test>
 
-<!--    <test name="AV Sync Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.AVSyncTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
-<!--    <test name="Teams Share Invite Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.TeamsShareInviteTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="AV Sync Tests">
+        <classes>
+            <class name="tests.AVSyncTest"/>
+        </classes>
+    </test>
+    <test name="Teams Share Invite Tests">
+        <classes>
+            <class name="tests.TeamsShareInviteTest"/>
+        </classes>
+    </test>
 
 
 </suite>
