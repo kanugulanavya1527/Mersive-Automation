@@ -162,16 +162,48 @@ public class AdminAccessPage extends BasePage {
     private final By backspaceBtn =
             By.xpath("//Button[@Name='0']/following-sibling::Button[1]");
 
+    private final By adminTitle =
+            By.name("Administrator access");
+
+    private final By closeAppTitle =
+            By.name("Quit application?");
+    private final By closeAppDescription =
+            By.name("This will quit the Mersive app and exit kiosk mode. Enter your admin passcode to continue.");
+
+    private final By adminCancelBtn =
+            By.xpath("//Text[@Name='Enter your 6-digit PIN to continue']/following-sibling::Button[1]");
+
+    private final By closeAppCancelBtn =
+            By.xpath("//Text[@Name='Quit application?']/following-sibling::Button[1]");
+
+
+
     private By pinDigit(String digit) {
         return By.xpath("//Button[@Name='" + digit + "']");
     }
 
     // ==================== Validations ====================
 
+
+
+    public boolean isAdminPopupDisplayed() {
+        return !driver.findElements(adminTitle).isEmpty();
+    }
+
+    public boolean isCloseApplicationPopupDisplayed() {
+        return !driver.findElements(closeAppTitle).isEmpty();
+    }
+
+    public boolean isCloseApplicationDescriptionDisplayed() {
+        return waitForPresent(closeAppDescription, 10);
+    }
+
     public boolean isAdminAccessPopupDisplayed() {
         return waitForPresent(adminAccessTitle, 10)
                 && waitForPresent(instructionText, 10);
     }
+
+
 
     public boolean isInvalidPinDisplayed() {
         return !driver.findElements(invalidPinMsg).isEmpty();
@@ -230,5 +262,19 @@ public class AdminAccessPage extends BasePage {
 
         backspace.sendKeys(Keys.ENTER);
     }
+    public void clickAdminCancel() {
 
+        WebElement cancel = new WebDriverWait(driver, 10)
+                .until(ExpectedConditions.elementToBeClickable(adminCancelBtn));
+
+        cancel.click();
+    }
+
+    public void clickCloseApplicationCancel() {
+
+        WebElement cancel = new WebDriverWait(driver, 10)
+                .until(ExpectedConditions.elementToBeClickable(closeAppCancelBtn));
+
+        cancel.click();
+    }
 }

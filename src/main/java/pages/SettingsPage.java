@@ -99,6 +99,12 @@ public class SettingsPage extends BasePage {
 
     private final By closeBtn =
             By.xpath("//Text[@Name='Settings']/following-sibling::Button[1]");
+
+
+
+    public void clickCloseApplication() {
+        wait.until(ExpectedConditions.elementToBeClickable(closeApplication)).click();
+    }
     // ==================== Validations ====================
 
     public boolean isSettingsScreenDisplayed() {

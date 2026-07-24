@@ -235,6 +235,30 @@ public class WindowHelper {
 
         return findWindowHandle(titleContains) != null;
     }
+    public static boolean isWindowPresentNow(String titleContains) {
+
+        List<String> found = new ArrayList<>();
+
+        User32.INSTANCE.EnumWindows((hwnd, data) -> {
+
+            char[] buffer = new char[512];
+            User32.INSTANCE.GetWindowText(hwnd, buffer, 512);
+
+            String title = Native.toString(buffer);
+
+            if (User32.INSTANCE.IsWindowVisible(hwnd)
+                    && title != null
+                    && title.toLowerCase().contains(titleContains.toLowerCase())) {
+
+                found.add(title);
+            }
+
+            return true;
+
+        }, null);
+
+        return !found.isEmpty();
+    }
 
     public static String findChromeRenderChildHandle(String parentTitleContains,
                                                      int maxRetries)

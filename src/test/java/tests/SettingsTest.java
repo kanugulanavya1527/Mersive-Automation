@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import pages.AdminAccessPage;
 import pages.HomeScreenPage;
 import pages.SettingsPage;
+import utils.WindowHelper;
 
 public class SettingsTest extends BaseTest {
 
@@ -57,7 +58,7 @@ public class SettingsTest extends BaseTest {
         System.out.println("Current page source:");
         System.out.println(driver.getPageSource());
         Thread.sleep(1000);
-        admin.enterPin("123456");
+        admin.enterPin("152746");
         Thread.sleep(500);
         System.out.println("Invalid PIN shown: " + admin.isInvalidPinDisplayed());
         System.out.println("Settings shown: " + settings.isSettingsScreenDisplayed());
@@ -80,7 +81,7 @@ public class SettingsTest extends BaseTest {
         SettingsPage settings = new SettingsPage(driver);
 
         home.clickSettings();
-        admin.enterPin("123456");
+        admin.enterPin("152746");
 
         Assert.assertTrue(
                 settings.areAllSettingsOptionsDisplayed(),
@@ -195,7 +196,7 @@ public class SettingsTest extends BaseTest {
 
         home.clickSettings();
 
-        admin.enterPin("123456");
+        admin.enterPin("152746");
 
         Assert.assertTrue(
                 settings.isSettingsScreenDisplayed(),
@@ -212,5 +213,140 @@ public class SettingsTest extends BaseTest {
         );
 
         System.out.println("TC_009 PASSED");
+    }
+
+    @Test(priority = 10)
+    public void TC_010_VerifyCloseApplicationPopup() throws Exception {
+
+        System.out.println("=== TC_010: Verify Close Application Popup ===");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+        SettingsPage settings = new SettingsPage(driver);
+        AdminAccessPage admin = new AdminAccessPage(driver);
+
+        home.clickSettings();
+
+        admin.enterPin("152746");
+
+        Assert.assertTrue(settings.isSettingsScreenDisplayed());
+
+        settings.clickCloseApplication();
+
+        Assert.assertTrue(
+                admin.isCloseApplicationPopupDisplayed(),
+                "Quit Application popup was not displayed."
+        );
+
+        System.out.println("TC_010 PASSED");
+    }
+    @Test(priority = 11)
+    public void TC_011_VerifyCloseApplicationCancelButton() throws Exception {
+
+        System.out.println("=== TC_011: Verify Cancel Button ===");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+        SettingsPage settings = new SettingsPage(driver);
+        AdminAccessPage admin = new AdminAccessPage(driver);
+
+        home.clickSettings();
+
+        admin.enterPin("152746");
+
+        Assert.assertTrue(settings.isSettingsScreenDisplayed());
+
+        settings.clickCloseApplication();
+
+        Assert.assertTrue(admin.isCloseApplicationPopupDisplayed());
+
+        admin.clickCloseApplicationCancel();
+
+        Assert.assertTrue(settings.isSettingsScreenDisplayed());
+
+        System.out.println("TC_011 PASSED");
+    }
+    @Test(priority = 12)
+    public void TC_012_VerifyInvalidPINForCloseApplication() throws Exception {
+
+        System.out.println("=== TC_012: Verify Invalid PIN ===");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+        SettingsPage settings = new SettingsPage(driver);
+        AdminAccessPage admin = new AdminAccessPage(driver);
+
+        home.clickSettings();
+
+        admin.enterPin("152746");
+
+        Assert.assertTrue(settings.isSettingsScreenDisplayed());
+
+        settings.clickCloseApplication();
+
+        Assert.assertTrue(admin.isCloseApplicationPopupDisplayed());
+
+        admin.enterPin("111111");
+
+        Assert.assertTrue(
+                admin.isInvalidPinDisplayed(),
+                "Invalid PIN message was not displayed."
+        );
+
+        System.out.println("TC_012 PASSED");
+    }
+
+    @Test(priority = 14)
+    public void TC_014_VerifyBackspaceButton() throws Exception {
+
+        System.out.println("=== TC_014: Verify Backspace Button ===");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+        SettingsPage settings = new SettingsPage(driver);
+        AdminAccessPage admin = new AdminAccessPage(driver);
+
+        home.clickSettings();
+
+        admin.enterPin("152746");
+
+        Assert.assertTrue(settings.isSettingsScreenDisplayed());
+
+        settings.clickCloseApplication();
+
+        admin.enterPin("123");
+
+        admin.clickBackspace();
+
+        System.out.println("TC_014 PASSED");
+    }
+
+    @Test(priority = 15)
+    public void TC_015_VerifyCloseApplicationWithValidPIN() throws Exception {
+
+        System.out.println("=== TC_015: Verify Close Application with Valid PIN ===");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+        SettingsPage settings = new SettingsPage(driver);
+        AdminAccessPage admin = new AdminAccessPage(driver);
+
+        home.clickSettings();
+
+        // First authentication
+        admin.enterPin("152746");
+
+        Assert.assertTrue(settings.isSettingsScreenDisplayed());
+
+        settings.clickCloseApplication();
+
+        Assert.assertTrue(admin.isCloseApplicationPopupDisplayed());
+
+        // Second authentication
+        admin.enterPin("152746");
+
+        Thread.sleep(2000);
+
+        Assert.assertFalse(
+                WindowHelper.isWindowPresentNow("Mersive Room"),
+                "Mersive Room application was not closed."
+        );
+
+        System.out.println("TC_015 PASSED");
     }
 }
