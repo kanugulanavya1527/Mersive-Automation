@@ -19,7 +19,7 @@ public abstract class BasePage {
         this.wait   = new WebDriverWait(driver, 10);
     }
 
-    protected void click(By locator) {
+    protected  void click(By locator) {
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
@@ -67,5 +67,18 @@ public abstract class BasePage {
                 .filter(t -> t.matches(regex))
                 .findFirst()
                 .orElse(null);
+    }
+    private final By exitButton =
+            By.xpath("//Button[@HelpText='Quit application']");
+
+    private final By yesQuitButton =
+            By.name("Yes, quit");
+
+    public void clickExit() {
+        click(exitButton);
+    }
+
+    public void clickYesQuit() {
+        click(yesQuitButton);
     }
 }

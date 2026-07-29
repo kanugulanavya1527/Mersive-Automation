@@ -15,8 +15,10 @@ public class NoInternetPage extends BasePage {
 
     private final By fixButton = By.name("Fix");
 
-    private final By exitButton =
+    private  final By exitButton =
             By.xpath("//Button[@HelpText='Quit application']");
+
+    private  final By yesbutton = By.name("Yes, quit");
 
     // Methods
 
@@ -28,7 +30,12 @@ public class NoInternetPage extends BasePage {
         click(fixButton);
     }
 
-    public void clickExit() {
+    public  void clickExit() {
         click(exitButton);
+    }
+
+
+    public void clickYesQuit() {
+        click(yesbutton);
     }
 }

@@ -42,4 +42,7 @@ public class PinSetupPage extends BasePage {
     public void backspace() {
         driver.findElement(By.name("←")).click();
     }
+    public void enterAdminPasscode() {
+        enterPin("123456");
+    }
 }

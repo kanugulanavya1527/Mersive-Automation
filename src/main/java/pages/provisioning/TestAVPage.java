@@ -81,4 +81,13 @@ public class TestAVPage extends BasePage {
 
         click(popupContinueButton);
     }
+    public boolean isDisplayedAfterResume() {
+        List<WebElement> elements =
+                driver.findElements(By.name("Test the room's AV equipment"));
+
+        System.out.println("Found elements = " + elements.size());
+
+        return !elements.isEmpty() && elements.get(0).isDisplayed();
+    }
+
 }
