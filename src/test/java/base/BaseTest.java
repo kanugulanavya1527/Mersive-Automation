@@ -146,6 +146,7 @@ public class BaseTest {
 //            lastMeetingOverlayHandle = null;
 //        }
 //    }
+
     protected void switchBackToMeetingOverlay() throws Exception {
 
         attachByHandle(lastMeetingOverlayHandle);
@@ -287,5 +288,31 @@ public class BaseTest {
         System.out.println("✓ Deny button clicked");
 
         switchBackToMeetingOverlay();
+    }
+    protected void relaunchMersiveApp() throws Exception {
+
+        if (driver != null) {
+            try {
+                driver.quit();
+            } catch (Exception ignored) {}
+        }
+
+        ProcessHelper.kill("MersiveRoom.exe");
+        ProcessHelper.kill("Provisioning.exe");
+        ProcessHelper.kill("msedgewebview2.exe");
+
+        Thread.sleep(3000);
+
+        appProcess = ProcessHelper.launch(APP_PATH);
+
+        Thread.sleep(10000);
+
+        String handle = WindowHelper.findWindowHandle("Mersive Room");
+
+        if (handle == null) {
+            throw new RuntimeException("Mersive Room window not found after relaunch");
+        }
+
+        attachByHandle(handle);
     }
 }
