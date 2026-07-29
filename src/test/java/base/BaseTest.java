@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import java.lang.reflect.Method;
+import utils.FileHelper;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,15 +31,22 @@ public class BaseTest {
     // ── Lifecycle ───────────────────────────────────────────
 
     @BeforeMethod(alwaysRun = true)
-
-    public void setup() throws Exception {
+    public void setup(Method method) throws Exception {
 
         System.out.println("\n=== SETUP START ===");
         ProcessHelper.kill("Teams.exe");
         ProcessHelper.kill("ms-teams.exe");
         ProcessHelper.kill("Zoom.exe");
         ProcessHelper.kill("MersiveRoom.exe");
+        ProcessHelper.kill("Provisioning.exe");
         ProcessHelper.kill("msedgewebview2.exe");
+        // Clean provisioning files ONLY for provisioning tests
+        if (this.getClass().getPackageName().contains("tests.provisioning")) {
+            FileHelper.clearLogs();
+            FileHelper.deleteConfigurationFile();
+            FileHelper.deleteProvisioningStateFile();
+            System.out.println("Provisioning files cleaned successfully.");
+        }
         Thread.sleep(5000);
 
         lastMeetingOverlayHandle = null;
@@ -69,7 +78,9 @@ public class BaseTest {
         }
         ProcessHelper.kill("Zoom.exe");
         ProcessHelper.kill("MersiveRoom.exe");
+        ProcessHelper.kill("Provisioning.exe");
         ProcessHelper.kill("msedgewebview2.exe");
+
 
         ProcessHelper.destroy(appProcess);
 
@@ -77,6 +88,7 @@ public class BaseTest {
 
         ProcessHelper.kill("Zoom.exe");
         ProcessHelper.kill("MersiveRoom.exe");
+        ProcessHelper.kill("Provisioning.exe");
         // ProcessHelper.kill("msedgewebview2.exe");
 
         System.out.println("=== TEARDOWN COMPLETE ===\n");
