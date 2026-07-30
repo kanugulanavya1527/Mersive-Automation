@@ -190,7 +190,6 @@ public class BaseTest {
         driver = DriverFactory.createRootSession();
     }
 
-
     protected void attachByHandle(String decimalHandle)
             throws Exception {
 
