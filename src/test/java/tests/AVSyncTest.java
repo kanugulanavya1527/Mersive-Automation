@@ -14,7 +14,7 @@ public class AVSyncTest extends BaseTest {
 
     private String overlayHandle;
 
-    private MeetingOverlayPage joinMeeting() throws Exception {
+    public MeetingOverlayPage joinMeeting() throws Exception {
         MeetingCardPage cards = new MeetingCardPage(driver);
         PreJoinPage preJoin   = new PreJoinPage(driver);
 

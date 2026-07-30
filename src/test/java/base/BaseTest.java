@@ -1,5 +1,6 @@
 package base;
 
+import org.testng.Assert;
 import pages.MeetingOverlayPage;
 import pages.RootSessionPage;
 import utils.ProcessHelper;
@@ -10,6 +11,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import java.lang.reflect.Method;
 import utils.FileHelper;
+import pages.MeetingCardPage;
+import pages.PreJoinPage;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
@@ -186,6 +190,7 @@ public class BaseTest {
         driver = DriverFactory.createRootSession();
     }
 
+
     protected void attachByHandle(String decimalHandle)
             throws Exception {
 
@@ -314,5 +319,54 @@ public class BaseTest {
         }
 
         attachByHandle(handle);
+    }
+    public MeetingOverlayPage joinMeeting() throws Exception {
+
+        MeetingCardPage cards = new MeetingCardPage(driver);
+        PreJoinPage preJoin = new PreJoinPage(driver);
+
+        cards.clickJoinForFirstTeamsMeeting();
+
+        new WebDriverWait(driver, 20).until(
+                d -> {
+                    try {
+                        return new PreJoinPage(driver).isPreJoinScreenLoaded();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+        preJoin.clickJoinMicrosoftTeamsMeeting();
+
+        Thread.sleep(5000);
+
+        if (preJoin.isJoinNowVisible()) {
+            preJoin.clickJoinNow();
+            Thread.sleep(8000);
+        }
+
+        switchToDesktop();
+
+        String blockerHandle =
+                WindowHelper.findWindowHandle("Mersive Room Blocker");
+
+        if (blockerHandle == null) {
+            throw new RuntimeException("Mersive Room Blocker not found.");
+        }
+
+        setLastMeetingOverlayHandle(blockerHandle);
+
+        attachByHandle(blockerHandle);
+
+        MeetingOverlayPage overlay =
+                new MeetingOverlayPage(driver);
+
+        Thread.sleep(8000);
+
+        Assert.assertTrue(
+                overlay.waitForMeetingJoinedScreen(),
+                "Meeting screen did not load");
+
+        return overlay;
     }
 }

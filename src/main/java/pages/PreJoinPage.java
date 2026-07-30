@@ -227,4 +227,40 @@ public boolean isPreJoinScreenLoaded() throws InterruptedException {
         }
         return null;
     }
+
+    public void setCamera(boolean cameraOn) {
+
+        if (cameraOn) {
+
+            if (isCameraOff()) {
+                clickCameraToggle();
+                waitForCameraOn();
+            }
+
+        } else {
+
+            if (isCameraOn()) {
+                clickCameraToggle();
+                waitForCameraOff();
+            }
+        }
+    }
+
+    public void setMicrophone(boolean microphoneOn) {
+
+        if (microphoneOn) {
+
+            if (isMicrophoneOff()) {
+                clickMicrophoneToggle();
+                waitForMicrophoneOn();
+            }
+
+        } else {
+
+            if (isMicrophoneOn()) {
+                clickMicrophoneToggle();
+                waitForMicrophoneOff();
+            }
+        }
+    }
 }

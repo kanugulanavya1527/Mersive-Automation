@@ -15,7 +15,7 @@ import pages.PreJoinPage;
 
 
 public class TeamsShareInviteTest extends BaseTest {
-    private MeetingOverlayPage joinMeeting() throws Exception {
+    public MeetingOverlayPage joinMeeting() throws Exception {
         MeetingCardPage cards = new MeetingCardPage(driver);
         PreJoinPage preJoin = new PreJoinPage(driver);
 

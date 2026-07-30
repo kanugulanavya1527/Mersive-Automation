@@ -13,7 +13,7 @@ public class MeetingJoinTest extends BaseTest {
 
     // ── Shared join flow ───────────────────────────────────
 
-    private MeetingOverlayPage joinMeeting() throws Exception {
+    public MeetingOverlayPage joinMeeting() throws Exception {
 
         MeetingCardPage meetingCard = new MeetingCardPage(driver);
 

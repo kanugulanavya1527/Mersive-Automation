@@ -16,7 +16,7 @@ import java.util.List;
 
 public class RecordingTest extends BaseTest {
 
-    private MeetingOverlayPage joinMeeting() throws Exception {
+    public MeetingOverlayPage joinMeeting() throws Exception {
 
         MeetingCardPage meetingCard = new MeetingCardPage(driver);
 
