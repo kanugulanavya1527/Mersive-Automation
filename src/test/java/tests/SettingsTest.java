@@ -349,4 +349,223 @@ public class SettingsTest extends BaseTest {
 
         System.out.println("TC_015 PASSED");
     }
+    @Test(priority = 16)
+    public void TC_016_VerifyConfigureNetworkButtonUIAndFunctionality() throws Exception {
+
+        System.out.println("=== TC_016: Verify Configure Network ===");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+        AdminAccessPage admin = new AdminAccessPage(driver);
+        SettingsPage settings = new SettingsPage(driver);
+
+        home.clickSettings();
+
+        admin.enterPin("123456");
+
+        Assert.assertTrue(settings.isSettingsScreenDisplayed());
+
+        settings.clickConfigureNetwork();
+
+        settings.clickEthernetTab();
+        settings.enterEthernetValues();
+        settings.clickUpdate();
+
+        Assert.assertTrue(settings.isSettingsScreenDisplayed());
+
+// Open Configure Network again
+
+        settings.clickConfigureNetwork();
+
+        settings.clickWifiTab();
+        settings.enterWifiValues();
+        settings.clickUpdate();
+
+        Assert.assertTrue(settings.isSettingsScreenDisplayed());
+
+// Open Configure Network again
+
+        settings.clickConfigureNetwork();
+
+        settings.clickProxyTab();
+        settings.enterProxyValues();
+        settings.clickUpdate();
+
+        Assert.assertTrue(settings.isSettingsScreenDisplayed());
+
+        System.out.println("TC_016 PASSED");
+    }
+    @Test(priority = 17)
+    public void TC_017_VerifyTestAVEquipmentButtonUIAndFunctionality() throws Exception {
+
+        System.out.println("=== TC_017: Verify Test AV Equipment ===");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+        AdminAccessPage admin = new AdminAccessPage(driver);
+        SettingsPage settings = new SettingsPage(driver);
+
+        home.clickSettings();
+
+        admin.enterPin("123456");
+
+        Assert.assertTrue(
+                settings.isSettingsScreenDisplayed(),
+                "Settings screen not displayed."
+        );
+
+        settings.clickTestAVEquipment();
+
+        Assert.assertTrue(
+                settings.isTestAVEquipmentScreenDisplayed(),
+                "Test AV Equipment screen not displayed."
+        );
+
+        // Camera
+        settings.clickCameraLooksGood();
+
+        // Microphone
+        settings.clickConfirmMicWorks();
+
+        settings.clickPlayTestTone();
+
+        Assert.assertTrue(
+                settings.isSpeakerResultDisplayed(),
+                "Speaker confirmation buttons not displayed."
+        );
+
+        settings.clickIHeardIt();
+
+        settings.clickDone();
+
+        Assert.assertTrue(
+                settings.isSettingsScreenDisplayed(),
+                "Did not return to Settings screen."
+        );
+
+        System.out.println("TC_017 PASSED");
+    }
+
+    @Test(priority = 18)
+    public void TC_018_VerifyConferencingButtonUIAndFunctionality() throws Exception {
+
+        System.out.println("=== TC_018: Verify Conferencing Screen ===");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+        AdminAccessPage admin = new AdminAccessPage(driver);
+        SettingsPage settings = new SettingsPage(driver);
+
+        home.clickSettings();
+
+        admin.enterPin("123456");
+
+        Assert.assertTrue(
+                settings.isSettingsScreenDisplayed(),
+                "Settings screen not displayed."
+        );
+
+        settings.clickConferencing();
+
+        Assert.assertTrue(
+                settings.isConferencingScreenDisplayed(),
+                "Conferencing screen not displayed."
+        );
+
+        Assert.assertTrue(settings.isMicrosoftTeamsDisplayed());
+        Assert.assertTrue(settings.isZoomDisplayed());
+        Assert.assertTrue(settings.isGoogleMeetDisplayed());
+        Assert.assertTrue(settings.isWebexDisplayed());
+
+        settings.clickDone();
+
+        Assert.assertTrue(
+                settings.isSettingsScreenDisplayed(),
+                "Did not return to Settings screen."
+        );
+
+        System.out.println("TC_018 PASSED");
+    }
+
+    @Test(priority = 19)
+    public void TC_019_VerifyResetAdminPIN() throws Exception {
+
+        System.out.println("=== TC_019: Verify Reset Admin PIN ===");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+        AdminAccessPage admin = new AdminAccessPage(driver);
+        SettingsPage settings = new SettingsPage(driver);
+
+        home.clickSettings();
+
+        // Login to Settings
+        admin.enterPin("123456");
+
+        Assert.assertTrue(
+                settings.isSettingsScreenDisplayed(),
+                "Settings screen not displayed."
+        );
+
+        // Open Reset PIN
+        settings.clickResetAdminPIN();
+
+        Assert.assertTrue(settings.isCurrentPinScreenDisplayed());
+
+        admin.enterPin("123456");
+
+        Assert.assertTrue(settings.isNewPinScreenDisplayed());
+
+        admin.enterPin("152746");
+
+        Assert.assertTrue(settings.isReEnterPinScreenDisplayed());
+
+        admin.enterPin("152746");
+
+        Assert.assertTrue(settings.isSettingsScreenDisplayed());
+
+
+        System.out.println("TC_019 PASSED");
+    }
+
+    @Test(priority = 20)
+    public void TC_020_VerifyResetAdminPINValidation() throws Exception {
+
+        System.out.println("=== TC_020: Verify Reset Admin PIN Validation ===");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+        AdminAccessPage admin = new AdminAccessPage(driver);
+        SettingsPage settings = new SettingsPage(driver);
+
+        home.clickSettings();
+
+        // Login to Settings
+        admin.enterPin("152746");
+
+        Assert.assertTrue(
+                settings.isSettingsScreenDisplayed(),
+                "Settings screen not displayed."
+        );
+
+        // Open Reset Admin PIN
+        settings.clickResetAdminPIN();
+
+        Assert.assertTrue(
+                settings.isCurrentPinScreenDisplayed(),
+                "Current PIN screen not displayed."
+        );
+
+        // Enter incorrect current PIN
+        admin.enterPin("111111");
+
+        // Verify error message
+        Assert.assertTrue(
+                settings.isIncorrectPINMessageDisplayed(),
+                "Incorrect PIN message not displayed."
+        );
+
+        // Should remain on Current PIN screen
+        Assert.assertTrue(
+                settings.isCurrentPinScreenDisplayed(),
+                "Application should remain on Current PIN screen."
+        );
+
+        System.out.println("TC_020 PASSED");
+    }
 }

@@ -330,4 +330,5 @@ public class JoinWithIdPage extends BasePage {
                 By.xpath("//Button[.//Text[@Name='Join with ID']]")
         ).isEmpty();
     }
+
 }

@@ -355,4 +355,216 @@ public class AnalyticsEventsTest extends BaseTest {
             System.out.println("✓ Returned to Home Screen");
         }
     }
+    @DataProvider(name = "cameraMicCombinations")
+    public Object[][] cameraMicCombinations() {
+        return new Object[][]{
+                {true, true},
+                {true, false},
+                {false, true},
+                {false, false}
+        };
+    }
+    @Test(priority = 7, dataProvider = "cameraMicCombinations")
+    public void TC_007_VerifyVTCMeetingJoinAnalytics(boolean camera, boolean mic) throws Exception {
+
+        System.out.println("==================================");
+        System.out.println("Camera : " + camera);
+        System.out.println("Mic    : " + mic);
+        System.out.println("==================================");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+        Assert.assertTrue(home.isHomeScreenLoaded());
+
+        MeetingCardPage meetingCard = new MeetingCardPage(driver);
+        meetingCard.clickJoinForFirstTeamsMeeting();
+
+        PreJoinPage preJoin = new PreJoinPage(driver);
+
+        Assert.assertTrue(preJoin.isPreJoinScreenLoaded());
+
+        Thread.sleep(2000);
+
+        preJoin.setCamera(camera);
+
+        Thread.sleep(1000);
+
+        preJoin.setMicrophone(mic);
+
+        Thread.sleep(1000);
+
+        preJoin.clickJoinMicrosoftTeamsMeeting();
+
+        switchToDesktop();
+
+        String blocker =
+                WindowHelper.findWindowHandle("Mersive Room Blocker");
+
+        setLastMeetingOverlayHandle(blocker);
+
+        attachByHandle(blocker);
+
+        MeetingOverlayPage overlay =
+                new MeetingOverlayPage(driver);
+
+        Assert.assertTrue(overlay.waitForMeetingJoinedScreen());
+
+        // Verify Analytics
+
+        overlay.clickLeaveButton();
+
+        RootSessionPage root =
+                new RootSessionPage(driver);
+
+        root.clickLeaveMeetingConfirmation();
+
+        Thread.sleep(5000);
+
+        switchToDesktop();
+
+        String homeHandle =
+                WindowHelper.findWindowHandle("Mersive Room");
+
+        attachByHandle(homeHandle);
+
+        Assert.assertTrue(
+                new HomeScreenPage(driver).isHomeScreenLoaded());
+
+        System.out.println("==================================");
+        System.out.println("Completed");
+        System.out.println("==================================");
+    }
+
+    @Test(priority = 8, dataProvider = "cameraMicCombinations")
+    public void TC_008_VerifyJoinWithIdAnalytics(boolean camera, boolean mic) throws Exception {
+
+        System.out.println("==================================");
+        System.out.println("Camera : " + camera);
+        System.out.println("Mic    : " + mic);
+        System.out.println("==================================");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+
+        Assert.assertTrue(
+                home.isHomeScreenLoaded(),
+                "Home Screen not loaded");
+
+        home.clickJoinWithId();
+
+        JoinWithIdPage join = new JoinWithIdPage(driver);
+
+        // Select Teams
+        join.clickMicrosoftTeams();
+
+        // Camera / Microphone
+        PreJoinPage preJoin = new PreJoinPage(driver);
+
+        preJoin.setCamera(camera);
+        preJoin.setMicrophone(mic);
+
+        // Enter Meeting ID
+        join.enterMeetingId("242 870 436 818 382");
+
+        // Enter Password
+        join.enterPassword("Gt6q5qr2");
+
+        // Switch to Keyboard
+        switchToDesktop();
+
+        String keyboardHandle =
+                WindowHelper.findWindowHandle("Keyboard");
+
+        Assert.assertNotNull(
+                keyboardHandle,
+                "Keyboard window not found");
+
+        attachByHandle(keyboardHandle);
+
+        join = new JoinWithIdPage(driver);
+
+        join.clickDoneOnKeypad();
+
+        // Back to Mersive
+        switchToDesktop();
+
+        String roomHandle =
+                WindowHelper.findWindowHandle("Mersive Room");
+
+        Assert.assertNotNull(
+                roomHandle,
+                "Mersive Room window not found");
+
+        attachByHandle(roomHandle);
+
+        join = new JoinWithIdPage(driver);
+
+        // Join Meeting
+        join.clickJoinMeetingButton();
+
+        // Wait for meeting to launch
+        Thread.sleep(15000);
+
+        switchToDesktop();
+
+        String blocker =
+                WindowHelper.findWindowHandle("Mersive Room Blocker");
+
+        Assert.assertNotNull(
+                blocker,
+                "Meeting overlay not found");
+
+        setLastMeetingOverlayHandle(blocker);
+
+        attachByHandle(blocker);
+
+        MeetingOverlayPage overlay =
+                new MeetingOverlayPage(driver);
+
+        Assert.assertTrue(
+                overlay.waitForMeetingJoinedScreen(),
+                "Meeting did not join");
+
+        // Verify we're inside the meeting
+        join = new JoinWithIdPage(driver);
+
+        Assert.assertTrue(
+                join.verifyChatButton(),
+                "Chat button not found");
+
+        // ==========================================
+        // Verify Analytics
+        // Source : join_with_code
+        // Camera : ON / OFF
+        // Microphone : ON / OFF
+        // ==========================================
+
+        overlay.clickLeaveButton();
+
+        RootSessionPage root =
+                new RootSessionPage(driver);
+
+        root.clickLeaveMeetingConfirmation();
+       setLastMeetingOverlayHandle(null);
+
+        Thread.sleep(5000);
+
+        switchToDesktop();
+
+        String homeHandle =
+                WindowHelper.findWindowHandle("Mersive Room");
+
+        Assert.assertNotNull(
+                homeHandle,
+                "Home window not found");
+
+        attachByHandle(homeHandle);
+
+        Assert.assertTrue(
+                new HomeScreenPage(driver).isHomeScreenLoaded(),
+                "Failed to return to Home Screen");
+
+        System.out.println("==================================");
+        System.out.println("TC_008 PASSED");
+        System.out.println("==================================");
+    }
+
     }
