@@ -30,6 +30,15 @@ public class AVControlsPage extends BasePage {
 
     private final By speakerPercentage =
             By.xpath("//Text[contains(@Name,'%')]");
+
+    private final By speakerToggle =
+            By.xpath("//*[@AutomationId='SpeakerToggleButton']");
+
+    private final By speakerOn =
+            By.xpath("//*[@AutomationId='SpeakerToggleButton' and @Name='ON']");
+
+    private final By speakerOff =
+            By.xpath("//*[@AutomationId='SpeakerToggleButton' and @Name='OFF']");
 //    private final By speakerSlider =
 //
 //            By.xpath("//Pane[@Name='Audio Visual Controls']//Slider");
@@ -189,5 +198,58 @@ public class AVControlsPage extends BasePage {
         } catch (TimeoutException e) {
             new Actions(driver).moveToElement(slider).click().perform();
         }
+    }
+    public boolean isSpeakerOn() {
+
+        return !driver.findElements(speakerOn).isEmpty();
+
+    }
+
+    public boolean isSpeakerOff() {
+
+        return !driver.findElements(speakerOff).isEmpty();
+
+    }
+
+    public void clickSpeakerToggle() {
+
+        new WebDriverWait(driver,20)
+                .until(ExpectedConditions.elementToBeClickable(speakerToggle))
+                .click();
+
+        System.out.println("✓ Speaker Toggle clicked");
+
+    }
+
+    public boolean waitForSpeakerOn() {
+
+        try {
+
+            return new WebDriverWait(driver,20)
+                    .until(ExpectedConditions.visibilityOfElementLocated(speakerOn))
+                    .isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+
+        }
+
+    }
+
+    public boolean waitForSpeakerOff() {
+
+        try {
+
+            return new WebDriverWait(driver,20)
+                    .until(ExpectedConditions.visibilityOfElementLocated(speakerOff))
+                    .isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+
+        }
+
     }
     }

@@ -38,7 +38,7 @@ public class BaseTest {
     public void setup(Method method) throws Exception {
 
         System.out.println("\n=== SETUP START ===");
-        ProcessHelper.kill("Teams.exe");
+      //  ProcessHelper.kill("Teams.exe");
         ProcessHelper.kill("ms-teams.exe");
         ProcessHelper.kill("Zoom.exe");
         ProcessHelper.kill("MersiveRoom.exe");

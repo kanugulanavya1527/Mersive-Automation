@@ -25,10 +25,16 @@ public class HomeScreenPage extends BasePage {
     private final By googleCastText = By.name("Google Cast");
     private final By miracastText   = By.name("Miracast");
     private final By hdmiInText     = By.name("HDMI In");
+    private final By kioskExitButton =
+            By.xpath("//Button[@Name='Kiosk exit']");
 
 
 
     // ── Validations ────────────────────────────────────────
+
+    public void clickKioskExitButton() {
+        click(kioskExitButton);
+    }
 
     public boolean isHomeScreenLoaded() {
         return isVisible(roomName);
