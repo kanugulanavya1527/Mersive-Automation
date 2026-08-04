@@ -900,36 +900,81 @@ public class AnalyticsEventsTest extends BaseTest {
         System.out.println("======================================");
     }
 
-    @Test(priority = 15)
-    public void TC_015_VerifyVTCCameraOnAnalytics() throws Exception {
+//    @Test(priority = 15)
+//    public void TC_015_VerifyVTCCameraOnAnalytics() throws Exception {
+//
+//        System.out.println("======================================");
+//        System.out.println("TC_015 : Verify VTC_CAMERA_ON Analytics");
+//        System.out.println("======================================");
+//
+//        MeetingOverlayPage overlay = joinMeeting();
+//
+//        if (!overlay.isOverlayCameraOn()) {
+//
+//            overlay.clickOverlayCameraToggle();
+//
+//            Assert.assertTrue(
+//                    overlay.waitForOverlayCameraOn(),
+//                    "Camera did not turn ON");
+//        }
+//
+//        System.out.println("Expected Analytics Event : VTC_CAMERA_ON");
+//        System.out.println("User Action : Camera turned ON");
+//
+//        overlay.clickLeaveButton();
+//
+//        RootSessionPage root = new RootSessionPage(driver);
+//        root.clickLeaveMeetingConfirmation();
+//
+//        setLastMeetingOverlayHandle(null);
+//
+//        System.out.println("TC_015 PASSED");
+//    }
+@Test(priority = 15)
+public void TC_015_VerifyVTCCameraOnAnalytics() throws Exception {
 
-        System.out.println("======================================");
-        System.out.println("TC_015 : Verify VTC_CAMERA_ON Analytics");
-        System.out.println("======================================");
+    System.out.println("======================================");
+    System.out.println("TC_015 : Verify VTC_CAMERA_ON Analytics");
+    System.out.println("======================================");
 
-        MeetingOverlayPage overlay = joinMeeting();
+    MeetingOverlayPage overlay = joinMeeting();
 
-        if (!overlay.isOverlayCameraOn()) {
+    // Ensure Camera is OFF first
+    if (overlay.isOverlayCameraOn()) {
 
-            overlay.clickOverlayCameraToggle();
+        overlay.clickOverlayCameraToggle();
 
-            Assert.assertTrue(
-                    overlay.waitForOverlayCameraOn(),
-                    "Camera did not turn ON");
-        }
+        Assert.assertTrue(
+                overlay.waitForOverlayCameraOff(),
+                "Camera did not turn OFF");
 
-        System.out.println("Expected Analytics Event : VTC_CAMERA_ON");
-        System.out.println("User Action : Camera turned ON");
-
-        overlay.clickLeaveButton();
-
-        RootSessionPage root = new RootSessionPage(driver);
-        root.clickLeaveMeetingConfirmation();
-
-        setLastMeetingOverlayHandle(null);
-
-        System.out.println("TC_015 PASSED");
+        System.out.println("✓ Camera turned OFF");
     }
+
+    // Turn Camera ON
+    overlay.clickOverlayCameraToggle();
+
+    Assert.assertTrue(
+            overlay.waitForOverlayCameraOn(),
+            "Camera did not turn ON");
+
+    System.out.println("✓ Camera turned ON");
+
+    System.out.println("Expected Analytics Event : VTC_CAMERA_ON");
+    System.out.println("User Action : Camera turned ON");
+
+    overlay.clickLeaveButton();
+
+    RootSessionPage root = new RootSessionPage(driver);
+    root.clickLeaveMeetingConfirmation();
+
+    setLastMeetingOverlayHandle(null);
+
+    System.out.println("======================================");
+    System.out.println("TC_015 PASSED");
+    System.out.println("======================================");
+}
+
     @Test(priority = 16)
     public void TC_016_VerifyVTCCameraOffAnalytics() throws Exception {
 
@@ -961,6 +1006,7 @@ public class AnalyticsEventsTest extends BaseTest {
         System.out.println("TC_016 PASSED");
     }
 
+
     @Test(priority = 17)
     public void TC_017_VerifyVTCMicOnAnalytics() throws Exception {
 
@@ -970,18 +1016,32 @@ public class AnalyticsEventsTest extends BaseTest {
 
         MeetingOverlayPage overlay = joinMeeting();
 
-        if (!overlay.isOverlayMicUnmuted()) {
+        // Ensure Mic is OFF first
+        if (overlay.isOverlayMicUnmuted()) {
 
             overlay.clickOverlayMicToggle();
 
             Assert.assertTrue(
-                    overlay.waitForOverlayMicUnmuted(),
-                    "Mic did not turn ON");
+                    overlay.waitForOverlayMicMuted(),
+                    "Mic did not turn OFF");
+
+            System.out.println("✓ Mic turned OFF");
         }
 
+        // Turn Mic ON
+        overlay.clickOverlayMicToggle();
+
+        Assert.assertTrue(
+                overlay.waitForOverlayMicUnmuted(),
+                "Mic did not turn ON");
+
+        System.out.println("✓ Mic turned ON");
+
+        // Analytics
         System.out.println("Expected Analytics Event : VTC_MIC_ON");
         System.out.println("User Action : Microphone turned ON");
 
+        // Leave Meeting
         overlay.clickLeaveButton();
 
         RootSessionPage root = new RootSessionPage(driver);
@@ -989,7 +1049,9 @@ public class AnalyticsEventsTest extends BaseTest {
 
         setLastMeetingOverlayHandle(null);
 
+        System.out.println("======================================");
         System.out.println("TC_017 PASSED");
+        System.out.println("======================================");
     }
     @Test(priority = 18)
     public void TC_018_VerifyVTCMicOffAnalytics() throws Exception {
@@ -1188,37 +1250,57 @@ public class AnalyticsEventsTest extends BaseTest {
         System.out.println("TC_020 PASSED");
         System.out.println("======================================");
     }
-    @Test(priority = 21)
-    public void TC_021_VerifyVTCSpeakerOnAnalytics() throws Exception {
 
-        MeetingOverlayPage overlay = joinMeeting();
+@Test(priority = 21)
+public void TC_021_VerifyVTCSpeakerOnAnalytics() throws Exception {
 
-        overlay.clickAudioVisualButton();
+    System.out.println("======================================");
+    System.out.println("TC_021 : Verify VTC_SPEAKER_ON Analytics");
+    System.out.println("======================================");
 
-        AVControlsPage av = new AVControlsPage(driver);
+    MeetingOverlayPage overlay = joinMeeting();
 
-        if (av.isSpeakerOff()) {
+    overlay.clickAudioVisualButton();
 
-            av.clickSpeakerToggle();
+    AVControlsPage av = new AVControlsPage(driver);
 
-            Assert.assertTrue(
-                    av.waitForSpeakerOn(),
-                    "Speaker did not turn ON");
-        }
+    // Ensure Speaker is OFF first
+    if (av.isSpeakerOn()) {
 
-        System.out.println("Expected Analytics Event : VTC_SPEAKER_ON");
+        av.clickSpeakerToggle();
 
-        av.clickSwipeToClose();
+        Assert.assertTrue(
+                av.waitForSpeakerOff(),
+                "Speaker did not turn OFF");
 
-        overlay.clickLeaveButton();
-
-        RootSessionPage root =
-                new RootSessionPage(driver);
-
-        root.clickLeaveMeetingConfirmation();
-
-        setLastMeetingOverlayHandle(null);
+        System.out.println("✓ Speaker turned OFF");
     }
+
+    // Turn Speaker ON
+    av.clickSpeakerToggle();
+
+    Assert.assertTrue(
+            av.waitForSpeakerOn(),
+            "Speaker did not turn ON");
+
+    System.out.println("✓ Speaker turned ON");
+
+    System.out.println("Expected Analytics Event : VTC_SPEAKER_ON");
+    System.out.println("User Action : Speaker turned ON");
+
+    av.clickSwipeToClose();
+
+    overlay.clickLeaveButton();
+
+    RootSessionPage root = new RootSessionPage(driver);
+    root.clickLeaveMeetingConfirmation();
+
+    setLastMeetingOverlayHandle(null);
+
+    System.out.println("======================================");
+    System.out.println("TC_021 PASSED");
+    System.out.println("======================================");
+}
     @Test(priority = 22)
     public void TC_022_VerifyVTCSpeakerOffAnalytics() throws Exception {
 
