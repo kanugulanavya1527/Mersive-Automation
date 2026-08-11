@@ -20,7 +20,7 @@ import java.util.List;
  * Method 2: testZoomJoinWithId()
  * - Runs the COMPLETE FLOW 6 times (same as Teams)
  */
-public class JoinWithIdTest extends BaseTest {
+public class JoinWithIdSingleTest extends BaseTest {
 
     private JoinWithIdPage joinPage;
     private List<TestResult> results = new ArrayList<>();
@@ -59,9 +59,7 @@ public class JoinWithIdTest extends BaseTest {
         MEETING_ID = TEAMS_MEETING_ID;
         PASSWORD = TEAMS_PASSWORD;
         // Run the complete flow 6 times
-        for (int i = 1; i <= 6; i++) {
-            runCompleteFlow(i, "TEAMS");
-        }
+        runCompleteFlow(1, "TEAMS");
 
         printReport("TEAMS");
     }
@@ -80,9 +78,7 @@ public class JoinWithIdTest extends BaseTest {
         MEETING_ID = ZOOM_MEETING_ID;
         PASSWORD = ZOOM_PASSWORD;
         // Run the complete flow 6 times
-        for (int i = 1; i <= 6; i++) {
-            runCompleteFlow(i, "ZOOM");
-        }
+        runCompleteFlow(1, "ZOOM");
 
         printReport("ZOOM");
     }
@@ -207,7 +203,7 @@ public class JoinWithIdTest extends BaseTest {
             String blockerHandle =
                     WindowHelper.findWindowHandle("Mersive Room Blocker");
 
-             roomHandle =
+            roomHandle =
                     WindowHelper.findWindowHandle("Mersive Room");
 
             String teamsHandle =

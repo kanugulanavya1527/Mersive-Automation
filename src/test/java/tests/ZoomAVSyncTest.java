@@ -268,4 +268,83 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
 
         System.out.println("TC_057 PASSED");
     }
+    @Test(priority = 58)
+    public void TC_058_VerifySpeakerVolumeUpDown() throws Exception {
+
+        System.out.println("=== TC_058: Verify Zoom Speaker Volume Up/Down ===");
+
+        MeetingOverlayPage overlay = joinZoomMeeting();
+
+        Thread.sleep(5000);
+
+        overlay.clickAudioVisualButton();
+
+        System.out.println("✓ Audio & Visual clicked");
+
+        Thread.sleep(3000);
+
+        AVControlsPage avPanel = new AVControlsPage(driver);
+
+        int initialVolume = avPanel.getSpeakerVolume();
+
+        System.out.println("Initial Volume : " + initialVolume + "%");
+
+        // Increase Speaker Volume
+        avPanel.increaseSpeakerVolume();
+
+        Thread.sleep(2000);
+
+        int increasedVolume = avPanel.getSpeakerVolume();
+
+        System.out.println("After Increase : " + increasedVolume + "%");
+
+        if (initialVolume < 100) {
+
+            Assert.assertTrue(
+                    increasedVolume > initialVolume,
+                    "Speaker volume did not increase. Initial="
+                            + initialVolume
+                            + ", After="
+                            + increasedVolume);
+
+            System.out.println("✓ Speaker volume increased");
+
+        } else {
+
+            System.out.println("⚠ Already at maximum volume");
+
+        }
+
+        // Decrease Speaker Volume
+        avPanel.decreaseSpeakerVolume();
+
+        Thread.sleep(2000);
+
+        int decreasedVolume = avPanel.getSpeakerVolume();
+
+        System.out.println("After Decrease : " + decreasedVolume + "%");
+
+        if (increasedVolume > 0) {
+
+            Assert.assertTrue(
+                    decreasedVolume < increasedVolume,
+                    "Speaker volume did not decrease. Increased="
+                            + increasedVolume
+                            + ", After="
+                            + decreasedVolume);
+
+            System.out.println("✓ Speaker volume decreased");
+
+        } else {
+
+            System.out.println("⚠ Already at minimum volume");
+
+        }
+
+        avPanel.clickSwipeToClose();
+
+        System.out.println("✓ AV Panel closed");
+
+        System.out.println("TC_058 PASSED");
+    }
 }

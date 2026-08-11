@@ -293,6 +293,23 @@ public class BaseTest {
 
         switchBackToMeetingOverlay();
     }
+
+    protected void clickRemoveFromRoot() throws Exception {
+
+        switchToDesktop();
+
+        System.out.println("================================");
+        System.out.println("Looking for Remove button...");
+        System.out.println("Remove buttons found = "
+                + driver.findElements(By.name("Remove")).size());
+        System.out.println("================================");
+
+        new MeetingOverlayPage(driver).clickRemoveButton();
+
+        System.out.println("✓ Remove button clicked");
+
+        switchBackToMeetingOverlay();
+    }
     protected void relaunchMersiveApp() throws Exception {
 
         if (driver != null) {

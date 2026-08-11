@@ -96,6 +96,11 @@ public class MeetingOverlayPage extends BasePage {
     // Lobby
     private final By admitButton = By.name("Admit");
     private final By denyButton = By.name("Deny");
+    private final By removeButton =
+            By.name("Remove");
+    public boolean isRemoveButtonVisible() {
+        return !driver.findElements(removeButton).isEmpty();
+    }
 
 
 
@@ -665,6 +670,12 @@ public class MeetingOverlayPage extends BasePage {
     public void clickDenyButton() {
 
         driver.findElement(By.name("Deny")).click();
+
+    }
+
+    public void clickRemoveButton() {
+
+        driver.findElement(By.name("Remove")).click();
 
     }
 
