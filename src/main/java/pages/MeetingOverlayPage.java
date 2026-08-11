@@ -91,7 +91,7 @@ public class MeetingOverlayPage extends BasePage {
             By.name("Share invite");
 
     private final By zoomInviteButton =
-            By.xpath("//Button[contains(@Name,'Invite')]");
+            By.xpath("//Button[.//Text[@Name='Invite']]");
 
     // Lobby
     private final By admitButton = By.name("Admit");

@@ -115,9 +115,7 @@ public class MeetingCardPage extends BasePage {
 
         for (int i = 0; i < 30; i++) {
 
-            zoomLabels =
-                    driver.findElements(
-                            By.xpath("//Text[@Name='Zoom']"));
+            zoomLabels = driver.findElements(this.zoomLabels);
 
             joinBtns =
                     driver.findElements(By.name("JOIN"));
@@ -160,17 +158,21 @@ public class MeetingCardPage extends BasePage {
                 int joinY =
                         join.getLocation().getY();
 
-                int distance =
-                        Math.abs(joinY - zoomY);
+                int distance = Math.abs(joinY - zoomY);
 
+                System.out.println(
+                        "ZoomY = " + zoomY +
+                                " | JoinY = " + joinY +
+                                " | Distance = " + distance);
                 if (distance < closestDistance) {
                     closestDistance = distance;
                     closestJoin = join;
                 }
+                System.out.println("Zoom Label Y = " + zoomY);
             }
 
             if (closestJoin != null
-                    && closestDistance < 150) {
+                    && closestDistance < 250) {
 
                 System.out.println(
                         "Clicking JOIN at Y="

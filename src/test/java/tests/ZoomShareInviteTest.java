@@ -22,7 +22,6 @@ public class ZoomShareInviteTest extends BaseTest {
         cards.clickJoinForFirstZoomMeeting();
 
 
-
         new WebDriverWait(driver, 20).until(
                 d -> {
                     try {
@@ -70,42 +69,43 @@ public class ZoomShareInviteTest extends BaseTest {
 
         MeetingOverlayPage overlay = joinMeeting();
 
-        // Click People
-        Assert.assertTrue(overlay.waitForPeopleButtonReady(),
+        // Open People panel
+        Assert.assertTrue(
+                overlay.waitForPeopleButtonReady(),
                 "People button not visible");
+
         overlay.clickPeopleButton();
 
+        Assert.assertTrue(
+                overlay.waitForPeoplePanelOpened(),
+                "People panel did not open");
 
-
-
-        Assert.assertTrue(overlay.waitForPeoplePanelOpened(),
-                "Participants panel did not open");
-
+        // Switch to Desktop
         switchToDesktop();
 
-// Print every available window
-        WindowHelper.printAllWindows();
+        // Attach to Zoom People window
+        String peopleHandle =
+                WindowHelper.findWindowHandle("People");
 
-        String participantsHandle =
-                WindowHelper.findWindowHandle("Participants");
+        Assert.assertNotNull(
+                peopleHandle,
+                "People window not found");
 
-        System.out.println("Participants Handle = " + participantsHandle);
+        System.out.println("People Handle = " + peopleHandle);
 
-        attachByHandle(participantsHandle);
-
-
+        attachByHandle(peopleHandle);
 
         System.out.println("Current Window = " + driver.getTitle());
-        System.out.println(driver.getPageSource());
 
-// Create a new page object after attaching
-        MeetingOverlayPage zoomOverlay = new MeetingOverlayPage(driver);
+        MeetingOverlayPage zoomOverlay =
+                new MeetingOverlayPage(driver);
 
-        System.out.println("✓ Attached to Zoom window");
+        System.out.println("✓ Attached to People window");
 
-// Click Share Invite
+        // Click Invite
         zoomOverlay.clickZoomInviteButton();
 
+        // Wait for Share Invite window
         String shareInvitationHandle = null;
 
         for (int i = 0; i < 10; i++) {
@@ -130,8 +130,8 @@ public class ZoomShareInviteTest extends BaseTest {
 
         attachByHandle(shareInvitationHandle);
 
-
-        ShareInvitePage shareInvite = new ShareInvitePage(driver);
+        ShareInvitePage shareInvite =
+                new ShareInvitePage(driver);
 
         Assert.assertTrue(
                 shareInvite.isShareInviteScreenDisplayed(),
@@ -143,12 +143,15 @@ public class ZoomShareInviteTest extends BaseTest {
 
         System.out.println("✓ Share Invite screen closed");
 
-
-
+        // Return to meeting
         switchToDesktop();
 
         String blockerHandle =
                 WindowHelper.findWindowHandle("Mersive Room Blocker");
+
+        Assert.assertNotNull(
+                blockerHandle,
+                "Mersive Room Blocker not found");
 
         System.out.println("Blocker Handle = " + blockerHandle);
 
@@ -162,9 +165,10 @@ public class ZoomShareInviteTest extends BaseTest {
                 "Failed to return to meeting screen");
 
         System.out.println("✓ Returned to meeting screen");
-        System.out.println("TC_058 PASSED");
 
+        System.out.println("TC_058 PASSED");
     }
+
 
     @Test(priority = 59)
     public void TC_059_VerifySendInviteWithValidEmail() throws Exception {
@@ -183,23 +187,28 @@ public class ZoomShareInviteTest extends BaseTest {
 
         Assert.assertTrue(
                 overlay.waitForPeoplePanelOpened(),
-                "Participants panel did not open");
+                "People panel did not open");
 
+        // Attach to People window
         switchToDesktop();
 
-        String participantsHandle =
-                WindowHelper.findWindowHandle("Participants");
+        String peopleHandle =
+                WindowHelper.findWindowHandle("People");
 
         Assert.assertNotNull(
-                participantsHandle,
-                "Participants window not found");
+                peopleHandle,
+                "People window not found");
 
-        attachByHandle(participantsHandle);
+        System.out.println("People Handle = " + peopleHandle);
+
+        attachByHandle(peopleHandle);
 
         MeetingOverlayPage zoomOverlay =
                 new MeetingOverlayPage(driver);
 
-        // Click Share Invite
+        System.out.println("✓ Attached to People window");
+
+        // Click Invite
         zoomOverlay.clickZoomInviteButton();
 
         Thread.sleep(3000);
@@ -213,6 +222,8 @@ public class ZoomShareInviteTest extends BaseTest {
         Assert.assertNotNull(
                 shareInvitationHandle,
                 "Share Invite window not found");
+
+        System.out.println("Share Invite Handle = " + shareInvitationHandle);
 
         attachByHandle(shareInvitationHandle);
 
@@ -229,12 +240,12 @@ public class ZoomShareInviteTest extends BaseTest {
         // Enter email
         shareInvite.enterRecipientEmail("test@example.com");
 
-        // Click Send Invite
+        // Send Invite
         shareInvite.clickSendInvite();
 
         Thread.sleep(3000);
 
-        // Return to meeting screen
+        // Return to meeting
         switchToDesktop();
 
         String blockerHandle =
@@ -257,7 +268,6 @@ public class ZoomShareInviteTest extends BaseTest {
 
         System.out.println("TC_059 PASSED");
     }
-
     @Test(priority = 60)
     public void TC_060_VerifySendInviteWithoutEmail() throws Exception {
 
@@ -275,24 +285,28 @@ public class ZoomShareInviteTest extends BaseTest {
 
         Assert.assertTrue(
                 overlay.waitForPeoplePanelOpened(),
-                "Participants panel did not open");
+                "People panel did not open");
 
-
+        // Attach to People window
         switchToDesktop();
 
-        String participantsHandle =
-                WindowHelper.findWindowHandle("Participants");
+        String peopleHandle =
+                WindowHelper.findWindowHandle("People");
 
         Assert.assertNotNull(
-                participantsHandle,
-                "Participants window not found");
+                peopleHandle,
+                "People window not found");
 
-        attachByHandle(participantsHandle);
+        System.out.println("People Handle = " + peopleHandle);
+
+        attachByHandle(peopleHandle);
 
         MeetingOverlayPage zoomOverlay =
                 new MeetingOverlayPage(driver);
 
-        // Click Share Invite
+        System.out.println("✓ Attached to People window");
+
+        // Click Invite
         zoomOverlay.clickZoomInviteButton();
 
         Thread.sleep(3000);
@@ -306,6 +320,8 @@ public class ZoomShareInviteTest extends BaseTest {
         Assert.assertNotNull(
                 shareInvitationHandle,
                 "Share Invite window not found");
+
+        System.out.println("Share Invite Handle = " + shareInvitationHandle);
 
         attachByHandle(shareInvitationHandle);
 
@@ -322,11 +338,11 @@ public class ZoomShareInviteTest extends BaseTest {
         // Click Send Invite without entering email
         shareInvite.clickSendInvite();
 
-        Thread.sleep(2000);
-
         Thread.sleep(3000);
 
-        String message = shareInvite.getValidationMessage();
+        // Verify validation message
+        String message =
+                shareInvite.getValidationMessage();
 
         Assert.assertEquals(
                 message,
@@ -340,7 +356,7 @@ public class ZoomShareInviteTest extends BaseTest {
 
         System.out.println("✓ Share Invite screen closed");
 
-        // Return to meeting screen
+        // Return to meeting
         switchToDesktop();
 
         String blockerHandle =
@@ -380,24 +396,28 @@ public class ZoomShareInviteTest extends BaseTest {
 
         Assert.assertTrue(
                 overlay.waitForPeoplePanelOpened(),
-                "Participants panel did not open");
+                "People panel did not open");
 
-
+        // Attach to People window
         switchToDesktop();
 
-        String participantsHandle =
-                WindowHelper.findWindowHandle("Participants");
+        String peopleHandle =
+                WindowHelper.findWindowHandle("People");
 
         Assert.assertNotNull(
-                participantsHandle,
-                "Participants window not found");
+                peopleHandle,
+                "People window not found");
 
-        attachByHandle(participantsHandle);
+        System.out.println("People Handle = " + peopleHandle);
+
+        attachByHandle(peopleHandle);
 
         MeetingOverlayPage zoomOverlay =
                 new MeetingOverlayPage(driver);
 
-        // Click Share Invite
+        System.out.println("✓ Attached to People window");
+
+        // Click Invite
         zoomOverlay.clickZoomInviteButton();
 
         Thread.sleep(3000);
@@ -411,6 +431,8 @@ public class ZoomShareInviteTest extends BaseTest {
         Assert.assertNotNull(
                 shareInvitationHandle,
                 "Share Invite window not found");
+
+        System.out.println("Share Invite Handle = " + shareInvitationHandle);
 
         attachByHandle(shareInvitationHandle);
 
@@ -429,11 +451,13 @@ public class ZoomShareInviteTest extends BaseTest {
 
         // Click Send Invite
         shareInvite.clickSendInvite();
+
         Assert.assertTrue(
                 shareInvite.isValidationMessageDisplayed(),
                 "Validation message not displayed");
 
-        String message = shareInvite.getValidationMessage();
+        String message =
+                shareInvite.getValidationMessage();
 
         Assert.assertTrue(
                 message.contains("Invalid email"),
@@ -453,7 +477,7 @@ public class ZoomShareInviteTest extends BaseTest {
 
         System.out.println("✓ Share Invite screen closed");
 
-        // Return to meeting screen
+        // Return to meeting
         switchToDesktop();
 
         String blockerHandle =
@@ -476,7 +500,6 @@ public class ZoomShareInviteTest extends BaseTest {
 
         System.out.println("TC_061 PASSED");
     }
-
     @Test(priority = 62)
     public void TC_062_VerifyCloseShareInviteScreen() throws Exception {
 
@@ -494,24 +517,28 @@ public class ZoomShareInviteTest extends BaseTest {
 
         Assert.assertTrue(
                 overlay.waitForPeoplePanelOpened(),
-                "Participants panel did not open");
+                "People panel did not open");
 
-
+        // Attach to People window
         switchToDesktop();
 
-        String participantsHandle =
-                WindowHelper.findWindowHandle("Participants");
+        String peopleHandle =
+                WindowHelper.findWindowHandle("People");
 
         Assert.assertNotNull(
-                participantsHandle,
-                "Participants window not found");
+                peopleHandle,
+                "People window not found");
 
-        attachByHandle(participantsHandle);
+        System.out.println("People Handle = " + peopleHandle);
+
+        attachByHandle(peopleHandle);
 
         MeetingOverlayPage zoomOverlay =
                 new MeetingOverlayPage(driver);
 
-        // Click Share Invite
+        System.out.println("✓ Attached to People window");
+
+        // Click Invite
         zoomOverlay.clickZoomInviteButton();
 
         Thread.sleep(3000);
@@ -525,6 +552,8 @@ public class ZoomShareInviteTest extends BaseTest {
         Assert.assertNotNull(
                 shareInvitationHandle,
                 "Share Invite window not found");
+
+        System.out.println("Share Invite Handle = " + shareInvitationHandle);
 
         attachByHandle(shareInvitationHandle);
 
@@ -543,7 +572,7 @@ public class ZoomShareInviteTest extends BaseTest {
 
         System.out.println("✓ Share Invite screen closed");
 
-        // Return to meeting screen
+        // Return to meeting
         switchToDesktop();
 
         String blockerHandle =
@@ -582,28 +611,33 @@ public class ZoomShareInviteTest extends BaseTest {
 
         Assert.assertTrue(
                 overlay.waitForPeoplePanelOpened(),
-                "Participants panel did not open");
+                "People panel did not open");
 
-
+        // Attach to People window
         switchToDesktop();
 
-        String participantsHandle =
-                WindowHelper.findWindowHandle("Participants");
+        String peopleHandle =
+                WindowHelper.findWindowHandle("People");
 
         Assert.assertNotNull(
-                participantsHandle,
-                "Participants window not found");
+                peopleHandle,
+                "People window not found");
 
-        attachByHandle(participantsHandle);
+        System.out.println("People Handle = " + peopleHandle);
+
+        attachByHandle(peopleHandle);
 
         MeetingOverlayPage zoomOverlay =
                 new MeetingOverlayPage(driver);
 
-        // Open Share Invite
+        System.out.println("✓ Attached to People window");
+
+        // Click Invite
         zoomOverlay.clickZoomInviteButton();
 
         Thread.sleep(3000);
 
+        // Attach to Share Invite window
         switchToDesktop();
 
         String shareInvitationHandle =
@@ -612,6 +646,8 @@ public class ZoomShareInviteTest extends BaseTest {
         Assert.assertNotNull(
                 shareInvitationHandle,
                 "Share Invite window not found");
+
+        System.out.println("Share Invite Handle = " + shareInvitationHandle);
 
         attachByHandle(shareInvitationHandle);
 

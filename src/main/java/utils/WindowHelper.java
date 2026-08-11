@@ -72,6 +72,8 @@ public class WindowHelper {
                         && title != null
                         && title.toLowerCase()
                         .contains(titleContains.toLowerCase())) {
+                    System.out.println("[WindowHelper] Matched window title = " + title);
+
                     long val = Pointer.nativeValue(hwnd.getPointer());
                     found.add(String.valueOf(val));
                 }

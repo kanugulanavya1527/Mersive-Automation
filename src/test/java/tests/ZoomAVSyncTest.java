@@ -92,16 +92,11 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
             );
         }
 
-        attachToControlsWindow();
+        overlay.clickAudioVisualButton();
 
-        MeetingOverlayPage controlsOverlay =
-                new MeetingOverlayPage(driver);
-
-        controlsOverlay.clickAudioVisualButton();
+        System.out.println("✓ Audio & Visual clicked");
 
         Thread.sleep(3000);
-
-        attachToAVControlsWindow();
 
         AVControlsPage avPanel =
                 new AVControlsPage(driver);
@@ -140,9 +135,6 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
             );
         }
 
-        attachByHandle(overlayHandle);
-
-
         overlay =
                 new MeetingOverlayPage(driver);
 
@@ -160,8 +152,8 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
                     "Ribbon did not reflect Camera ON"
             );
         }
-
-        attachToAVControlsWindow();
+        WindowHelper.printAllWindows();
+       // attachToAVControlsWindow();
 
         avPanel =
                 new AVControlsPage(driver);
@@ -201,16 +193,11 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
             );
         }
 
-        attachToControlsWindow();
+        overlay.clickAudioVisualButton();
 
-        MeetingOverlayPage controlsOverlay =
-                new MeetingOverlayPage(driver);
-
-        controlsOverlay.clickAudioVisualButton();
+        System.out.println("✓ Audio & Visual clicked");
 
         Thread.sleep(3000);
-
-        attachToAVControlsWindow();
 
         AVControlsPage avPanel =
                 new AVControlsPage(driver);
@@ -249,7 +236,6 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
             );
         }
 
-        attachByHandle(overlayHandle);
 
         overlay =
                 new MeetingOverlayPage(driver);
@@ -269,7 +255,7 @@ private MeetingOverlayPage joinZoomMeeting() throws Exception {
             );
         }
 
-        attachToAVControlsWindow();
+      //  attachToAVControlsWindow();
 
         avPanel =
                 new AVControlsPage(driver);
