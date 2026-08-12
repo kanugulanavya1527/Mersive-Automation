@@ -61,6 +61,13 @@
 
             </test>
 
+    <test name="Settings Test">
+        <classes>
+            <class name="tests.SettingsTest"/>
+        </classes>
+
+    </test>
+
 
 <!--    <test name="Home Screen Tests">-->
 <!--        <classes>-->
