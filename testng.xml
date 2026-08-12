@@ -2,6 +2,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="Mersive Clean Suite" verbose="1" thread-count="1">
+    <test name="Zoom Lobby Management">
+        <classes>
+            <class name="tests.ZoomLobbyManagementTest"/>
+        </classes>
+    </test>
 
         <test name="Zoom Navigation Tests">
             <classes>
@@ -49,11 +54,7 @@
 
     </test>
 
-      <test name="Zoom Lobby Management">
-                <classes>
-                    <class name="tests.ZoomLobbyManagementTest"/>
-                </classes>
-      </test>
+
        <test name="Join with Single Id Test">
                 <classes>
                     <class name="tests.JoinWithIdSingleTest"/>
