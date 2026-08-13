@@ -2,6 +2,7 @@ package pages;
 
 import base.BasePage;
 import base.DriverFactory;
+import io.appium.java_client.windows.WindowsElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -26,6 +27,81 @@ public class RootSessionPage extends BasePage {
         super(driver);
     }
 
+    private final By chatMessageTextbox =
+            By.xpath("//*[@ClassName='TextBox']");
+
+    private final By sendButton =
+            By.xpath("//Button[@HelpText='Send']");
+
+//    public void sendChatMessage(String message) throws Exception {
+//
+//        RemoteWebDriver rootDriver = DriverFactory.createRootSession();
+//
+//        try {
+//
+//            WebDriverWait wait = new WebDriverWait(rootDriver, 15);
+//
+//            WebElement textBox = wait.until(
+//                    ExpectedConditions.elementToBeClickable(
+//                            By.xpath("//*[@ClassName='TextBox']")));
+//
+//            textBox.click();
+//            textBox.sendKeys(message);
+//
+//            System.out.println("[Root] Message entered: " + message);
+//
+//            WebElement sendButton = wait.until(
+//                    ExpectedConditions.elementToBeClickable(
+//                            By.xpath("//Button[@HelpText='Send']")));
+//
+//            sendButton.click();
+//
+//            System.out.println("[Root] Send button clicked");
+//
+//        } finally {
+//            rootDriver.quit();
+//        }
+//    }
+public void sendChatMessage(String message) throws Exception {
+
+    System.out.println("[Chat] Step 1: Creating Root Session...");
+    RemoteWebDriver rootDriver = DriverFactory.createRootSession();
+
+    try {
+
+        WebDriverWait wait = new WebDriverWait(rootDriver, 15);
+
+        System.out.println("[Chat] Step 2: Waiting for chat textbox...");
+
+        WebElement textBox = wait.until(
+                ExpectedConditions.elementToBeClickable(
+                        By.xpath("//*[@ClassName='TextBox']")));
+
+        System.out.println("[Chat] Step 3: Chat textbox found");
+
+        textBox.click();
+        System.out.println("[Chat] Step 4: Chat textbox clicked");
+
+        textBox.sendKeys(message);
+        System.out.println("[Chat] Step 5: Message entered -> " + message);
+
+        System.out.println("[Chat] Step 6: Waiting for Send button...");
+
+        WebElement sendButton = wait.until(
+                ExpectedConditions.elementToBeClickable(
+                        By.xpath("//Button[@HelpText='Send']")));
+
+        System.out.println("[Chat] Step 7: Send button found");
+
+        sendButton.click();
+        System.out.println("[Chat] Step 8: Send button clicked");
+
+    } finally {
+
+        System.out.println("[Chat] Step 9: Closing Root Session");
+        rootDriver.quit();
+    }
+}
     // ── Leave Meeting ──────────────────────────────────────
 
     public void clickLeaveMeetingConfirmation() throws Exception {
