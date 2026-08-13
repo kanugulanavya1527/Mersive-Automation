@@ -1,15 +1,24 @@
 package tests;
 
+import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import base.BaseTest;
 import pages.HomeScreenPage;
 import pages.*;
+import utils.ProcessHelper;
 import utils.WindowHelper;
 
+import java.net.URL;
 import java.util.List;
 
 
@@ -1422,10 +1431,190 @@ public void TC_021_VerifyVTCSpeakerOnAnalytics() throws Exception {
         System.out.println("TC_018: Verify Calendar Load Failed");
         System.out.println("========================================");
 
-        // Mersive application is launched by BaseTest
-        System.out.println("Step 1: Launching Mersive application...");
+        // BaseTest already launches Mersive
+        System.out.println("Step 1: Closing Mersive desktop application...");
 
-        // Verify "Calendar unavailable"
+        ProcessHelper.kill("MersiveRoom.exe");
+
+        Thread.sleep(2000);
+
+        System.out.println("Step 1 PASSED: Mersive desktop application closed.");
+
+        // Open Chrome for Admin Portal
+        System.out.println("Step 2: Opening Admin Portal...");
+
+        System.setProperty(
+                "webdriver.chrome.driver",
+                "C:\\Users\\Admin\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe"
+        );
+
+        WebDriver adminDriver = new ChromeDriver();
+
+        adminDriver.manage().window().maximize();
+
+        adminDriver.get(
+                "https://mersive-frontend-929782745950.africa-south1.run.app/login"
+        );
+
+        System.out.println("Step 2 PASSED: Admin Portal opened.");
+
+        // =====================================================
+// STEP 3: Login to Admin Portal
+// =====================================================
+
+
+        System.out.println("Step 3: Logging into Admin Portal...");
+
+        WebElement email =
+                adminDriver.findElement(
+                        By.xpath("//input[@type='email']")
+                );
+
+        email.sendKeys("admin@mersive.com");
+
+        WebElement password =
+                adminDriver.findElement(
+                        By.cssSelector("input[type='password']")
+                );
+
+        password.sendKeys("admin123");
+
+        adminDriver.findElement(
+                By.xpath("//button[normalize-space()='Sign In']")
+        ).click();
+
+        Thread.sleep(3000);
+
+        System.out.println("Step 3 PASSED: Logged into Admin Portal.");
+
+
+        // =====================================================
+// STEP 4: Verify Admin Portal Home Page
+// =====================================================
+
+        System.out.println("Step 4: Verifying Admin Portal home page...");
+
+        WebDriverWait wait =
+                new WebDriverWait(adminDriver, 15);
+
+        WebElement tabletDropdown =
+                wait.until(
+                        ExpectedConditions.presenceOfElementLocated(
+                                By.id("tablet-device-select")
+                        )
+                );
+
+        Assert.assertTrue(
+                tabletDropdown.isDisplayed(),
+                "Tablet ID dropdown is not displayed."
+        );
+
+        System.out.println(
+                "Step 4 PASSED: Admin Portal home page displayed."
+        );
+// =====================================================
+// STEP 5: Select Required Tablet
+// =====================================================
+
+        System.out.println("Step 5: Selecting required tablet...");
+
+        tabletDropdown.click();
+
+        WebElement requiredTablet =
+                adminDriver.findElement(
+                        By.xpath(
+                                "//select[@id='tablet-device-select']" +
+                                        "//option[@value='5C8965CD-E123-4393-A5FB-45FD03F3E3EF']"
+                        )
+                );
+
+        requiredTablet.click();
+
+        System.out.println(
+                "Step 5 PASSED: Required tablet selected."
+        );
+// =====================================================
+// STEP 6: Click Edit Configuration
+// =====================================================
+
+        System.out.println("Step 6: Clicking Edit Configuration...");
+
+        adminDriver.findElement(
+                By.xpath("//button[normalize-space()='Edit configuration']")
+        ).click();
+
+        Thread.sleep(1000);
+
+        System.out.println("Step 6 PASSED: Edit Configuration clicked.");
+
+
+// =====================================================
+// STEP 7: Change Room User Email
+// =====================================================
+
+        System.out.println("Step 7: Changing Room User Email...");
+
+        WebElement roomUserEmail =
+                adminDriver.findElement(
+                        By.id("outlook-room-user-email")
+                );
+
+        roomUserEmail.clear();
+
+        roomUserEmail.sendKeys(
+                "conference.room42@peopletech.com"
+        );
+
+        System.out.println(
+                "Step 7 PASSED: Room User Email changed."
+        );
+
+
+// =====================================================
+// STEP 8: Save Configuration
+// =====================================================
+
+        System.out.println("Step 8: Saving configuration...");
+
+        adminDriver.findElement(
+                By.xpath("//button[normalize-space()='Save Configuration']")
+        ).click();
+
+        Thread.sleep(3000);
+
+        System.out.println("Step 8 PASSED: Configuration saved.");
+
+
+// =====================================================
+// STEP 9: Close Chrome
+// =====================================================
+
+        System.out.println("Step 9: Closing Admin Portal...");
+
+        adminDriver.quit();
+
+        System.out.println("Step 9 PASSED: Admin Portal closed.");
+
+
+// =====================================================
+// STEP 10: Relaunch Mersive Application
+// =====================================================
+
+        System.out.println("Step 10: Relaunching Mersive application...");
+
+        relaunchMersiveApp();
+
+        System.out.println(
+                "Step 10 PASSED: Mersive application relaunched."
+        );
+// =====================================================
+// STEP 11: Verify Calendar Load Failed
+// =====================================================
+
+        System.out.println(
+                "Step 11: Verifying Calendar Load Failed..."
+        );
+
         By calendarUnavailable =
                 By.name("Calendar unavailable");
 
@@ -1435,40 +1624,45 @@ public void TC_021_VerifyVTCSpeakerOnAnalytics() throws Exception {
         );
 
         System.out.println(
-                "Step 1 PASSED: \"Calendar unavailable\" message is displayed."
+                "Step 11.1 PASSED: \"Calendar unavailable\" displayed."
         );
 
-        // Verify "The room calendar can't be loaded right now"
+
         By calendarLoadFailed =
-                By.name("The room calendar can't be loaded right now");
+                By.name(
+                        "The room calendar can't be loaded right now"
+                );
 
         Assert.assertTrue(
                 driver.findElements(calendarLoadFailed).size() > 0,
-                "\"The room calendar can't be loaded right now\" message is not displayed."
+                "\"The room calendar can't be loaded right now\" " +
+                        "message is not displayed."
         );
 
         System.out.println(
-                "Step 2 PASSED: \"The room calendar can't be loaded right now\" message is displayed."
+                "Step 11.2 PASSED: Calendar load failure message displayed."
         );
 
-        // Verify manual meeting message
+
         By manualMeetingMessage =
-                By.name("You can still start a meeting manually from the home screen");
+                By.name(
+                        "You can still start a meeting manually from the home screen"
+                );
 
         Assert.assertTrue(
                 driver.findElements(manualMeetingMessage).size() > 0,
-                "\"You can still start a meeting manually from the home screen\" message is not displayed."
+                "\"You can still start a meeting manually from the home screen\" " +
+                        "message is not displayed."
         );
 
         System.out.println(
-                "Step 3 PASSED: \"You can still start a meeting manually from the home screen\" message is displayed."
+                "Step 11.3 PASSED: Manual meeting message displayed."
         );
-
+        System.out.println("========================================");
         System.out.println("TC_018 PASSED");
         System.out.println("========================================");
+
+
     }
-
-
-
 
 }
