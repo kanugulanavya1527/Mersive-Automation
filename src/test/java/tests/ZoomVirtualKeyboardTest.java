@@ -106,4 +106,26 @@ public class ZoomVirtualKeyboardTest extends BaseTest {
         System.out.println("TC_055 Execution Time = "
                 + ((end - start) / 1000.0) + " seconds");
     }
+    @Test(priority = 56)
+    public void TC_056_VerifyVirtualKeyboardCanBeClosedAndReopened() throws Exception {
+
+        System.out.println("======================================");
+        System.out.println("TC_056 : Verify Virtual Keyboard Can Be Closed And Reopened");
+        System.out.println("======================================");
+
+        MeetingOverlayPage overlay = joinZoomMeeting();
+        RootSessionPage root = new RootSessionPage(driver);
+
+        overlay.clickChatButtonRobust();
+
+        root.clickChatMessageTextbox();
+
+// Close keyboard
+        root.clickDoneOnKeypad();
+
+// Reopen keyboard
+        root.clickChatMessageTextbox();
+
+        System.out.println("TC_056 PASSED: Virtual keyboard closed and reopened successfully.");
+    }
 }

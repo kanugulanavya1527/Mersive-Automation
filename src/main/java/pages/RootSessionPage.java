@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Dimension;
+import utils.WindowHelper;
+
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.time.Duration;
@@ -32,7 +34,9 @@ public class RootSessionPage extends BasePage {
 
     private final By sendButton =
             By.xpath("//Button[@HelpText='Send']");
-
+    public boolean isVirtualKeyboardClosed() throws Exception {
+        return !isVirtualKeyboardVisible();
+    }
 //    public void sendChatMessage(String message) throws Exception {
 //
 //        RemoteWebDriver rootDriver = DriverFactory.createRootSession();
@@ -102,6 +106,36 @@ public void sendChatMessage(String message) throws Exception {
         rootDriver.quit();
     }
 }
+
+    public void clickDoneOnKeypad() throws Exception {
+
+        System.out.println("1. Creating Root Session...");
+        RemoteWebDriver rootDriver = DriverFactory.createRootSession();
+
+        try {
+
+            System.out.println("2. Root Session Created");
+
+            WebDriverWait wait = new WebDriverWait(rootDriver, 10);
+
+            System.out.println("3. Looking for Done button...");
+
+            WebElement done = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(
+                            By.name("Done")));
+
+            System.out.println("4. Done button found");
+
+            done.click();
+
+            System.out.println("5. Done button clicked");
+
+        } finally {
+
+            System.out.println("6. Closing Root Session");
+            rootDriver.quit();
+        }
+    }
     // ── Leave Meeting ──────────────────────────────────────
 
     public void clickLeaveMeetingConfirmation() throws Exception {
