@@ -1415,6 +1415,60 @@ public void TC_021_VerifyVTCSpeakerOnAnalytics() throws Exception {
 
     ///////////////////////CLIENT_ERROR///////////////////////
 
+    @Test(priority = 18)
+    public void TC_018_VerifyCalendarLoadFailed() throws Exception {
+
+        System.out.println("========================================");
+        System.out.println("TC_018: Verify Calendar Load Failed");
+        System.out.println("========================================");
+
+        // Mersive application is launched by BaseTest
+        System.out.println("Step 1: Launching Mersive application...");
+
+        // Verify "Calendar unavailable"
+        By calendarUnavailable =
+                By.name("Calendar unavailable");
+
+        Assert.assertTrue(
+                driver.findElements(calendarUnavailable).size() > 0,
+                "\"Calendar unavailable\" message is not displayed."
+        );
+
+        System.out.println(
+                "Step 1 PASSED: \"Calendar unavailable\" message is displayed."
+        );
+
+        // Verify "The room calendar can't be loaded right now"
+        By calendarLoadFailed =
+                By.name("The room calendar can't be loaded right now");
+
+        Assert.assertTrue(
+                driver.findElements(calendarLoadFailed).size() > 0,
+                "\"The room calendar can't be loaded right now\" message is not displayed."
+        );
+
+        System.out.println(
+                "Step 2 PASSED: \"The room calendar can't be loaded right now\" message is displayed."
+        );
+
+        // Verify manual meeting message
+        By manualMeetingMessage =
+                By.name("You can still start a meeting manually from the home screen");
+
+        Assert.assertTrue(
+                driver.findElements(manualMeetingMessage).size() > 0,
+                "\"You can still start a meeting manually from the home screen\" message is not displayed."
+        );
+
+        System.out.println(
+                "Step 3 PASSED: \"You can still start a meeting manually from the home screen\" message is displayed."
+        );
+
+        System.out.println("TC_018 PASSED");
+        System.out.println("========================================");
+    }
+
+
 
 
 }

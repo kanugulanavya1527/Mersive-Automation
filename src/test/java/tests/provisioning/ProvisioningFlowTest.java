@@ -587,4 +587,5 @@ public class ProvisioningFlowTest extends BaseTest {
                 "Application did not resume to Mersive Tablet is ready for use screen."
         );
     }
+
 }
