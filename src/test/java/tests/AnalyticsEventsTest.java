@@ -1665,4 +1665,93 @@ public void TC_021_VerifyVTCSpeakerOnAnalytics() throws Exception {
 
     }
 
+    @Test(priority = 19)
+    public void TC_019_VerifyTeamsLaunchFailed() throws Exception {
+
+        System.out.println("========================================");
+        System.out.println("TC_019: Verify Teams Launch Failed");
+        System.out.println("========================================");
+
+        HomeScreenPage home = new HomeScreenPage(driver);
+
+        // Step 1: Verify Home Screen
+        Assert.assertTrue(
+                home.isHomeScreenLoaded(),
+                "Home Screen is not displayed."
+        );
+
+        System.out.println(
+                "Step 1 PASSED: Home Screen is displayed."
+        );
+
+        // Step 2: Click Join for first Teams meeting
+        MeetingCardPage meetingCard =
+                new MeetingCardPage(driver);
+
+        meetingCard.clickJoinForFirstTeamsMeeting();
+
+        System.out.println(
+                "Step 2 PASSED: Join button clicked."
+        );
+
+        // Step 3: Verify Teams Pre-Join screen
+        PreJoinPage preJoin =
+                new PreJoinPage(driver);
+
+        Assert.assertTrue(
+                preJoin.isPreJoinScreenLoaded(),
+                "Teams Pre-Join screen is not displayed."
+        );
+
+        System.out.println(
+                "Step 3 PASSED: Teams Pre-Join screen is displayed."
+        );
+
+        // Step 4: Click Join Microsoft Teams Meeting
+        preJoin.clickJoinMicrosoftTeamsMeeting();
+
+        System.out.println(
+                "Step 4 PASSED: Join Microsoft Teams Meeting button clicked."
+        );
+
+        // Step 5: Wait for Teams launch attempt
+        System.out.println(
+                "Step 5: Waiting for Teams launch attempt..."
+        );
+
+        Thread.sleep(7000);
+
+        // Step 6: Check whether Mersive Room Blocker appeared
+        switchToDesktop();
+
+        String blockerHandle =
+                WindowHelper.findWindowHandle("Mersive Room Blocker");
+
+        // Step 7: Verify meeting was NOT entered
+        Assert.assertNull(
+                blockerHandle,
+                "Meeting overlay appeared. Teams launch did not fail as expected."
+        );
+
+        System.out.println(
+                "Step 7 PASSED: Meeting was not entered."
+        );
+
+        System.out.println(
+                "Teams launch failed because Microsoft Teams is not installed."
+        );
+
+        // Step 8: Expected analytics event
+        System.out.println(
+                "Expected Analytics Event : CLIENT_ERROR"
+        );
+
+        System.out.println(
+                "Expected Error Type : teams_launch_failed"
+        );
+
+        System.out.println("========================================");
+        System.out.println("TC_019 PASSED");
+        System.out.println("========================================");
+    }
 }
