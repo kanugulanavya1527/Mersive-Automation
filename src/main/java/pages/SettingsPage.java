@@ -47,7 +47,8 @@
 //                && waitForPresent(testAVEquipment, 5)
 //                && waitForPresent(conferencing, 5)
 //                && waitForPresent(resetAdminPin, 5)
-//                && waitForPresent(closeApplication, 5);
+//
+//              && waitForPresent(closeApplication, 5);
 //    }
 //
 //    public void clickClose() {
@@ -175,7 +176,12 @@ public class SettingsPage extends BasePage {
 
     public boolean areAllSettingsOptionsDisplayed() {
 
-        return waitForPresent(closeApplication, 5);
+        return waitForPresent(closeApplication, 5)
+       && waitForPresent(configureNetwork, 5)
+                    && waitForPresent(testAVEquipment, 5)
+                    && waitForPresent(conferencing, 5)
+                    && waitForPresent(resetAdminPin, 5);
+
     }
 
     // ==================== Actions ====================
