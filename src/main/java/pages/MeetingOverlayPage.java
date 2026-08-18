@@ -2,6 +2,7 @@ package pages;
 
 import base.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -658,7 +659,127 @@ public class MeetingOverlayPage extends BasePage {
 
 
 
+public void clickZoomAdmitButton() {
 
+    System.out.println(
+            "[Zoom Lobby] Waiting for visible Admit button...");
+
+    WebDriverWait wait = new WebDriverWait(driver, 30);
+
+    WebElement admit = wait.until(d -> {
+
+        List<WebElement> buttons =
+                d.findElements(admitButton);
+
+        System.out.println(
+                "[Zoom Lobby] Admit buttons found: "
+                        + buttons.size());
+
+        for (WebElement button : buttons) {
+
+            try {
+
+                boolean displayed = button.isDisplayed();
+                boolean enabled = button.isEnabled();
+
+                System.out.println(
+                        "[Zoom Lobby] Admit | Displayed="
+                                + displayed
+                                + " | Enabled="
+                                + enabled);
+
+                if (displayed && enabled) {
+                    return button;
+                }
+
+            } catch (StaleElementReferenceException ignored) {
+            }
+        }
+
+        return null;
+    });
+
+    try {
+
+        admit.click();
+
+        System.out.println(
+                "[Zoom Lobby] ✓ Admit clicked normally");
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "[Zoom Lobby] Normal click failed");
+
+        new Actions(driver)
+                .moveToElement(admit)
+                .click()
+                .perform();
+
+        System.out.println(
+                "[Zoom Lobby] ✓ Admit clicked using Actions");
+    }
+}
+
+
+// ============================================================
+// ZOOM - REMOVE / DENY PARTICIPANT
+// ============================================================
+
+    public void clickZoomRemoveButton() {
+
+        System.out.println("[Zoom Lobby] Searching for visible Remove button...");
+
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+
+        wait.until(d -> {
+
+            try {
+
+                java.util.List<WebElement> buttons =
+                        driver.findElements(By.xpath(
+                                "//Button[@Name='Remove']"
+                        ));
+
+                System.out.println(
+                        "[Zoom Lobby] Remove buttons found: "
+                                + buttons.size());
+
+                for (WebElement button : buttons) {
+
+                    boolean displayed = button.isDisplayed();
+                    boolean enabled = button.isEnabled();
+
+                    System.out.println(
+                            "[Zoom Lobby] Remove | Displayed="
+                                    + displayed
+                                    + " | Enabled="
+                                    + enabled);
+
+                    if (displayed && enabled) {
+
+                        System.out.println(
+                                "[Zoom Lobby] Clicking Remove...");
+
+                        button.click();
+
+                        return true;
+                    }
+                }
+
+            } catch (Exception e) {
+
+                System.out.println(
+                        "[Zoom Lobby] Remove search error: "
+                                + e.getMessage());
+            }
+
+            return false;
+        });
+
+        System.out.println(
+                "[Zoom Lobby] ✓ Remove button clicked");
+    }
 
 
     public void clickAdmitButton() {
@@ -666,6 +787,7 @@ public class MeetingOverlayPage extends BasePage {
         driver.findElement(By.name("Admit")).click();
 
     }
+
 
     public void clickDenyButton() {
 
