@@ -29,8 +29,8 @@ public class JoinWithIdSingleTest extends BaseTest {
     private static final String TEAMS_MEETING_ID = "237 022 222 096 289";
     private static final String TEAMS_PASSWORD = "vY992kc6";
 
-    private static final String ZOOM_MEETING_ID = "946 2580 3855";
-    private static final String ZOOM_PASSWORD = "947176";
+    private static final String ZOOM_MEETING_ID = "916 8609 8583";
+    private static final String ZOOM_PASSWORD = "533447";
 
 
 

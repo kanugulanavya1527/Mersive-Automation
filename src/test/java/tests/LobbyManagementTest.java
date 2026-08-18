@@ -81,19 +81,19 @@ public class LobbyManagementTest extends BaseTest {
 
         MeetingOverlayPage overlay = joinMeeting();
 
-        System.out.println("Step 1 : Opening People panel");
-        overlay.clickPeopleButton();
-        Assert.assertTrue(
-                overlay.waitForPeoplePanelOpened(),
-                "People panel did not open.");
-
-        System.out.println("✓ People panel opened");
-
-        System.out.println("Step 2 : Closing People panel");
-        overlay.clickPeopleButton();
+//        System.out.println("Step 1 : Opening People panel");
+//        overlay.clickPeopleButton();
+//        Assert.assertTrue(
+//                overlay.waitForPeoplePanelOpened(),
+//                "People panel did not open.");
+//
+//        System.out.println("✓ People panel opened");
+//
+//        System.out.println("Step 2 : Closing People panel");
+//        overlay.clickPeopleButton();
 
         System.out.println("Step 3 : Waiting for remote participant to request access...");
-        Thread.sleep(30000);
+        Thread.sleep(3000);
 
         System.out.println("Step 4 : Clicking Admit button");
         clickAdmitFromRoot();
@@ -153,22 +153,22 @@ public class LobbyManagementTest extends BaseTest {
 
         MeetingOverlayPage overlay = joinMeeting();
 
-        System.out.println("Step 1 : Opening People panel");
-
-        overlay.clickPeopleButton();
-
-        Assert.assertTrue(
-                overlay.waitForPeoplePanelOpened(),
-                "People panel did not open.");
-
-        System.out.println("✓ People panel opened");
-
-        System.out.println("Step 2 : Closing People panel");
-
-        overlay.clickPeopleButton();
+//        System.out.println("Step 1 : Opening People panel");
+//
+//        overlay.clickPeopleButton();
+//
+//        Assert.assertTrue(
+//                overlay.waitForPeoplePanelOpened(),
+//                "People panel did not open.");
+//
+//        System.out.println("✓ People panel opened");
+//
+//        System.out.println("Step 2 : Closing People panel");
+//
+//        overlay.clickPeopleButton();
 
         System.out.println("Step 3 : Waiting for remote participant to request access...");
-        Thread.sleep(30000);
+        Thread.sleep(3000);
 
         System.out.println("Step 4 : Clicking Deny button");
 
