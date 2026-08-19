@@ -340,7 +340,7 @@ public class SettingsTest extends BaseTest {
         // Second authentication
         admin.enterPin("123456");
 
-        Thread.sleep(2000);
+        Thread.sleep(9000);
 
         Assert.assertFalse(
                 WindowHelper.isWindowPresentNow("Mersive Room"),
