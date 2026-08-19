@@ -195,6 +195,87 @@ public class MeetingCardPage extends BasePage {
         );
     }
 
+
+
+    public void clickJoinForFirstTeamsMeeting() {
+
+        List<WebElement> joinBtns = waitForJoinButtons(20);
+
+        if (joinBtns.isEmpty()) {
+            throw new RuntimeException("No joinable meeting cards on the home screen.");
+        }
+
+        List<WebElement> images = new ArrayList<>();
+        WebElement teamsIcon = null;
+
+        for (int attempt = 0; attempt < 10; attempt++) {
+
+            images = driver.findElements(By.className("Image"));
+
+            for (WebElement image : images) {
+
+                int x = image.getLocation().getX();
+                int width = image.getSize().getWidth();
+                int height = image.getSize().getHeight();
+
+                if (width == 44 && height == 41 && x > 2500) {
+                    teamsIcon = image;
+                    break;
+                }
+            }
+
+            if (teamsIcon != null) {
+                break;
+            }
+
+            System.out.println(
+                    "[MeetingCardPage] Teams icon not rendered yet, retry "
+                            + (attempt + 1) + "/10...");
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignored) {
+            }
+        }
+
+        if (teamsIcon == null) {
+
+            // Log what we actually saw, for diagnosis
+            for (WebElement image : images) {
+                System.out.println(
+                        "Image -> X=" + image.getLocation().getX() +
+                                " Y=" + image.getLocation().getY() +
+                                " W=" + image.getSize().getWidth() +
+                                " H=" + image.getSize().getHeight());
+            }
+
+            throw new RuntimeException("Could not locate Teams meeting card.");
+        }
+
+        int y = teamsIcon.getLocation().getY();
+
+        WebElement bestJoin = null;
+        int bestDistance = Integer.MAX_VALUE;
+
+        for (WebElement join : joinBtns) {
+            int distance = Math.abs(join.getLocation().getY() - y);
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                bestJoin = join;
+            }
+        }
+
+        if (bestJoin == null) {
+            throw new RuntimeException("Could not match a JOIN button to Teams icon.");
+        }
+
+        System.out.println("[MeetingCardPage] Teams icon matched with JOIN button");
+
+        bestJoin.click();
+
+        System.out.println("[MeetingCardPage] Joined first Teams meeting");
+    }
+
     //    public void clickJoinForFirstTeamsMeeting() {
 //        List<WebElement> joinBtns = waitForJoinButtons(20);
 //        if (joinBtns.isEmpty())
@@ -226,68 +307,68 @@ public class MeetingCardPage extends BasePage {
 //        throw new RuntimeException("Could not match a JOIN button to a Teams card.");
 //    }
 //
-    public void clickJoinForFirstTeamsMeeting() {
-
-        List<WebElement> joinBtns = waitForJoinButtons(20);
-
-        if (joinBtns.isEmpty()) {
-            throw new RuntimeException("No joinable meeting cards on the home screen.");
-        }
-
-        // Teams icon is now an Image instead of Text
-        List<WebElement> images = driver.findElements(By.className("Image"));
-
-        if (images.isEmpty()) {
-            throw new RuntimeException("No Images found on Home Screen.");
-        }
-
-        for (WebElement image : images) {
-
-            int x = image.getLocation().getX();
-            int y = image.getLocation().getY();
-            int width = image.getSize().getWidth();
-            int height = image.getSize().getHeight();
-
-            System.out.println(
-                    "Image -> X=" + x +
-                            " Y=" + y +
-                            " W=" + width +
-                            " H=" + height);
-
-            // Ignore background images and keep only the Teams icon
-            if (width == 44 && height == 41 && x > 2500) {
-
-                WebElement bestJoin = null;
-                int bestDistance = Integer.MAX_VALUE;
-
-                for (WebElement join : joinBtns) {
-
-                    int distance =
-                            Math.abs(join.getLocation().getY() - y);
-
-                    if (distance < bestDistance) {
-                        bestDistance = distance;
-                        bestJoin = join;
-                    }
-                }
-
-                if (bestJoin != null) {
-
-                    System.out.println(
-                            "[MeetingCardPage] Teams icon matched with JOIN button");
-
-                    bestJoin.click();
-
-                    System.out.println(
-                            "[MeetingCardPage] Joined first Teams meeting");
-
-                    return;
-                }
-            }
-        }
-
-        throw new RuntimeException("Could not locate Teams meeting card.");
-    }
+//    public void clickJoinForFirstTeamsMeeting() {
+//
+//        List<WebElement> joinBtns = waitForJoinButtons(20);
+//
+//        if (joinBtns.isEmpty()) {
+//            throw new RuntimeException("No joinable meeting cards on the home screen.");
+//        }
+//
+//        // Teams icon is now an Image instead of Text
+//        List<WebElement> images = driver.findElements(By.className("Image"));
+//
+//        if (images.isEmpty()) {
+//            throw new RuntimeException("No Images found on Home Screen.");
+//        }
+//
+//        for (WebElement image : images) {
+//
+//            int x = image.getLocation().getX();
+//            int y = image.getLocation().getY();
+//            int width = image.getSize().getWidth();
+//            int height = image.getSize().getHeight();
+//
+//            System.out.println(
+//                    "Image -> X=" + x +
+//                            " Y=" + y +
+//                            " W=" + width +
+//                            " H=" + height);
+//
+//            // Ignore background images and keep only the Teams icon
+//            if (width == 44 && height == 41 && x > 2500) {
+//
+//                WebElement bestJoin = null;
+//                int bestDistance = Integer.MAX_VALUE;
+//
+//                for (WebElement join : joinBtns) {
+//
+//                    int distance =
+//                            Math.abs(join.getLocation().getY() - y);
+//
+//                    if (distance < bestDistance) {
+//                        bestDistance = distance;
+//                        bestJoin = join;
+//                    }
+//                }
+//
+//                if (bestJoin != null) {
+//
+//                    System.out.println(
+//                            "[MeetingCardPage] Teams icon matched with JOIN button");
+//
+//                    bestJoin.click();
+//
+//                    System.out.println(
+//                            "[MeetingCardPage] Joined first Teams meeting");
+//
+//                    return;
+//                }
+//            }
+//        }
+//
+//        throw new RuntimeException("Could not locate Teams meeting card.");
+//    }
 
     public String getMeetingCardTitle() {
 
