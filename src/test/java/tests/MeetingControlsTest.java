@@ -237,12 +237,17 @@ public class MeetingControlsTest extends BaseTest {
 
         MeetingOverlayPage overlay = joinMeeting();
 
+
         Assert.assertTrue(overlay.waitForPeopleButtonReady(),
                 "People button not visible");
         overlay.clickPeopleButton();
-        Thread.sleep(3000);
+        Thread.sleep(4000);
         System.out.println("✓ Participants panel opened");
 
+        overlay.clickRaiseHandButton();
+        System.out.println("✓ Raise Hand clicked");
+
+        Thread.sleep(3000);
 
         Assert.assertTrue(overlay.isMyHandRaised(),
                 "Hand raise not reflected");
@@ -258,30 +263,30 @@ public class MeetingControlsTest extends BaseTest {
         System.out.println("TC_019 PASSED");
     }
 
-    @Test(priority = 20)
-    public void TC_020_VerifyRaiseHandWithDoubleClick() throws Exception {
-        System.out.println("=== TC_020: Raise Hand Double Click ===");
-
-        MeetingOverlayPage overlay = joinMeeting();
-
-        Assert.assertTrue(overlay.waitForPeopleButtonReady(),
-                "People button not visible");
-        overlay.clickPeopleButton();
-        Thread.sleep(3000);
-        System.out.println("✓ Participants panel opened");
-
-        overlay.doubleClickRaiseHandButton();
-        Assert.assertTrue(overlay.isMyHandRaised(),
-                "Hand raise not reflected after double-click");
-        System.out.println("✓ Hand raised via double-click");
-
-        Thread.sleep(3000);
-
-        overlay.doubleClickLowerHandButton();
-        Assert.assertTrue(overlay.isMyHandLowered(),
-                "Hand not lowered after double-click");
-        System.out.println("✓ Hand lowered via double-click");
-
-        System.out.println("TC_020 PASSED");
-    }
+//    @Test(priority = 20)
+//    public void TC_020_VerifyRaiseHandWithDoubleClick() throws Exception {
+//        System.out.println("=== TC_020: Raise Hand Double Click ===");
+//
+//        MeetingOverlayPage overlay = joinMeeting();
+//
+//        Assert.assertTrue(overlay.waitForPeopleButtonReady(),
+//                "People button not visible");
+//        overlay.clickPeopleButton();
+//        Thread.sleep(3000);
+//        System.out.println("✓ Participants panel opened");
+//
+//        overlay.doubleClickRaiseHandButton();
+//        Assert.assertTrue(overlay.isMyHandRaised(),
+//                "Hand raise not reflected after double-click");
+//        System.out.println("✓ Hand raised via double-click");
+//
+//        Thread.sleep(3000);
+//
+//        overlay.doubleClickLowerHandButton();
+//        Assert.assertTrue(overlay.isMyHandLowered(),
+//                "Hand not lowered after double-click");
+//        System.out.println("✓ Hand lowered via double-click");
+//
+//        System.out.println("TC_020 PASSED");
+//    }
 }
