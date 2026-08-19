@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 
@@ -139,13 +140,6 @@ public boolean isPreJoinScreenLoaded() throws InterruptedException {
         return isVisible(cameraOffText);
     }
 
-    public boolean waitForCameraOn() {
-        return waitForPresent(cameraOnText, 10);
-    }
-
-    public boolean waitForCameraOff() {
-        return waitForPresent(cameraOffText, 10);
-    }
 
     // ── Microphone State ───────────────────────────────────
 
@@ -157,23 +151,6 @@ public boolean isPreJoinScreenLoaded() throws InterruptedException {
         return isVisible(microphoneOffText);
     }
 
-    public boolean waitForMicrophoneOn() {
-        return waitForPresent(microphoneOnText, 10);
-    }
-
-    public boolean waitForMicrophoneOff() {
-        return waitForPresent(microphoneOffText, 10);
-    }
-
-    // ── Actions ────────────────────────────────────────────
-
-    public void clickCameraToggle() {
-        click(cameraButton);
-    }
-
-    public void clickMicrophoneToggle() {
-        click(microphoneButton);
-    }
 
     public void clickJoinMicrosoftTeamsMeeting() throws InterruptedException {
         WebDriverWait longWait = new WebDriverWait(driver, 30);
@@ -262,5 +239,129 @@ public boolean isPreJoinScreenLoaded() throws InterruptedException {
                 waitForMicrophoneOff();
             }
         }
+    }
+
+
+
+
+
+    public boolean waitForCameraOn() {
+        return waitForPresent(cameraOnText, 20);
+    }
+
+
+    public boolean waitForMicrophoneOn() {
+        return waitForPresent(microphoneOnText, 20);
+    }
+
+    public boolean waitForMicrophoneOff() {
+        return waitForPresent(microphoneOffText, 20);
+    }
+
+
+    public boolean waitForCameraOff() {
+
+        boolean result = waitForPresent(cameraOffText, 20);
+
+        if (!result) {
+
+            System.out.println("[DEBUG] Camera Off text not found. Dumping ALL Text and Button elements:");
+
+            List<WebElement> texts = driver.findElements(By.className("Text"));
+            for (WebElement t : texts) {
+                try {
+                    String name = t.getAttribute("Name");
+                    System.out.println("[DEBUG] Text -> Name=\"" + name + "\"");
+                } catch (Exception ignored) {
+                }
+            }
+
+            List<WebElement> buttons = driver.findElements(By.className("Button"));
+            for (WebElement b : buttons) {
+                try {
+                    String name = b.getAttribute("Name");
+                    System.out.println("[DEBUG] Button -> Name=\"" + name + "\"");
+                } catch (Exception ignored) {
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+
+    public void clickCameraToggle() {
+
+        boolean wasOn = isCameraOn();
+
+        for (int attempt = 1; attempt <= 3; attempt++) {
+
+            WebDriverWait wait = new WebDriverWait(driver, 15);
+            WebElement btn = wait.until(
+                    ExpectedConditions.elementToBeClickable(cameraButton));
+
+            try {
+                btn.click();
+            } catch (Exception e) {
+                try {
+                    new Actions(driver).moveToElement(btn).click().perform();
+                } catch (Exception ignored) {
+                }
+            }
+
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException ignored) {
+            }
+
+            boolean toggled = wasOn ? isCameraOff() : isCameraOn();
+
+            if (toggled) {
+                System.out.println("[PreJoin] Camera toggle registered on attempt " + attempt);
+                return;
+            }
+
+            System.out.println("[PreJoin] Camera toggle attempt " + attempt + " did not register, retrying...");
+        }
+
+        throw new RuntimeException("Camera toggle click did not register after 3 attempts");
+    }
+
+    public void clickMicrophoneToggle() {
+
+        boolean wasOn = isMicrophoneOn();
+
+        for (int attempt = 1; attempt <= 3; attempt++) {
+
+            WebDriverWait wait = new WebDriverWait(driver, 15);
+            WebElement btn = wait.until(
+                    ExpectedConditions.elementToBeClickable(microphoneButton));
+
+            try {
+                btn.click();
+            } catch (Exception e) {
+                try {
+                    new Actions(driver).moveToElement(btn).click().perform();
+                } catch (Exception ignored) {
+                }
+            }
+
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException ignored) {
+            }
+
+            boolean toggled = wasOn ? isMicrophoneOff() : isMicrophoneOn();
+
+            if (toggled) {
+                System.out.println("[PreJoin] Microphone toggle registered on attempt " + attempt);
+                return;
+            }
+
+            System.out.println("[PreJoin] Microphone toggle attempt " + attempt + " did not register, retrying...");
+        }
+
+        throw new RuntimeException("Microphone toggle click did not register after 3 attempts");
     }
 }
