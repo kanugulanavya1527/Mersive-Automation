@@ -240,8 +240,8 @@ public class SettingsPage extends BasePage {
         List<WebElement> textBoxes =
                 driver.findElements(By.className("TextBox"));
 
-        textBoxes.get(0).sendKeys("TestWifi");
-        textBoxes.get(1).sendKeys("Test@12345");
+        textBoxes.get(0).sendKeys("People Tech");
+        textBoxes.get(1).sendKeys("PT!Secure#505@432e");
     }
     public void enterProxyValues() {
 
