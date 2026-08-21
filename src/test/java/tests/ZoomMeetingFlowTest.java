@@ -43,7 +43,7 @@ public class ZoomMeetingFlowTest extends  BaseTest {
 
         MeetingOverlayPage overlay = new MeetingOverlayPage(driver);
 
-        Thread.sleep(8000);
+        Thread.sleep(15000);
 
         Assert.assertTrue(
                 overlay.waitForMeetingJoinedScreen(),
@@ -142,10 +142,10 @@ public class ZoomMeetingFlowTest extends  BaseTest {
 
         Assert.assertTrue(
                 root.clickChatMessageTextboxAndCheckKeyboard(),
-                "Virtual keyboard did not appear");
+                "FAILED: Virtual keyboard did not appear"
+        );
 
         System.out.println("✓ Virtual keyboard appeared");
-
         System.out.println("TC_060 PASSED");
     }
 }

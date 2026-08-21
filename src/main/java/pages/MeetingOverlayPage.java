@@ -21,7 +21,9 @@ public class MeetingOverlayPage extends BasePage {
 
     // ── Locators ───────────────────────────────────────────
 
-    // Chat
+    // Chat\
+    private final By composePlaceholder =
+            By.xpath("//*[@AutomationId='ComposePlaceholder']");
     private final By chatButton =
             By.xpath("//Button[.//Text[@Name='Chat']]");
     private final By chatButtonByAutomationId =
@@ -595,36 +597,65 @@ public class MeetingOverlayPage extends BasePage {
 
     // ── Meeting Name ───────────────────────────────────────
 
-    public String getInMeetingName() {
+//    public String getInMeetingName() {
+//
+//        List<WebElement> textBlocks =
+//                driver.findElements(
+//                        By.className("TextBlock")
+//                );
+//
+//        for (WebElement el : textBlocks) {
+//
+//            String text =
+//                    el.getText().trim();
+//
+//            int y =
+//                    el.getLocation().getY();
+//
+//            System.out.println(
+//                    "Text = [" + text + "] Y = " + y
+//            );
+//
+//            if (!text.isEmpty()
+//                    && y < 60
+//                    && !text.matches("\\d+:\\d+")
+//                    && !text.equalsIgnoreCase("T")) {
+//
+//                return text;
+//            }
+//        }
+//
+//        return null;
+//    }
+public String getInMeetingName() {
 
-        List<WebElement> textBlocks =
-                driver.findElements(
-                        By.className("TextBlock")
-                );
+    List<WebElement> textBlocks =
+            driver.findElements(By.className("TextBlock"));
 
-        for (WebElement el : textBlocks) {
+    for (WebElement el : textBlocks) {
 
-            String text =
-                    el.getText().trim();
+        String text = el.getText().trim();
+        int y = el.getLocation().getY();
 
-            int y =
-                    el.getLocation().getY();
+        System.out.println(
+                "Text = [" + text + "] Y = " + y
+        );
 
-            System.out.println(
-                    "Text = [" + text + "] Y = " + y
-            );
+        if (text.isEmpty()
+                || y >= 60
+                || text.matches("\\d+:\\d+")
+                || text.equalsIgnoreCase("T")
+                || text.equalsIgnoreCase("zoom")
+                || text.equalsIgnoreCase("Leave")) {
 
-            if (!text.isEmpty()
-                    && y < 60
-                    && !text.matches("\\d+:\\d+")
-                    && !text.equalsIgnoreCase("T")) {
-
-                return text;
-            }
+            continue;
         }
 
-        return null;
+        return text;
     }
+
+    return null;
+}
     public boolean waitForMeetingTitleVisible() {
         try {
             return new WebDriverWait(driver, 30)
@@ -988,6 +1019,25 @@ public void clickZoomAdmitButton() {
 
             return false;
         }
+    }
+
+    public void clickTypeMessage() {
+
+        WebDriverWait w = new WebDriverWait(driver, 20);
+
+        WebElement messagePlaceholder = w.until(
+                ExpectedConditions.elementToBeClickable(composePlaceholder)
+        );
+
+        System.out.println(
+                "[Chat] Clicking 'Type a message...'"
+        );
+
+        messagePlaceholder.click();
+
+        System.out.println(
+                "[Chat] ✓ 'Type a message...' clicked"
+        );
     }
     }
 

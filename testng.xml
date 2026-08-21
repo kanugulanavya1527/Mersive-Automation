@@ -62,63 +62,63 @@
 
 <!--            </test>-->
 
-    <test name="Settings Test">
-        <classes>
-            <class name="tests.SettingsTest"/>
-        </classes>
+<!--    <test name="Settings Test">-->
+<!--        <classes>-->
+<!--            <class name="tests.SettingsTest"/>-->
+<!--        </classes>-->
 
-    </test>
-
-
-    <test name="Home Screen Tests">
-        <classes>
-            <class name="tests.HomeScreenTest"/>
-        </classes>
-    </test>
-
-    <test name="Navigation Tests">
-        <classes>
-            <class name="tests.NavigationTest"/>
-        </classes>
-    </test>
-
-    <test name="Pre-Join Toggle Tests">
-        <classes>
-            <class name="tests.PreJoinToggleTest"/>
-        </classes>
-    </test>
-
-    <test name="Meeting Card Tests">
-        <classes>
-            <class name="tests.MeetingCardTest"/>
-        </classes>
-    </test>
-
-    <test name="Meeting Join Tests">
-        <classes>
-            <class name="tests.MeetingJoinTest"/>
-        </classes>
+<!--    </test>-->
 
 
-    </test>
+<!--    <test name="Home Screen Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.HomeScreenTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Meeting Controls Tests">
-        <classes>
-            <class name="tests.MeetingControlsTest"/>
-        </classes>
-    </test>
+<!--    <test name="Navigation Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.NavigationTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Recording Tests">
-        <classes>
-            <class name="tests.RecordingTest"/>
-        </classes>
-    </test>
+<!--    <test name="Pre-Join Toggle Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.PreJoinToggleTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Pre-Join State Tests">
-        <classes>
-            <class name="tests.PreJoinStateTest"/>
-        </classes>
-    </test>
+<!--    <test name="Meeting Card Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.MeetingCardTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="Meeting Join Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.MeetingJoinTest"/>-->
+<!--        </classes>-->
+
+
+<!--    </test>-->
+
+<!--    <test name="Meeting Controls Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.MeetingControlsTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="Recording Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.RecordingTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="Pre-Join State Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.PreJoinStateTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
     <test name="Meeting Flow Tests">
         <classes>

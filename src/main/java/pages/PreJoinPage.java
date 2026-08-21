@@ -319,6 +319,13 @@ public boolean isPreJoinScreenLoaded() throws InterruptedException {
 
             if (toggled) {
                 System.out.println("[PreJoin] Camera toggle registered on attempt " + attempt);
+
+                // Extra check: are we still on Pre-Join a moment later?
+                try { Thread.sleep(2000); } catch (InterruptedException ignored) {}
+                boolean stillOnPreJoin = !driver.findElements(By.name("JOIN")).isEmpty() == false
+                        && (isCameraOn() || isCameraOff());
+                System.out.println("[DEBUG] Still on Pre-Join 2s after toggle: " + stillOnPreJoin);
+
                 return;
             }
 
@@ -327,7 +334,6 @@ public boolean isPreJoinScreenLoaded() throws InterruptedException {
 
         throw new RuntimeException("Camera toggle click did not register after 3 attempts");
     }
-
     public void clickMicrophoneToggle() {
 
         boolean wasOn = isMicrophoneOn();
