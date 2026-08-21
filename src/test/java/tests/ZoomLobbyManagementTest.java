@@ -105,6 +105,7 @@ public class ZoomLobbyManagementTest extends BaseTest {
 
         System.out.println(
                 "✓ Zoom Admit button clicked");
+        Thread.sleep(5000);
 
 // --------------------------------------------------------
 // Step 4 - Verify participant count after Admit
