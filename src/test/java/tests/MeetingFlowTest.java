@@ -130,27 +130,25 @@ public class MeetingFlowTest extends BaseTest {
     @Test(priority = 29)
     public void TC_029_VerifyVirtualKeyboardAppearsWhenChatOpened()
             throws Exception {
+
         System.out.println("=== TC_029: Virtual Keyboard Appears ===");
 
         MeetingOverlayPage overlay = joinMeeting();
-        RootSessionPage root       = new RootSessionPage(driver);
+        RootSessionPage root = new RootSessionPage(driver);
 
         Thread.sleep(3000);
 
         overlay.clickChatButton();
         System.out.println("✓ Chat panel opened");
 
-        Thread.sleep(2000); // wait for chat panel to fully render
+        Thread.sleep(2000);
 
-// Single method: clicks textbox AND checks keyboard in ONE Root Session
         Assert.assertTrue(
                 root.clickChatMessageTextboxAndCheckKeyboard(),
                 "FAILED: Virtual keyboard did not appear"
         );
+
         System.out.println("✓ Virtual keyboard visible");
-
-        System.out.println("TC_029 PASSED");
-
         System.out.println("TC_029 PASSED");
     }
 }

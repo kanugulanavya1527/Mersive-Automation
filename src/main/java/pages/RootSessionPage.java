@@ -640,117 +640,453 @@ public boolean isVirtualKeyboardVisible() throws Exception {
         }
     }
 
-    private boolean waitForActualVirtualKeyboard(
-            RemoteWebDriver rootDriver,
-            int timeoutSeconds) throws Exception {
+//    private boolean waitForActualVirtualKeyboard(
+//            RemoteWebDriver rootDriver,
+//            int timeoutSeconds) throws Exception {
+//
+//        long endTime = System.currentTimeMillis() + (timeoutSeconds * 1000L);
+//
+//        // NOTE: the "Keyboard"-named Text node is NOT guaranteed to sit right
+//        // under the InputSiteWindowClass pane -- diagnostics showed both live
+//        // InputSiteWindowClass instances have a single unnamed Pane as their
+//        // only direct child, so a "." (any-descendant) search is required,
+//        // not a filtered ancestor match. We now enumerate every
+//        // InputSiteWindowClass window directly and inspect it, instead of
+//        // pre-filtering with an xpath predicate that silently returns zero
+//        // results.
+//        By allInputSiteWindows =
+//                By.xpath("//*[@ClassName='InputSiteWindowClass']");
+//
+//        while (System.currentTimeMillis() < endTime) {
+//
+//            try {
+//                List<WebElement> candidates = rootDriver.findElements(allInputSiteWindows);
+//
+//                System.out.println("[Keyboard] InputSiteWindowClass count = " + candidates.size());
+//
+//                for (WebElement candidate : candidates) {
+//
+//                    try {
+//                        if (!candidate.isDisplayed()) {
+//                            continue;
+//                        }
+//
+//                        Point location = candidate.getLocation();
+//                        Dimension size = candidate.getSize();
+//
+//                        System.out.println("[Keyboard] Candidate loc=" + location + " size=" + size);
+//
+//                        // Reject the full-screen TSF broker/host windows.
+//                        // Real docked keyboard bounds observed: {l:389 t:1215 r:2347 b:1663}
+//                        // i.e. width ~1958, height ~448 -- clearly smaller than
+//                        // the ~2740x1830 full-screen broker panes seen in the logs.
+//                        if (location.getX() < 0 || location.getY() < 0
+//                                || size.getWidth() <= 100 || size.getHeight() <= 100
+//                                || size.getWidth() >= 2500 || size.getHeight() >= 1700) {
+//                            System.out.println("[Keyboard] Rejected — not a docked-keyboard-sized window");
+//                            continue;
+//                        }
+//
+//                        // Bounds match is the whole test. Confirmed via two
+//                        // live runs that this is a reliable, unique
+//                        // discriminator: the real docked keyboard is always
+//                        // ~1958x448 at a fixed screen position, while the two
+//                        // TSF broker/host windows are always near-fullscreen
+//                        // (~2740x1830). Button count was tried as a second
+//                        // confirmation but WinAppDriver does not expose the
+//                        // individual key elements inside this control (Button
+//                        // count reads 0 even while the keyboard is visibly
+//                        // on-screen), so it cannot be used as a check here.
+//                        System.out.println("[Keyboard] ✓ REAL virtual keyboard detected (bounds match)");
+//                        return true;
+//
+//                    } catch (Exception ignored) {
+//                    }
+//                }
+//
+//            } catch (Exception e) {
+//                System.out.println("[Keyboard] Search error: " + e.getMessage());
+//            }
+//
+//            Thread.sleep(500);
+//        }
+//
+//        System.out.println("[Keyboard] ✗ Real virtual keyboard NOT detected");
+//        return false;
+//    }
+//    public boolean clickChatMessageTextboxAndCheckKeyboard() throws Exception {
+//
+//        System.out.println("[Root] Looking for actual Teams chat message textbox...");
+//
+//        RemoteWebDriver rootDriver = DriverFactory.createRootSession();
+//
+//        try {
+//
+//            WebDriverWait wait = new WebDriverWait(rootDriver, 15);
+//
+//            By composeBox = By.xpath("//*[@AutomationId='ComposeBox']");
+//
+//            WebElement messageBox = wait.until(
+//                    ExpectedConditions.visibilityOfElementLocated(composeBox));
+//
+//            System.out.println("[Root] ✓ ComposeBox found");
+//            System.out.println("[DEBUG] Location = " + messageBox.getLocation());
+//            System.out.println("[DEBUG] Size = " + messageBox.getSize());
+//
+//            boolean focused = clickComposeBoxUntilFocused(rootDriver, composeBox, 3);
+//
+//            if (!focused) {
+//                throw new RuntimeException(
+//                        "ComposeBox could not be focused after multiple click attempts"
+//                );
+//            }
+//
+//            System.out.println("[Root] Waiting for Teams virtual keyboard...");
+//            dumpAllInputSiteWindows(rootDriver);
+//
+//            return waitForActualVirtualKeyboard(rootDriver, 15);
+//
+//        } finally {
+//            rootDriver.quit();
+//        }
+//    }
 
-        long endTime = System.currentTimeMillis() + (timeoutSeconds * 1000L);
-
-        // NOTE: the "Keyboard"-named Text node is NOT guaranteed to sit right
-        // under the InputSiteWindowClass pane -- diagnostics showed both live
-        // InputSiteWindowClass instances have a single unnamed Pane as their
-        // only direct child, so a "." (any-descendant) search is required,
-        // not a filtered ancestor match. We now enumerate every
-        // InputSiteWindowClass window directly and inspect it, instead of
-        // pre-filtering with an xpath predicate that silently returns zero
-        // results.
-        By allInputSiteWindows =
-                By.xpath("//*[@ClassName='InputSiteWindowClass']");
-
-        while (System.currentTimeMillis() < endTime) {
-
-            try {
-                List<WebElement> candidates = rootDriver.findElements(allInputSiteWindows);
-
-                System.out.println("[Keyboard] InputSiteWindowClass count = " + candidates.size());
-
-                for (WebElement candidate : candidates) {
-
-                    try {
-                        if (!candidate.isDisplayed()) {
-                            continue;
-                        }
-
-                        Point location = candidate.getLocation();
-                        Dimension size = candidate.getSize();
-
-                        System.out.println("[Keyboard] Candidate loc=" + location + " size=" + size);
-
-                        // Reject the full-screen TSF broker/host windows.
-                        // Real docked keyboard bounds observed: {l:389 t:1215 r:2347 b:1663}
-                        // i.e. width ~1958, height ~448 -- clearly smaller than
-                        // the ~2740x1830 full-screen broker panes seen in the logs.
-                        if (location.getX() < 0 || location.getY() < 0
-                                || size.getWidth() <= 100 || size.getHeight() <= 100
-                                || size.getWidth() >= 2500 || size.getHeight() >= 1700) {
-                            System.out.println("[Keyboard] Rejected — not a docked-keyboard-sized window");
-                            continue;
-                        }
-
-                        // Bounds match is the whole test. Confirmed via two
-                        // live runs that this is a reliable, unique
-                        // discriminator: the real docked keyboard is always
-                        // ~1958x448 at a fixed screen position, while the two
-                        // TSF broker/host windows are always near-fullscreen
-                        // (~2740x1830). Button count was tried as a second
-                        // confirmation but WinAppDriver does not expose the
-                        // individual key elements inside this control (Button
-                        // count reads 0 even while the keyboard is visibly
-                        // on-screen), so it cannot be used as a check here.
-                        System.out.println("[Keyboard] ✓ REAL virtual keyboard detected (bounds match)");
-                        return true;
-
-                    } catch (Exception ignored) {
-                    }
-                }
-
-            } catch (Exception e) {
-                System.out.println("[Keyboard] Search error: " + e.getMessage());
-            }
-
-            Thread.sleep(500);
-        }
-
-        System.out.println("[Keyboard] ✗ Real virtual keyboard NOT detected");
-        return false;
-    }
     public boolean clickChatMessageTextboxAndCheckKeyboard() throws Exception {
 
-        System.out.println("[Root] Looking for actual Zoom chat message textbox...");
+        System.out.println("[Root] Looking for Teams chat message textbox...");
 
         RemoteWebDriver rootDriver = DriverFactory.createRootSession();
 
         try {
 
-            WebDriverWait wait = new WebDriverWait(rootDriver, 15);
+            WebDriverWait wait = new WebDriverWait(rootDriver, 3);
 
-            By composeBox = By.xpath("//*[@AutomationId='ComposeBox']");
+            By[] composeLocators = {
+                    By.name("Type a message"),
+                    By.name("Message everyone"),
+                    By.xpath("//*[@ClassName='TextBox']"),
+                    By.xpath("//*[contains(translate(@Name,'MESSAGE','message'),'message')]")
+            };
 
-            WebElement messageBox = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(composeBox));
+            WebElement messageBox = null;
+            By matchedLocator = null;
 
-            System.out.println("[Root] ✓ ComposeBox found");
-            System.out.println("[DEBUG] Location = " + messageBox.getLocation());
-            System.out.println("[DEBUG] Size = " + messageBox.getSize());
+            for (By locator : composeLocators) {
 
-            boolean focused = clickComposeBoxUntilFocused(rootDriver, composeBox, 3);
+                try {
 
-            if (!focused) {
+                    System.out.println("[Root] Trying: " + locator);
+
+                    List<WebElement> elements =
+                            rootDriver.findElements(locator);
+
+                    if (!elements.isEmpty()) {
+
+                        for (WebElement element : elements) {
+
+                            try {
+                                if (element.isDisplayed()) {
+                                    messageBox = element;
+                                    matchedLocator = locator;
+                                    break;
+                                }
+                            } catch (Exception ignored) {
+                            }
+                        }
+                    }
+
+                    if (messageBox != null) {
+                        break;
+                    }
+
+                } catch (Exception e) {
+                    System.out.println(
+                            "[Root] Locator failed: "
+                                    + e.getMessage());
+                }
+            }
+
+            if (messageBox == null) {
                 throw new RuntimeException(
-                        "ComposeBox could not be focused after multiple click attempts"
+                        "Teams chat message textbox was not found"
                 );
             }
 
-            System.out.println("[Root] Waiting for Zoom virtual keyboard...");
+            System.out.println(
+                    "[Root] ✓ Chat textbox found via: "
+                            + matchedLocator
+            );
+
+            System.out.println(
+                    "[DEBUG] Location = "
+                            + messageBox.getLocation()
+            );
+
+            System.out.println(
+                    "[DEBUG] Size = "
+                            + messageBox.getSize()
+            );
+
+            /*
+             * Click the textbox using native mouse click.
+             */
+            boolean focused = clickElementUntilFocused(
+                    rootDriver,
+                    matchedLocator,
+                    3
+            );
+
+            if (!focused) {
+                throw new RuntimeException(
+                        "Teams chat textbox could not be focused"
+                );
+            }
+
+            System.out.println(
+                    "[Root] ✓ Teams chat textbox focused"
+            );
+
+            System.out.println(
+                    "[Root] Waiting for virtual keyboard..."
+            );
+
             dumpAllInputSiteWindows(rootDriver);
 
-            return waitForActualVirtualKeyboard(rootDriver, 15);
+            return waitForActualVirtualKeyboard(
+                    rootDriver,
+                    15
+            );
 
         } finally {
+
             rootDriver.quit();
         }
     }
+    private boolean clickElementUntilFocused(
+            RemoteWebDriver rootDriver,
+            By locator,
+            int maxAttempts) throws Exception {
 
+        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+
+            System.out.println(
+                    "[Root] Focus attempt "
+                            + attempt
+                            + "/"
+                            + maxAttempts
+            );
+
+            List<WebElement> elements =
+                    rootDriver.findElements(locator);
+
+            if (elements.isEmpty()) {
+                System.out.println(
+                        "[Root] Element disappeared"
+                );
+                continue;
+            }
+
+            WebElement element = elements.get(0);
+
+            Point location = element.getLocation();
+            Dimension size = element.getSize();
+
+            int centerX =
+                    location.getX()
+                            + size.getWidth() / 2;
+
+            int centerY =
+                    location.getY()
+                            + size.getHeight() / 2;
+
+            System.out.println(
+                    "[Root] Clicking at ("
+                            + centerX
+                            + ", "
+                            + centerY
+                            + ")"
+            );
+
+            Robot robot = new Robot();
+
+            robot.mouseMove(centerX, centerY);
+            robot.delay(200);
+
+            robot.mousePress(
+                    InputEvent.BUTTON1_DOWN_MASK
+            );
+
+            robot.delay(100);
+
+            robot.mouseRelease(
+                    InputEvent.BUTTON1_DOWN_MASK
+            );
+
+            robot.delay(700);
+
+            /*
+             * Re-find after clicking.
+             */
+            List<WebElement> rechecked =
+                    rootDriver.findElements(locator);
+
+            if (rechecked.isEmpty()) {
+                continue;
+            }
+
+            String hasFocus =
+                    rechecked.get(0)
+                            .getAttribute("HasKeyboardFocus");
+
+            System.out.println(
+                    "[Root] HasKeyboardFocus = "
+                            + hasFocus
+            );
+
+            if ("True".equalsIgnoreCase(hasFocus)) {
+
+                System.out.println(
+                        "[Root] ✓ Textbox received keyboard focus"
+                );
+
+                return true;
+            }
+
+            /*
+             * Try Selenium Actions as fallback.
+             */
+            try {
+
+                new Actions(rootDriver)
+                        .moveToElement(rechecked.get(0))
+                        .pause(Duration.ofMillis(150))
+                        .click()
+                        .pause(Duration.ofMillis(500))
+                        .perform();
+
+                List<WebElement> afterActions =
+                        rootDriver.findElements(locator);
+
+                if (!afterActions.isEmpty()) {
+
+                    String focus =
+                            afterActions.get(0)
+                                    .getAttribute("HasKeyboardFocus");
+
+                    System.out.println(
+                            "[Root] HasKeyboardFocus after Actions = "
+                                    + focus
+                    );
+
+                    if ("True".equalsIgnoreCase(focus)) {
+                        return true;
+                    }
+                }
+
+            } catch (Exception e) {
+
+                System.out.println(
+                        "[Root] Actions fallback failed: "
+                                + e.getMessage()
+                );
+            }
+        }
+
+        return false;
+    }
+    private boolean waitForActualVirtualKeyboard(
+            RemoteWebDriver rootDriver,
+            int timeoutSeconds) throws Exception {
+
+        long endTime =
+                System.currentTimeMillis() + (timeoutSeconds * 1000L);
+
+        By keyboardWindow =
+                By.xpath("//*[@ClassName='InputSiteWindowClass']");
+
+        while (System.currentTimeMillis() < endTime) {
+
+            long start = System.currentTimeMillis();
+
+            List<WebElement> candidates =
+                    rootDriver.findElements(keyboardWindow);
+
+            long elapsed =
+                    System.currentTimeMillis() - start;
+
+            System.out.println(
+                    "[Keyboard] findElements took " + elapsed + " ms"
+            );
+
+            for (WebElement candidate : candidates) {
+
+                try {
+
+                    if (!candidate.isDisplayed()) {
+                        continue;
+                    }
+
+                    Point location = candidate.getLocation();
+                    Dimension size = candidate.getSize();
+
+                    System.out.println(
+                            "[Keyboard] Candidate: loc=" + location
+                                    + " size=" + size
+                    );
+
+                    /*
+                     * Actual Teams virtual keyboard observed:
+                     *
+                     * Location: approximately (649, 1215)
+                     * Size:     approximately (1438, 448)
+                     *
+                     * Other InputSiteWindowClass windows are
+                     * full-screen/broker windows, so reject them.
+                     */
+
+                    if (location.getX() >= 600
+                            && location.getX() <= 700
+                            && location.getY() >= 1200
+                            && location.getY() <= 1230
+                            && size.getWidth() >= 1400
+                            && size.getWidth() <= 1500
+                            && size.getHeight() >= 400
+                            && size.getHeight() <= 500) {
+
+                        System.out.println(
+                                "[Keyboard] ✓ REAL VIRTUAL KEYBOARD DETECTED"
+                        );
+
+                        System.out.println(
+                                "[Keyboard] Location = " + location
+                        );
+
+                        System.out.println(
+                                "[Keyboard] Size = " + size
+                        );
+
+                        return true;
+                    }
+
+                } catch (Exception e) {
+
+                    System.out.println(
+                            "[Keyboard] Candidate check failed: "
+                                    + e.getMessage()
+                    );
+                }
+            }
+
+            // Small polling interval — don't waste 500 ms each time
+            Thread.sleep(200);
+        }
+
+        System.out.println(
+                "[Keyboard] ✗ REAL VIRTUAL KEYBOARD NOT DETECTED"
+        );
+
+        return false;
+    }
     /**
      * Clicks the ComposeBox via native Robot click, then re-queries the
      * element and checks HasKeyboardFocus. Retries with a fresh click if
