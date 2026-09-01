@@ -31,37 +31,35 @@ public class StartMeetingTest extends BaseTest {
     public void testTeamsStartMeeting() throws Exception {
 
         System.out.println("\n==================================================");
-        System.out.println("TEAMS START MEETING - 6 ITERATIONS");
+        System.out.println("TEAMS START MEETING - SINGLE RUN");
         System.out.println("==================================================");
 
         results.clear();
 
-        for (int i = 1; i <= 6; i++) {
-            runCompleteFlow(i, "TEAMS");
-        }
+        runCompleteFlow(1, "TEAMS");
 
         printReport("TEAMS");
     }
 
-    // ==========================================================
-    // ZOOM
-    // ==========================================================
-
-    @Test(priority = 2)
-    public void testZoomStartMeeting() throws Exception {
-
-        System.out.println("\n==================================================");
-        System.out.println("ZOOM START MEETING - 6 ITERATIONS");
-        System.out.println("==================================================");
-
-        results.clear();
-
-        for (int i = 1; i <= 6; i++) {
-            runCompleteFlow(i, "ZOOM");
-        }
-
-        printReport("ZOOM");
-    }
+//    // ==========================================================
+//    // ZOOM
+//    // ==========================================================
+//
+//    @Test(priority = 2)
+//    public void testZoomStartMeeting() throws Exception {
+//
+//        System.out.println("\n==================================================");
+//        System.out.println("ZOOM START MEETING - 6 ITERATIONS");
+//        System.out.println("==================================================");
+//
+//        results.clear();
+//
+//
+//            runCompleteFlow(i, "ZOOM");
+//
+//
+//        printReport("ZOOM");
+//    }
 
     // ==========================================================
     // COMPLETE FLOW

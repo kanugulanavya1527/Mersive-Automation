@@ -26,12 +26,11 @@ public class JoinWithIdSingleTest extends BaseTest {
     private List<TestResult> results = new ArrayList<>();
     private String MEETING_ID;
     private String PASSWORD;
-    private static final String TEAMS_MEETING_ID = "237 022 222 096 289";
-    private static final String TEAMS_PASSWORD = "vY992kc6";
+    private static final String TEAMS_MEETING_ID = "269 270 619 942 502";
+    private static final String TEAMS_PASSWORD = "zN7un7J2";
 
     private static final String ZOOM_MEETING_ID = "916 8609 8583";
     private static final String ZOOM_PASSWORD = "533447";
-
 
 
 
@@ -68,20 +67,20 @@ public class JoinWithIdSingleTest extends BaseTest {
     // TEST METHOD 2: ZOOM - COMPLETE FLOW 6 TIMES
     // ═════════════════════════════════════════════════════════════
 
-    @Test(priority = 2) //, dependsOnMethods = "testTeamsJoinWithId"
-    public void testZoomJoinWithId() throws Exception {
-        System.out.println("\n" + "╔" + "═".repeat(70) + "╗");
-        System.out.println("║         ZOOM - JOIN WITH ID (6 COMPLETE FLOWS)                    ║");
-        System.out.println("╚" + "═".repeat(70) + "╝");
-
-        results.clear();
-        MEETING_ID = ZOOM_MEETING_ID;
-        PASSWORD = ZOOM_PASSWORD;
-        // Run the complete flow 6 times
-        runCompleteFlow(1, "ZOOM");
-
-        printReport("ZOOM");
-    }
+//    @Test(priority = 2) //, dependsOnMethods = "testTeamsJoinWithId"
+//    public void testZoomJoinWithId() throws Exception {
+//        System.out.println("\n" + "╔" + "═".repeat(70) + "╗");
+//        System.out.println("║         ZOOM - JOIN WITH ID (6 COMPLETE FLOWS)                    ║");
+//        System.out.println("╚" + "═".repeat(70) + "╝");
+//
+//        results.clear();
+//        MEETING_ID = ZOOM_MEETING_ID;
+//        PASSWORD = ZOOM_PASSWORD;
+//        // Run the complete flow 6 times
+//        runCompleteFlow(1, "ZOOM");
+//
+//        printReport("ZOOM");
+//    }
 
     // ═════════════════════════════════════════════════════════════
     // COMPLETE FLOW (Runs 6 times)

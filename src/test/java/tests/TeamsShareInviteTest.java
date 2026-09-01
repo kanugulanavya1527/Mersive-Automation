@@ -87,6 +87,19 @@ public class TeamsShareInviteTest extends BaseTest {
 
 
         attachByHandle(teamsHandle);
+        System.out.println("===== AFTER TEAMS ATTACH =====");
+
+        for (WebElement e : driver.findElements(By.xpath("//*"))) {
+            try {
+                System.out.println(
+                        "Name=[" + e.getAttribute("Name") +
+                                "] Text=[" + e.getText() +
+                                "] Class=[" + e.getAttribute("ClassName") + "]"
+                );
+            } catch (Exception ignored) {}
+        }
+
+        System.out.println("==============================");
 
 // Create a new page object after attaching
         MeetingOverlayPage teamsOverlay = new MeetingOverlayPage(driver);
@@ -502,20 +515,34 @@ public class TeamsShareInviteTest extends BaseTest {
         MeetingOverlayPage teamsOverlay =
                 new MeetingOverlayPage(driver);
 
-        // Click Share Invite
         teamsOverlay.clickShareInviteButton();
 
-        Thread.sleep(3000);
-
-        // Attach to Share Invite window
+// Attach to Share Invite window
         switchToDesktop();
 
-        String shareInvitationHandle =
-                WindowHelper.findWindowHandle("Share meeting invite", 1);
+        String shareInvitationHandle = null;
+
+        for (int attempt = 1; attempt <= 10; attempt++) {
+
+            shareInvitationHandle =
+                    WindowHelper.findWindowHandle("Share meeting invite", 1);
+
+            if (shareInvitationHandle != null) {
+                System.out.println(
+                        "[Share Invite] Found window on attempt " + attempt);
+                break;
+            }
+
+            System.out.println(
+                    "[Share Invite] Window not found. Waiting... attempt "
+                            + attempt + "/10");
+
+            Thread.sleep(1000);
+        }
 
         Assert.assertNotNull(
                 shareInvitationHandle,
-                "Share Invite window not found");
+                "Share Invite window not found after waiting");
 
         attachByHandle(shareInvitationHandle);
 
