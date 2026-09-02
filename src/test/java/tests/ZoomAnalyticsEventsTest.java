@@ -780,12 +780,11 @@ public class ZoomAnalyticsEventsTest extends BaseTest {
 
         // Select Zoom
         join.clickZoom();
-
         // Enter Meeting ID
-        join.enterMeetingId("938 9807 4151");
+        join.enterMeetingId("928 4919 1065");
 
         // Enter Passcode
-        join.enterPassword("355391");
+        join.enterPassword("678752");
 
         // Switch to Keyboard
         switchToDesktop();
@@ -2139,7 +2138,7 @@ public class ZoomAnalyticsEventsTest extends BaseTest {
 
 
     }
-    @Test(priority = 26)   // un install teams app and then run this script
+    @Test(priority = 26)   // uninstall teams app and then run this script
     public void TC_026_VerifyZoomLaunchFailed() throws Exception {
 
         System.out.println("========================================");
