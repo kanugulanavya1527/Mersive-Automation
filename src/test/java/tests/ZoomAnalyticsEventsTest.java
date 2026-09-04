@@ -2227,5 +2227,139 @@ public class ZoomAnalyticsEventsTest extends BaseTest {
         System.out.println("TC_026 PASSED");
         System.out.println("========================================");
     }
+    @Test(priority = 27)
+    public void TC_027_VerifyZoomMeetingJoinFailed() throws Exception {
+
+        System.out.println("========================================");
+        System.out.println("TC_027: Verify Zoom Meeting Join Failed");
+        System.out.println("========================================");
+
+        // Step 1: Verify Home Screen
+        HomeScreenPage home = new HomeScreenPage(driver);
+
+        Assert.assertTrue(
+                home.isHomeScreenLoaded(),
+                "Home Screen is not displayed."
+        );
+
+        System.out.println("Step 1 PASSED: Home Screen displayed.");
+
+        // Step 2: Click Join With ID
+        home.clickJoinWithId();
+
+        System.out.println("Step 2 PASSED: Join With ID clicked.");
+
+        // Step 3: Open Join With ID page
+        JoinWithIdPage join = new JoinWithIdPage(driver);
+
+        // Step 4: Select Zoom
+        join.clickZoom();
+
+        System.out.println("Step 4 PASSED: Zoom selected.");
+
+        // Step 5: Enter INVALID Meeting ID
+        join.enterMeetingId("111 1111 1111");
+
+        System.out.println("Step 5 PASSED: Invalid Meeting ID entered.");
+
+        // Step 6: Enter INVALID Password
+        join.enterPassword("invalid123");
+
+        System.out.println("Step 6 PASSED: Invalid password entered.");
+
+        // Step 7: Switch to keyboard
+        switchToDesktop();
+
+        String keyboardHandle =
+                WindowHelper.findWindowHandle("Keyboard");
+
+        Assert.assertNotNull(
+                keyboardHandle,
+                "Keyboard window not found."
+        );
+
+        attachByHandle(keyboardHandle);
+
+        // Step 8: Click Done on keyboard
+        join = new JoinWithIdPage(driver);
+
+        join.clickDoneOnKeypad();
+
+        System.out.println("Step 8 PASSED: Keyboard Done clicked.");
+
+        // Step 9: Attach back to Mersive Room
+        switchToDesktop();
+
+        String roomHandle =
+                WindowHelper.findWindowHandle("Mersive Room");
+
+        Assert.assertNotNull(
+                roomHandle,
+                "Mersive Room window not found."
+        );
+
+        attachByHandle(roomHandle);
+
+        join = new JoinWithIdPage(driver);
+
+        // Step 10: Click Join Meeting
+        join.clickJoinMeetingButton();
+
+        System.out.println("Step 10 PASSED: Join Meeting clicked.");
+
+        // Step 11: Wait for failure message
+        By unableToJoin =
+                By.name("Unable to join meeting");
+
+        WebDriverWait wait =
+                new WebDriverWait(driver, 15);
+
+        Assert.assertTrue(
+                wait.until(d ->
+                        d.findElements(unableToJoin).size() > 0
+                ),
+                "\"Unable to join meeting\" message was not displayed."
+        );
+
+        System.out.println(
+                "Step 11 PASSED: \"Unable to join meeting\" displayed."
+        );
+
+        // Step 12: Verify detailed error message
+        By invalidCredentialsMessage =
+                By.name(
+                        "We couldn't join with that ID or password. Please double-check and try again."
+                );
+
+        Assert.assertTrue(
+                wait.until(d ->
+                        d.findElements(invalidCredentialsMessage).size() > 0
+                ),
+                "Invalid Meeting ID/Password error message was not displayed."
+        );
+
+        System.out.println(
+                "Step 12 PASSED: Invalid Meeting ID/Password error displayed."
+        );
+
+        // Step 13 (NEW): Verify Retry button is present and enabled --
+        // confirms the full error dialog rendered correctly, not a partial state.
+        By retryButton = By.name("Retry");
+
+        WebElement retry = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(retryButton)
+        );
+
+        Assert.assertTrue(
+                retry.isEnabled(),
+                "Retry button is present but not enabled."
+        );
+
+        System.out.println("Step 13 PASSED: Retry button displayed and enabled.");
+
+        System.out.println("========================================");
+        System.out.println("TC_027 PASSED");
+        System.out.println("========================================");
+    }
 }
 
